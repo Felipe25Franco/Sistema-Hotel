@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Financeiro extends Funcionario{
+public class Financeiro extends FuncionarioController{
 
     private String descricao;
 }

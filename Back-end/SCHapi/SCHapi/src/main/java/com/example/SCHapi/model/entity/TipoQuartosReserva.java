@@ -18,5 +18,6 @@ public class TipoQuartosReserva {
 
     @ManyToOne
     private Reserva reserva;
-
+    @ManyToOne
+    private TipoQuartoController tipoQuarto;
 }

@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class AdministradorGeral extends Funcionario{
+public class AdministradorGeral extends FuncionarioController{
     private String descricao;
 }

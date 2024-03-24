@@ -1,9 +1,6 @@
 package com.example.SCHapi.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,4 +20,9 @@ public class Produto {
     private String descricao;
     private double precoBase;
     private int quantidadeEstoque;
+
+    @ManyToOne
+    private CategoriaProduto categoriaProduto;
+    @ManyToOne
+    private Hotel hotel;
 }
