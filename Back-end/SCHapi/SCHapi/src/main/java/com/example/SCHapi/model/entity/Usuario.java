@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@MappedSuperclass
 
 public abstract class Usuario {
     @Id
