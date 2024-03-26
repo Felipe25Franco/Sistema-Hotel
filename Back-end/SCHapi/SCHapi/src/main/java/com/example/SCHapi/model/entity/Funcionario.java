@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@MappedSuperclass
+
 public class Funcionario extends Usuario{
     
     private float salario;
