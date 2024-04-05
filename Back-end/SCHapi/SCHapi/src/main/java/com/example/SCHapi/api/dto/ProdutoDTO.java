@@ -18,7 +18,7 @@ public class ProdutoDTO {
     private double precoBase;
     private int quantidadeEstoque;
     private Long idHotel;
-    private Long categoriaProdutoId;
+    private Long idTipoProduto;
 
     public static ProdutoDTO create(Produto produto) {
         ModelMapper modelMapper = new ModelMapper();
