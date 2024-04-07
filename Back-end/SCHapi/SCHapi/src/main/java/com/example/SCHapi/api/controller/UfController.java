@@ -47,14 +47,7 @@ public class UfController {
     public Uf converter(UfDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Uf uf =  modelMapper.map(dto, Uf.class);
-        if (dto.getIdPais() != null) {
-            Optional<Pais> pais = paisService.getPaisById(dto.getIdPais());
-            if (!pais.isPresent()) {
-                uf.setPais(null);
-            } else {
-                uf.setPais(pais.get());
-            }
-        }
+        Pais pais = modelMapper.map(dto, Pais.class);
         return uf;
     }
 }

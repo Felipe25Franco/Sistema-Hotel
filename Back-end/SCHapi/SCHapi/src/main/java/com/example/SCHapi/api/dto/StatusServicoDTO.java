@@ -1,8 +1,7 @@
 package com.example.SCHapi.api.dto;
 
-
-import com.example.SCHapi.model.entity.Uf;
-
+import com.example.SCHapi.model.entity.StatusReserva;
+import com.example.SCHapi.model.entity.StatusServico;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,17 +10,13 @@ import org.modelmapper.ModelMapper;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UfDTO {
+public class StatusServicoDTO {
     private Long id;
     private String titulo;
-    private String tituloPais;
 
-
-    public static UfDTO create(Uf uf) {
+    public static StatusServicoDTO create(StatusServico statusServico) {
         ModelMapper modelMapper = new ModelMapper();
-        UfDTO dto = modelMapper.map(uf, UfDTO.class);
-
-        dto.tituloPais = uf.getPais().getTitulo();
+        StatusServicoDTO dto = modelMapper.map(statusServico, StatusServicoDTO.class);
 
         return dto;
     }

@@ -29,10 +29,11 @@ public class FuncionarioDTO {
     private String bairro;
     private String cep;
     private String cidade;
-    private Long idUf;
-    private Long idPais;
-    private Long idHotel;
-    private Long idCargo;
+
+    private String uf;
+    private String pais;
+    private String tituloHotel;
+    private String cargo;
 
     public static FuncionarioDTO create(Funcionario funcionario) {
         ModelMapper modelMapper = new ModelMapper();
@@ -45,10 +46,10 @@ public class FuncionarioDTO {
         dto.cidade = funcionario.getEndereco().getCidade();
         dto.cep = funcionario.getEndereco().getCep();
 
-        // dto.idCargo = funcionario.getCargo().getId();
-        // dto.idHotel = funcionario.getHotel().getId();
-        // dto.idUf = funcionario.getUf().getId();
-        // dto.idPais = funcionario.getPais().getId();
+        dto.cargo = funcionario.getCargo().getCargo();
+        dto.tituloHotel = funcionario.getHotel().getTitulo();
+        dto.uf = funcionario.getEndereco().getUf().getTitulo();
+        dto.pais = funcionario.getEndereco().getUf().getPais().getTitulo();
 
 
         return dto;

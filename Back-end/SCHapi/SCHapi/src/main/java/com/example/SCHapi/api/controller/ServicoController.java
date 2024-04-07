@@ -51,30 +51,9 @@ public class ServicoController {
     public Servico converter(ServicoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Servico servico = modelMapper.map(dto, Servico.class);
-        if (dto.getIdHotel() != null) {
-            Optional<Hotel> hotel = hotelService.getHotelById(dto.getIdHotel());
-            if (!hotel.isPresent()) {
-                servico.setHotel(null);
-            } else {
-                servico.setHotel(hotel.get());
-            }
-        }
-        if (dto.getIdTipoServico() != null) {
-            Optional<TipoServico> tiposervico = tipoServicoService.getTipoServicoById(dto.getIdTipoServico());
-            if (!tiposervico.isPresent()) {
-                servico.setTipoServico(null);
-            } else {
-                servico.setTipoServico(tiposervico.get());
-            }
-        }
-        if (dto.getIdStatusServico() != null) {
-            Optional<StatusServico> statusservico = statusServicoService.getStatusServicoById(dto.getIdStatusServico());
-            if (!statusservico.isPresent()) {
-                servico.setStatusServico(null);
-            } else {
-                servico.setStatusServico(statusservico.get());
-            }
-        }
+        Hotel hotel = modelMapper.map(dto, Hotel.class);
+        TipoServico tipoServico = modelMapper.map(dto, TipoServico.class);
+        StatusServico statusServico = modelMapper.map(dto, StatusServico.class);
         return servico;
     }
 }

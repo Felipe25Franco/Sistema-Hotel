@@ -56,46 +56,10 @@ public class ReservaController {
     public Reserva converter(ReservaDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Reserva reserva = modelMapper.map(dto, Reserva.class);
-        if (dto.getIdCliente() != null) {
-            Optional<Cliente> cliente = clienteService.getClienteById(dto.getIdCliente());
-            if (!cliente.isPresent()) {
-                reserva.setCliente(null);
-            } else {
-                reserva.setCliente(cliente.get());
-            }
-        }
-        if (dto.getIdHotel() != null) {
-            Optional<Hotel> hotel = hotelService.getHotelById(dto.getIdHotel());
-            if (!hotel.isPresent()) {
-                reserva.setHotel(null);
-            } else {
-                reserva.setHotel(hotel.get());
-            }
-        }
-        if (dto.getIdFuncionario() != null) {
-            Optional<Funcionario> funcionario = funcionarioService.getFuncionarioById(dto.getIdFuncionario());
-            if (!funcionario.isPresent()) {
-                reserva.setFuncionario(null);
-            } else {
-                reserva.setFuncionario(funcionario.get());
-            }
-        }
-        if (dto.getIdStatusReserva() != null) {
-            Optional<StatusReserva> statusreserva = statusreservaService.getStatusReservaById(dto.getIdStatusReserva());
-            if (!statusreserva.isPresent()) {
-                reserva.setStatusReserva(null);
-            } else {
-                reserva.setStatusReserva(statusreserva.get());
-            }
-        }
-        // if (dto.getIdTipoQuarto() != null) {
-        //     Optional<TipoQuarto> tipoquarto = tipoquartoService.getTipoQuartoById(dto.getIdTipoQuarto());
-        //     if (!tipoquarto.isPresent()) {
-        //         reserva.setTipoQuarto(null);
-        //     } else {
-        //         reserva.setTipoQuarto(tipoquarto.get());
-        //     }
-        // }
+        Cliente cliente = modelMapper.map(dto, Cliente.class);
+        Funcionario funcionario = modelMapper.map(dto, Funcionario.class);
+        Hotel hotel = modelMapper.map(dto, Hotel.class);
+        StatusReserva statusReserva = modelMapper.map(dto, StatusReserva.class);
         return reserva;
     }
 }

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.SCHapi.model.entity.TipoProduto;
+import com.example.SCHapi.service.TipoProdutoService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
@@ -27,6 +29,7 @@ public class ProdutoController {
 
     private final ProdutoService service;
     private final HotelService hotelService;
+    private final TipoProdutoService tipoProdutoService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -46,14 +49,8 @@ public class ProdutoController {
     public Produto converter(ProdutoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Produto produto = modelMapper.map(dto, Produto.class);
-        if (dto.getIdHotel() != null) {
-            Optional<Hotel> hotel = hotelService.getHotelById(dto.getIdHotel());
-            if (!hotel.isPresent()) {
-                produto.setHotel(null);
-            } else {
-                produto.setHotel(hotel.get());
-            }
-        }
+        Hotel hotel = modelMapper.map(dto, Hotel.class);
+        TipoProduto tipoProduto = modelMapper.map(dto, TipoProduto.class);
         return produto;
     }
 }

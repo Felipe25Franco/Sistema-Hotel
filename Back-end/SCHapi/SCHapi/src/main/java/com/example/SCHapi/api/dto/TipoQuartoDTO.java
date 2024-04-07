@@ -19,9 +19,9 @@ public class TipoQuartoDTO {
     private Float avaliacaoMedia;
     private Integer diasCancelarReserva;
     private Float area;
-    private Long idTipoCama;
+    private String tituloTipoCama;
     private int ocupantes;
-    private Long idComodidade;
+    private String tituloComodidade;
 
 
 
@@ -29,9 +29,9 @@ public class TipoQuartoDTO {
         ModelMapper modelMapper = new ModelMapper();
         TipoQuartoDTO dto = modelMapper.map(tipoQuarto, TipoQuartoDTO.class);
 
-        //dto.idTipoCama = tipoQuarto.getTipoCama().getId();
-        //dto.ocupantes = tipoQuarto.getTipoCama().getOcupantes();
-        // dto.idComodidade = tipoQuarto.getComodidade().getId();
+        dto.tituloTipoCama = tipoQuarto.getTipoCama().getTitulo();
+        dto.ocupantes = tipoQuarto.getTipoCama().getOcupantes();
+        dto.tituloComodidade = tipoQuarto.getComodidade().getTitulo();
 
 
         return dto;

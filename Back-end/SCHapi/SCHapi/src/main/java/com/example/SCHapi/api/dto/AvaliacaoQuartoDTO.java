@@ -13,13 +13,14 @@ public class AvaliacaoQuartoDTO {
     private Long id;
     private String nota;
     private String comentario;
-    private Long idTipoQuarto;
+    private String tituloTipoQuarto;
+    private Long idHospedagem;
 
     public static AvaliacaoQuartoDTO create(AvaliacaoQuarto avaliacaoQuarto) {
         ModelMapper modelMapper = new ModelMapper();
         AvaliacaoQuartoDTO dto = modelMapper.map(avaliacaoQuarto, AvaliacaoQuartoDTO.class);
 
-        //dto.idTipoQuarto = avaliacaoQuarto.getTipoQuarto().getId();
+        dto.tituloTipoQuarto = avaliacaoQuarto.getTipoQuarto().getTitulo();
         return dto;
     }
 }

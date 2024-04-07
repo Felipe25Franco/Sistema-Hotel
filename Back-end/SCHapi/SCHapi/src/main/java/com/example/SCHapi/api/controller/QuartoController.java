@@ -53,30 +53,9 @@ public class QuartoController {
     public Quarto converter(QuartoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Quarto quarto = modelMapper.map(dto, Quarto.class);
-        if (dto.getIdHotel() != null) {
-            Optional<Hotel> hotel = hotelService.getHotelById(dto.getIdHotel());
-            if (!hotel.isPresent()) {
-                quarto.setHotel(null);
-            } else {
-                quarto.setHotel(hotel.get());
-            }
-        }
-        if (dto.getIdTipoQuarto() != null) {
-            Optional<TipoQuarto> tipoquarto = tipoquartoService.getTipoQuartoById(dto.getIdTipoQuarto());
-            if (!tipoquarto.isPresent()) {
-                quarto.setTipoQuarto(null);
-            } else {
-                quarto.setTipoQuarto(tipoquarto.get());
-            }
-        }
-        if (dto.getIdStatusQuarto() != null) {
-            Optional<StatusQuarto> statusquarto = statusquartoService.getStatusQuartoById(dto.getIdStatusQuarto());
-            if (!statusquarto.isPresent()) {
-                quarto.setStatusQuarto(null);
-            } else {
-                quarto.setStatusQuarto(statusquarto.get());
-            }
-        }
+        Hotel hotel = modelMapper.map(dto, Hotel.class);
+        TipoQuarto tipoQuarto = modelMapper.map(dto, TipoQuarto.class);
+        StatusQuarto statusQuarto = modelMapper.map(dto, StatusQuarto.class);
         return quarto;
     }
 }

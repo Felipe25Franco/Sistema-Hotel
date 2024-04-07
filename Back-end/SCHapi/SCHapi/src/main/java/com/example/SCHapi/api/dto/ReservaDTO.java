@@ -23,12 +23,12 @@ public class ReservaDTO {
     private Date dataInicio;
     private Date dataFim;
     private String valorReserva;
-    private Long idCliente;
-    private Long idFuncionario;
-    private Long idHotel;
-    private Long idTipoQuarto;
-    private Long idStatusReserva;
-    private List<TipoQuartoReserva> listaQuartos;
+
+    private String nomeCliente;
+    private String nomeFuncionario;
+    private String tituloHotel;
+    private String tituloStatusReserva;
+    //private List<TipoQuartoReserva> listaQuartos;
 
 
 
@@ -43,11 +43,11 @@ public class ReservaDTO {
         // Optional<Reserva> reservaO = reservaService.getReservaById(id);
         // dto.listaQuartos = tipoQuartoReservaService.getTipoQuartoReservaByReserva(reservaO);
 
-        // dto.idHotel = reserva.getHotel().getId();
-        // dto.idCliente = reserva.getCliente().getId();
-        // dto.idFuncionario = reserva.getFuncionario().getId();
-        // dto.idTipoQuarto = reserva.getTipoQuarto().getId();
-        // dto.idStatusReserva = reserva.getStatusReserva().getId();
+        dto.tituloHotel = reserva.getHotel().getTitulo();
+        dto.nomeCliente = reserva.getCliente().getNome();
+        dto.nomeFuncionario = reserva.getFuncionario().getNome();
+
+        dto.tituloStatusReserva = reserva.getStatusReserva().getTitulo();
 
         return dto;
     }

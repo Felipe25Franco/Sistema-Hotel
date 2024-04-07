@@ -17,17 +17,17 @@ public class ServicoDTO {
     private String status;
     private float valorPorHorario;
     private String tipoReserva;
-    private Long idHotel;
-    private Long idTipoServico;
-    private Long idStatusServico;
+    private String nomeHotel;
+    private String tituloTipoServico;
+    private String tituloStatusServico;
 
     public static ServicoDTO create(Servico servico) {
         ModelMapper modelMapper = new ModelMapper();
         ServicoDTO dto = modelMapper.map(servico, ServicoDTO.class);
 
-        // dto.idHotel = servico.getHotel().getId();
-        // dto.idTipoServico = servico.getTipoServico().getId();
-        // dto.idStatusServico = servico.getStatusServico().getId();
+        dto.nomeHotel = servico.getHotel().getTitulo();
+        dto.tituloTipoServico = servico.getTipoServico().getTitulo();
+        dto.tituloStatusServico = servico.getStatusServico().getTitulo();
         return dto;
     }
 }

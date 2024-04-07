@@ -26,8 +26,8 @@ public class ClienteDTO {
     private String bairro;
     private String cep;
     private String cidade;
-    private Long idUf;
-    private Long idPais;
+    private String uf;
+    private String pais;
 
     public static ClienteDTO create(Cliente cliente) {
         ModelMapper modelMapper = new ModelMapper();
@@ -41,6 +41,9 @@ public class ClienteDTO {
         dto.bairro = cliente.getEndereco().getBairro();
         dto.cep = cliente.getEndereco().getCep();
         dto.cidade = cliente.getEndereco().getCidade();
+
+        dto.uf = cliente.getEndereco().getUf().getTitulo();
+        dto.pais = cliente.getEndereco().getUf().getPais().getTitulo();
         return dto;
     }
 }

@@ -30,4 +30,7 @@ public class TipoQuarto {
 
     @ManyToOne
     private TipoCama tipoCama;
+
+    @ManyToOne
+    private Comodidade comodidade;
 }

@@ -1,5 +1,9 @@
 package com.example.SCHapi.api.controller;
 
+import com.example.SCHapi.model.entity.Comodidade;
+import com.example.SCHapi.model.entity.TipoCama;
+import com.example.SCHapi.service.ComodidadeService;
+import com.example.SCHapi.service.TipoCamaService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -25,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TipoQuartoController {
 
     private final TipoQuartoService service;
+    private final TipoCamaService tipoCamaService;
+    private final ComodidadeService comodidadeService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -43,6 +49,11 @@ public class TipoQuartoController {
 
     public TipoQuarto converter(TipoQuartoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(dto, TipoQuarto.class);
+
+        TipoQuarto tipoQuarto = modelMapper.map(dto, TipoQuarto.class);
+        TipoCama tipoCama = modelMapper.map(dto,TipoCama.class);
+        Comodidade comodidade = modelMapper.map(dto,Comodidade.class);
+
+        return tipoQuarto;
     }
 }

@@ -21,6 +21,7 @@ public class Hospedagem {
     private Date dataFim1;
     private Date dataFim2;
     private float valorEstadia;
+    private String statusValorEstadia;
     private float valorConsumo;
     private float valorServicos;
     private float valorEstadiaAdicional;

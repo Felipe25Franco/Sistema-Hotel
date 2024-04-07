@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.SCHapi.model.entity.Hospedagem;
+import com.example.SCHapi.service.HospedagemService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
@@ -27,6 +29,7 @@ public class AvaliacaoQuartoController {
 
     private final AvaliacaoQuartoService service;
     private final TipoQuartoService tipoQuartoService;
+    private final HospedagemService hospedagemService;
     
     @GetMapping()
     public ResponseEntity get() {
@@ -46,12 +49,13 @@ public class AvaliacaoQuartoController {
     public AvaliacaoQuarto converter(AvaliacaoQuartoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         AvaliacaoQuarto avaliacaoQuarto = modelMapper.map(dto, AvaliacaoQuarto.class);
-        if (dto.getIdTipoQuarto() != null) {
-            Optional<TipoQuarto> tipoQuarto = tipoQuartoService.getTipoQuartoById(dto.getIdTipoQuarto());
-            if (!tipoQuarto.isPresent()) {
-                avaliacaoQuarto.setTipoQuarto(null);
+        TipoQuarto tipoQuarto = modelMapper.map(dto, TipoQuarto.class);
+        if (dto.getIdHospedagem() != null) {
+            Optional<Hospedagem> hospedagem = hospedagemService.getHospedagemById(dto.getIdHospedagem());
+            if (!hospedagem.isPresent()) {
+                avaliacaoQuarto.setHospedagem(null);
             } else {
-                avaliacaoQuarto.setTipoQuarto(tipoQuarto.get());
+                avaliacaoQuarto.setHospedagem(hospedagem.get());
             }
         }
         return avaliacaoQuarto;
