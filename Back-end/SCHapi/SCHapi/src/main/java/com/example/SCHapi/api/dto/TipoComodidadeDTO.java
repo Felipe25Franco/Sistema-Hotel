@@ -12,13 +12,12 @@ import com.example.SCHapi.model.entity.TipoComodidade;
 @NoArgsConstructor
 public class TipoComodidadeDTO {
     private Long id;
-    private String titulo;
+    private String categoria;
     private String descricao;
 
     public static TipoComodidadeDTO create(TipoComodidade tipoComodidade) {
         ModelMapper modelMapper = new ModelMapper();
         TipoComodidadeDTO dto = modelMapper.map(tipoComodidade, TipoComodidadeDTO.class);
-
         return dto;
     }
 }

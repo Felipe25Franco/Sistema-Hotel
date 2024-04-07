@@ -14,11 +14,8 @@ public class HotelDTO {
     private String titulo;
     private String descricao;
     private Float avaliacaoMedia;
-    private Integer ddd1;
-    private Integer num1;
-    private Integer ddi2;
-    private Integer ddd2;
-    private Integer num2;
+    private String telefone1;
+    private String telefone2;
     private Integer numero;
     private String complemento;
     private String logradouro;
@@ -28,12 +25,23 @@ public class HotelDTO {
     private Long idUf;
     private Long idPais;
 
+
     public static HotelDTO create(Hotel hotel) {
         ModelMapper modelMapper = new ModelMapper();
         HotelDTO dto = modelMapper.map(hotel, HotelDTO.class);
 
-        // dto.idUf = hotel.getUf().getId();
-        // dto.idPais = hotel.getPais().getId();
+        dto.numero = hotel.getEndereco().getNumero();
+        dto.logradouro = hotel.getEndereco().getLogradouro();
+        dto.complemento = hotel.getEndereco().getComplemento();
+        dto.bairro = hotel.getEndereco().getBairro();
+        dto.cidade = hotel.getEndereco().getCidade();
+        dto.cep = hotel.getEndereco().getCep();
+
+
+
+        //dto.idUf = hotel.getUf().getId();
+
+        //dto.idPais = hotel.getUf().getPais().getId();
         return dto;
     }
 }

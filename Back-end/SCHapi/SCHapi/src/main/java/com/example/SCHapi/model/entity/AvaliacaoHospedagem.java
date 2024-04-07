@@ -17,11 +17,6 @@ public class AvaliacaoHospedagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
-    private float nota;
     private String comentario;
-
-    //@ManyToOne
-    //private Hotel hotel;
-    
-
+    private float nota;
 }

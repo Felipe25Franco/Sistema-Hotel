@@ -22,6 +22,4 @@ public class TipoComodidade {
     private Long id;
     private String categoria;
     private String descricao;
-
-
 }

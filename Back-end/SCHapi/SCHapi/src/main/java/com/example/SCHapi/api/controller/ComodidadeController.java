@@ -46,14 +46,7 @@ public class ComodidadeController {
     public Comodidade converter(ComodidadeDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Comodidade comodidade = modelMapper.map(dto, Comodidade.class);
-        if (dto.getIdTipoComodidade() != null) {
-            Optional<TipoComodidade> tipoComodidade = tipoComodidadeService.getTipoComodidadeById(dto.getIdTipoComodidade());
-            if (!tipoComodidade.isPresent()) {
-                comodidade.setTipoComodidade(null);
-            } else {
-                comodidade.setTipoComodidade(tipoComodidade.get());
-            }
-        }
+        TipoComodidade tipoComodidade = modelMapper.map(dto, TipoComodidade.class);
         return comodidade;
     }
 }

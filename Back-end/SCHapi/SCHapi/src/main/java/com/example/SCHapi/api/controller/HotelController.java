@@ -54,6 +54,7 @@ public class HotelController {
         Hotel hotel = modelMapper.map(dto, Hotel.class);
         Endereco endereco = modelMapper.map(dto, Endereco.class);
         hotel.setEndereco(endereco);
+
         if (dto.getIdUf() != null) {
             Optional<Uf> uf = ufService.getUfById(dto.getIdUf());
             if (!uf.isPresent()) {

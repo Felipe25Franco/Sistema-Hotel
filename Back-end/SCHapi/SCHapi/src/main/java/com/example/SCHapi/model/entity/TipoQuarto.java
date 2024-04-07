@@ -28,4 +28,6 @@ public class TipoQuarto {
     // @OneToOne(cascade = CascadeType.ALL)
     // private AvaliacaoQuarto avaliacaoQuarto;
 
+    @ManyToOne
+    private TipoCama tipoCama;
 }

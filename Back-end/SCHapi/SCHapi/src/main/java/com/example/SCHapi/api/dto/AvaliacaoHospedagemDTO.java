@@ -12,15 +12,12 @@ import org.modelmapper.ModelMapper;
 public class AvaliacaoHospedagemDTO {
 
     private Long id;
-    private Integer nota;
     private String comentario;
-    //private Long hotel_id;
+    private Integer nota;
 
     public static AvaliacaoHospedagemDTO create(AvaliacaoHospedagem avaliacaoHospedagem) {
         ModelMapper modelMapper = new ModelMapper();
         AvaliacaoHospedagemDTO dto = modelMapper.map(avaliacaoHospedagem, AvaliacaoHospedagemDTO.class);
-
-        //dto.hotel_id = avaliacaoHospedagem.getHotel().getId();
         return dto;
     }
 }

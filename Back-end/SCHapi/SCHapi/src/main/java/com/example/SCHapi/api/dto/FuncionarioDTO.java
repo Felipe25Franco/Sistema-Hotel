@@ -15,18 +15,14 @@ public class FuncionarioDTO {
     private Long id;
     private String nome;
     private String cpf;
-    private Date dataNacimento;
+    private String dataNascimento;
     private String email;
     private String senha;
     private Float salario;
     private String horaInicio;
     private String horaFim;
-    private Integer ddi1;
-    private Integer ddd1;
-    private Integer num1;
-    private Integer ddi2;
-    private Integer ddd2;
-    private Integer num2;
+    private String telefone1;
+    private String telefone2;
     private Integer numero;
     private String complemento;
     private String logradouro;
@@ -41,6 +37,13 @@ public class FuncionarioDTO {
     public static FuncionarioDTO create(Funcionario funcionario) {
         ModelMapper modelMapper = new ModelMapper();
         FuncionarioDTO dto = modelMapper.map(funcionario, FuncionarioDTO.class);
+
+        dto.numero = funcionario.getEndereco().getNumero();
+        dto.logradouro = funcionario.getEndereco().getLogradouro();
+        dto.complemento = funcionario.getEndereco().getComplemento();
+        dto.bairro = funcionario.getEndereco().getBairro();
+        dto.cidade = funcionario.getEndereco().getCidade();
+        dto.cep = funcionario.getEndereco().getCep();
 
         // dto.idCargo = funcionario.getCargo().getId();
         // dto.idHotel = funcionario.getHotel().getId();
