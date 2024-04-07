@@ -13,7 +13,7 @@ public class TipoProdutoDTO {
 
     private Long id;
     private String descricao;
-    private String tipo;
+    private String categoria;
 
     public static TipoProdutoDTO create(TipoProduto tipoProduto) {
         ModelMapper modelMapper = new ModelMapper();
