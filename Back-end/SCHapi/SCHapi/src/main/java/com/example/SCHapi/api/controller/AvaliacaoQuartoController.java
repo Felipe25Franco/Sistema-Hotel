@@ -49,13 +49,21 @@ public class AvaliacaoQuartoController {
     public AvaliacaoQuarto converter(AvaliacaoQuartoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         AvaliacaoQuarto avaliacaoQuarto = modelMapper.map(dto, AvaliacaoQuarto.class);
-        TipoQuarto tipoQuarto = modelMapper.map(dto, TipoQuarto.class);
+
         if (dto.getIdHospedagem() != null) {
             Optional<Hospedagem> hospedagem = hospedagemService.getHospedagemById(dto.getIdHospedagem());
             if (!hospedagem.isPresent()) {
                 avaliacaoQuarto.setHospedagem(null);
             } else {
                 avaliacaoQuarto.setHospedagem(hospedagem.get());
+            }
+        }
+        if (dto.getIdTipoQuarto() != null) {
+            Optional<TipoQuarto> tipoQuarto = tipoQuartoService.getTipoQuartoById(dto.getIdTipoQuarto());
+            if (!tipoQuarto.isPresent()) {
+                avaliacaoQuarto.setTipoQuarto(null);
+            } else {
+                avaliacaoQuarto.setTipoQuarto(tipoQuarto.get());
             }
         }
         return avaliacaoQuarto;

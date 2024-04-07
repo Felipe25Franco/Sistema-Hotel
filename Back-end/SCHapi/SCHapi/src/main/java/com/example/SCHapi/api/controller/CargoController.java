@@ -46,7 +46,14 @@ public class CargoController {
     public Cargo converter(CargoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Cargo cargo = modelMapper.map(dto, Cargo.class);
-        Hotel hotel = modelMapper.map(dto, Hotel.class);
+        if (dto.getIdHotel() != null) {
+            Optional<Hotel> hotel = hotelService.getHotelById(dto.getIdHotel());
+            if (!hotel.isPresent()) {
+                cargo.setHotel(null);
+            } else {
+                cargo.setHotel(hotel.get());
+            }
+        }
         return cargo;
     }
 }

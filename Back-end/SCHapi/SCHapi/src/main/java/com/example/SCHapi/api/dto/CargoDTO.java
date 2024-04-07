@@ -14,13 +14,12 @@ public class CargoDTO {
     private String cargo;
     private String descricao;
     private Float salarioBase;
-    private String tituloHotel;
+    private Long idHotel;
 
     public static CargoDTO create(Cargo cargo) {
         ModelMapper modelMapper = new ModelMapper();
         CargoDTO dto = modelMapper.map(cargo, CargoDTO.class);
 
-        dto.tituloHotel = cargo.getHotel().getTitulo();
         return dto;
     }
 }
