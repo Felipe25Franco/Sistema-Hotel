@@ -22,8 +22,8 @@ public class HotelDTO {
     private String bairro;
     private String cep;
     private String cidade;
-    private String uf;
-    private String pais;
+    private Long idUf;
+    private Long idPais;
 
 
     public static HotelDTO create(Hotel hotel) {
@@ -37,11 +37,6 @@ public class HotelDTO {
         dto.cidade = hotel.getEndereco().getCidade();
         dto.cep = hotel.getEndereco().getCep();
 
-
-
-        dto.uf = hotel.getEndereco().getUf().getTitulo();
-
-        dto.pais = hotel.getEndereco().getUf().getPais().getTitulo();
         return dto;
     }
 }

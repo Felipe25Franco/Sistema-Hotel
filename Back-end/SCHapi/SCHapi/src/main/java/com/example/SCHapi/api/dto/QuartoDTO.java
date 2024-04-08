@@ -14,16 +14,14 @@ public class QuartoDTO {
     private Integer andar;
     private String bloco;
     private String status;
-    private String nomeHotel;
-    private String tituloTipoQuarto;
-    private String tituloStatusQuarto;
+    private Long idHotel;
+    private Long idTipoQuarto;
+    private Long idStatusQuarto;
     public static QuartoDTO create(Quarto quarto) {
         ModelMapper modelMapper = new ModelMapper();
         QuartoDTO dto = modelMapper.map(quarto, QuartoDTO.class);
 
-        dto.nomeHotel = quarto.getHotel().getTitulo();
-        dto.tituloTipoQuarto = quarto.getTipoQuarto().getTitulo();
-        dto.tituloStatusQuarto = quarto.getStatusQuarto().getTitulo();
+
         return dto;
     }
 }

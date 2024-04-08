@@ -49,8 +49,22 @@ public class ProdutoController {
     public Produto converter(ProdutoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Produto produto = modelMapper.map(dto, Produto.class);
-        Hotel hotel = modelMapper.map(dto, Hotel.class);
-        TipoProduto tipoProduto = modelMapper.map(dto, TipoProduto.class);
+        if (dto.getIdHotel() != null) {
+            Optional<Hotel> hotel = hotelService.getHotelById(dto.getIdHotel());
+            if (!hotel.isPresent()) {
+                produto.setHotel(null);
+            } else {
+                produto.setHotel(hotel.get());
+            }
+        }
+        if (dto.getIdTipoProduto() != null) {
+            Optional<TipoProduto> tipoProduto = tipoProdutoService.getTipoProdutoById(dto.getIdTipoProduto());
+            if (!tipoProduto.isPresent()) {
+                produto.setTipoProduto(null);
+            } else {
+                produto.setTipoProduto(tipoProduto.get());
+            }
+        }
         return produto;
     }
 }

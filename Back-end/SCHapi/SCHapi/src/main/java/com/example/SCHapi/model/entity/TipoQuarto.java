@@ -25,12 +25,11 @@ public class TipoQuarto {
     private int diasCancelarReserva;
     private float area;
 
-    // @OneToOne(cascade = CascadeType.ALL)
-    // private AvaliacaoQuarto avaliacaoQuarto;
+
 
     @ManyToOne
-    private TipoCama tipoCama;
+    private TipoCamaTipoQuarto tipoCamaTipoQuarto;
 
     @ManyToOne
-    private Comodidade comodidade;
+    private ComodidadeTipoQuarto comodidadeTipoQuarto;
 }

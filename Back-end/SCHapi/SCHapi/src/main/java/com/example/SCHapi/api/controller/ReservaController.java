@@ -4,21 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.SCHapi.model.entity.*;
+import com.example.SCHapi.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
 import com.example.SCHapi.api.dto.ReservaDTO;
-import com.example.SCHapi.model.entity.Reserva;
-import com.example.SCHapi.model.entity.Cliente;
-import com.example.SCHapi.model.entity.Funcionario;
-import com.example.SCHapi.model.entity.Hotel;
-import com.example.SCHapi.model.entity.StatusReserva;
-import com.example.SCHapi.service.ClienteService;
-import com.example.SCHapi.service.FuncionarioService;
-import com.example.SCHapi.service.ReservaService;
-import com.example.SCHapi.service.HotelService;
-import com.example.SCHapi.service.StatusReservaService;
-import com.example.SCHapi.service.TipoQuartoService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +27,7 @@ public class ReservaController {
     private final HotelService hotelService;
     private final FuncionarioService funcionarioService;
     private final StatusReservaService statusreservaService;
-    private final TipoQuartoService tipoquartoService;
+    private final TipoQuartoReservaService tipoQuartoReservaService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -56,10 +47,46 @@ public class ReservaController {
     public Reserva converter(ReservaDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Reserva reserva = modelMapper.map(dto, Reserva.class);
-        Cliente cliente = modelMapper.map(dto, Cliente.class);
-        Funcionario funcionario = modelMapper.map(dto, Funcionario.class);
-        Hotel hotel = modelMapper.map(dto, Hotel.class);
-        StatusReserva statusReserva = modelMapper.map(dto, StatusReserva.class);
+        if (dto.getIdCliente() != null) {
+            Optional<Cliente> cliente = clienteService.getClienteById(dto.getIdCliente());
+            if (!cliente.isPresent()) {
+                reserva.setCliente(null);
+            } else {
+                reserva.setCliente(cliente.get());
+            }
+        }
+        if (dto.getIdHotel() != null) {
+            Optional<Hotel> hotel = hotelService.getHotelById(dto.getIdHotel());
+            if (!hotel.isPresent()) {
+                reserva.setHotel(null);
+            } else {
+                reserva.setHotel(hotel.get());
+            }
+        }
+        if (dto.getIdFuncionario() != null) {
+            Optional<Funcionario> funcionario = funcionarioService.getFuncionarioById(dto.getIdFuncionario());
+            if (!funcionario.isPresent()) {
+                reserva.setFuncionario(null);
+            } else {
+                reserva.setFuncionario(funcionario.get());
+            }
+        }
+        if (dto.getIdStatusReserva() != null) {
+            Optional<StatusReserva> statusreserva = statusreservaService.getStatusReservaById(dto.getIdStatusReserva());
+            if (!statusreserva.isPresent()) {
+                reserva.setStatusReserva(null);
+            } else {
+                reserva.setStatusReserva(statusreserva.get());
+            }
+        }
+         if (dto.getIdTipoQuartoReserva() != null) {
+             Optional<TipoQuartoReserva> tipoQuartoReserva = tipoQuartoReservaService.getTipoQuartoReservaById(dto.getIdTipoQuartoReserva());
+            if (!tipoQuartoReserva.isPresent()) {
+                reserva.setTipoQuartoReserva(null);
+            } else {
+                reserva.setTipoQuartoReserva(tipoQuartoReserva.get());
+             }
+         }
         return reserva;
     }
 }

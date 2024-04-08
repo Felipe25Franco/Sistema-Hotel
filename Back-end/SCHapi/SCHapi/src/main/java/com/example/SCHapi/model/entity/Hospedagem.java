@@ -37,7 +37,8 @@ public class Hospedagem {
     @ManyToOne
     private StatusHospedagem statusHospedagem;
 
-
+    @ManyToOne
+    private QuartoHospedagem quartoHospedagem;
 
     @OneToOne
     private Reserva reserva;

@@ -29,6 +29,7 @@ public class HospedagemController {
     private final StatusHospedagemService statushospedagemService;
     private final AvaliacaoHospedagemService avaliacaohospedagemService;
     private final ReservaService reservaService;
+    private final QuartoHospedagemService quartoHospedagemService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -48,12 +49,63 @@ public class HospedagemController {
     public Hospedagem converter(HospedagemDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Hospedagem hospedagem = modelMapper.map(dto, Hospedagem.class);
-        Hotel hotel = modelMapper.map(dto, Hotel.class);
-        Cliente cliente = modelMapper.map(dto, Cliente.class);
-        Funcionario funcionario = modelMapper.map(dto, Funcionario.class);
-        StatusHospedagem statusHospedagem = modelMapper.map(dto, StatusHospedagem.class);
-        Reserva reserva = modelMapper.map(dto, Reserva.class);
-        AvaliacaoHospedagem avaliacaoHospedagem = modelMapper.map(dto, AvaliacaoHospedagem.class);
+
+        if (dto.getIdCliente() != null) {
+            Optional<Cliente> cliente = clienteService.getClienteById(dto.getIdCliente());
+            if (!cliente.isPresent()) {
+                hospedagem.setCliente(null);
+            } else {
+                hospedagem.setCliente(cliente.get());
+            }
+        }
+        if (dto.getIdHotel() != null) {
+            Optional<Hotel> hotel = hotelService.getHotelById(dto.getIdHotel());
+            if (!hotel.isPresent()) {
+                hospedagem.setHotel(null);
+            } else {
+                hospedagem.setHotel(hotel.get());
+            }
+        }
+        if (dto.getIdFuncionario() != null) {
+            Optional<Funcionario> funcionario = funcionarioService.getFuncionarioById(dto.getIdFuncionario());
+            if (!funcionario.isPresent()) {
+                hospedagem.setFuncionario(null);
+            } else {
+                hospedagem.setFuncionario(funcionario.get());
+            }
+        }
+        if (dto.getIdStatusHospedagem() != null) {
+            Optional<StatusHospedagem> statushospedagem = statushospedagemService.getStatusHospedagemById(dto.getIdStatusHospedagem());
+            if (!statushospedagem.isPresent()) {
+                hospedagem.setStatusHospedagem(null);
+            } else {
+                hospedagem.setStatusHospedagem(statushospedagem.get());
+            }
+        }
+        if (dto.getIdAvaliacaoHospedagem() != null) {
+            Optional<AvaliacaoHospedagem> avaliacaohospedagem = avaliacaohospedagemService.getAvaliacaoHospedagemById(dto.getIdAvaliacaoHospedagem());
+            if (!avaliacaohospedagem.isPresent()) {
+                hospedagem.setAvaliacaoHospedagem(null);
+            } else {
+                hospedagem.setAvaliacaoHospedagem(avaliacaohospedagem.get());
+            }
+        }
+        if (dto.getIdQuartoHospedagem() != null) {
+            Optional<QuartoHospedagem> quartohospedagem = quartoHospedagemService.getQuartoHospedagemById(dto.getIdQuartoHospedagem());
+            if (!quartohospedagem.isPresent()) {
+                hospedagem.setQuartoHospedagem(null);
+            } else {
+                hospedagem.setQuartoHospedagem(quartohospedagem.get());
+            }
+        }
+        if (dto.getIdReserva() != null) {
+            Optional<Reserva> reserva = reservaService.getReservaById(dto.getIdReserva());
+            if (!reserva.isPresent()) {
+                hospedagem.setReserva(null);
+            } else {
+                hospedagem.setReserva(reserva.get());
+            }
+        }
 
         return hospedagem;
     }

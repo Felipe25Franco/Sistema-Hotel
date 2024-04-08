@@ -33,6 +33,8 @@ public class Reserva {
     private Hotel hotel;
     @ManyToOne
     private StatusReserva statusReserva;
+    @ManyToOne
+    private TipoQuartoReserva tipoQuartoReserva;
 
 
 }

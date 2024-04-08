@@ -24,26 +24,20 @@ public class HospedagemDTO {
     private Float valorEstadiaAdicional;
     private Float valorTotalPago;
 
-    private String nomeCliente;
-    private String nomeFuncionario;
-    private String tituloHotel;
-    private String tituloStatusHospedagem;
-    //private String tituloTipoQuarto;
-    private float notaAvaliacaoHospedagem;
+    private Long idAvaliacaoHospedagem;
+    private Long idCliente;
+    private Long idFuncionario;
+    private Long idHotel;
+    private Long idReserva;
+    private Long idStatusHospedagem;
+    private Long idQuartoHospedagem;
 
-    private String tituloReserva;
+
+
 
     public static HospedagemDTO create(Hospedagem hospedagem) {
         ModelMapper modelMapper = new ModelMapper();
         HospedagemDTO dto = modelMapper.map(hospedagem, HospedagemDTO.class);
-
-        dto.tituloHotel = hospedagem.getHotel().getTitulo();
-        dto.nomeCliente = hospedagem.getCliente().getNome();
-        dto.nomeFuncionario = hospedagem.getFuncionario().getNome();
-        dto.tituloStatusHospedagem = hospedagem.getStatusHospedagem().getTitulo();
-        // dto.idTipoQuarto = hospedagem.getTipoQuarto().getId();
-        dto.tituloReserva = hospedagem.getReserva().getStatusReserva().getTitulo();
-        dto.notaAvaliacaoHospedagem = hospedagem.getAvaliacaoHospedagem().getId();
         return dto;
     }
 }

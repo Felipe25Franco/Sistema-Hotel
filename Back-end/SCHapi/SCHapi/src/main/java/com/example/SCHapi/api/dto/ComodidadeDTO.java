@@ -13,13 +13,12 @@ public class ComodidadeDTO {
     private Long id;
     private String titulo;
     private String descricao;
-    private String categoriaTipoComodidade;
+    private Long idTipoComodidade;
 
     public static ComodidadeDTO create(Comodidade comodidade) {
         ModelMapper modelMapper = new ModelMapper();
         ComodidadeDTO dto = modelMapper.map(comodidade, ComodidadeDTO.class);
 
-        dto.categoriaTipoComodidade = comodidade.getTipoComodidade().getCategoria();
         return dto;
     }
 }

@@ -1,9 +1,7 @@
 package com.example.SCHapi.api.controller;
 
-import com.example.SCHapi.model.entity.Comodidade;
-import com.example.SCHapi.model.entity.TipoCama;
-import com.example.SCHapi.service.ComodidadeService;
-import com.example.SCHapi.service.TipoCamaService;
+import com.example.SCHapi.model.entity.*;
+import com.example.SCHapi.service.*;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -13,8 +11,6 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 
 import com.example.SCHapi.api.dto.TipoQuartoDTO;
-import com.example.SCHapi.model.entity.TipoQuarto;
-import com.example.SCHapi.service.TipoQuartoService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TipoQuartoController {
 
     private final TipoQuartoService service;
-    private final TipoCamaService tipoCamaService;
-    private final ComodidadeService comodidadeService;
+    private final TipoCamaTipoQuartoService tipoCamaTipoQuartoService;
+    private final ComodidadeTipoQuartoService comodidadeTipoQuartoService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -51,8 +47,23 @@ public class TipoQuartoController {
         ModelMapper modelMapper = new ModelMapper();
 
         TipoQuarto tipoQuarto = modelMapper.map(dto, TipoQuarto.class);
-        TipoCama tipoCama = modelMapper.map(dto,TipoCama.class);
-        Comodidade comodidade = modelMapper.map(dto,Comodidade.class);
+
+        if (dto.getIdTipoCamaTipoQuarto() != null) {
+            Optional<TipoCamaTipoQuarto> tipoCamaTipoQuarto = tipoCamaTipoQuartoService.getCamaTipoQuartoById(dto.getIdTipoCamaTipoQuarto());
+            if (!tipoCamaTipoQuarto.isPresent()) {
+                tipoQuarto.setTipoCamaTipoQuarto(null);
+            } else {
+                tipoQuarto.setTipoCamaTipoQuarto(tipoCamaTipoQuarto.get());
+            }
+        }
+        if (dto.getIdComodidadeTipoQuarto() != null) {
+            Optional<ComodidadeTipoQuarto> comodidadeTipoQuarto = comodidadeTipoQuartoService.getComodidadeTipoQuartoById(dto.getIdTipoCamaTipoQuarto());
+            if (!comodidadeTipoQuarto.isPresent()) {
+                tipoQuarto.setComodidadeTipoQuarto(null);
+            } else {
+                tipoQuarto.setComodidadeTipoQuarto(comodidadeTipoQuarto.get());
+            }
+        }
 
         return tipoQuarto;
     }

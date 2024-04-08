@@ -59,10 +59,39 @@ public class FuncionarioController {
         ModelMapper modelMapper = new ModelMapper();
         Funcionario funcionario = modelMapper.map(dto, Funcionario.class);
         Endereco endereco = modelMapper.map(dto, Endereco.class);
-        Cargo cargo = modelMapper.map(dto, Cargo.class);
-        Hotel hotel = modelMapper.map(dto, Hotel.class);
-        Uf uf = modelMapper.map(dto, Uf.class);
-        Pais pais = modelMapper.map(dto, Pais.class);
+        if (dto.getIdUf() != null) {
+            Optional<Uf> uf = ufService.getUfById(dto.getIdUf());
+            if (!uf.isPresent()) {
+                endereco.setUf(null);
+            } else {
+                endereco.setUf(uf.get());
+            }
+        }
+        if (dto.getIdPais() != null) {
+            Optional<Uf> uf = ufService.getUfById(dto.getIdUf());
+            Optional<Pais> pais = paisService.getPaisById(dto.getIdPais());
+            if (!pais.isPresent()) {
+                uf.get().setPais(null);
+            } else {
+                uf.get().setPais(pais.get());
+            }
+        }
+        if (dto.getIdHotel() != null) {
+            Optional<Hotel> hotel = hotelService.getHotelById(dto.getIdHotel());
+            if (!hotel.isPresent()) {
+                funcionario.setHotel(null);
+            } else {
+                funcionario.setHotel(hotel.get());
+            }
+        }
+        if (dto.getIdCargo() != null) {
+            Optional<Cargo> cargo = cargoService.getCargoById(dto.getIdCargo());
+            if (!cargo.isPresent()) {
+                funcionario.setCargo(null);
+            } else {
+                funcionario.setCargo(cargo.get());
+            }
+        }
         return funcionario;
     }
 }
