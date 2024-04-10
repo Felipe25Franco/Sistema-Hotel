@@ -37,6 +37,9 @@ public class HotelDTO {
         dto.cidade = hotel.getEndereco().getCidade();
         dto.cep = hotel.getEndereco().getCep();
 
+        dto.idUf = hotel.getEndereco().getUf().getId();
+        dto.idPais = hotel.getEndereco().getUf().getPais().getId();
+
         return dto;
     }
 }

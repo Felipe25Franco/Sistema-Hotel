@@ -42,6 +42,9 @@ public class ClienteDTO {
         dto.cep = cliente.getEndereco().getCep();
         dto.cidade = cliente.getEndereco().getCidade();
 
+        dto.idUf = cliente.getEndereco().getUf().getId();
+        dto.idPais = cliente.getEndereco().getUf().getPais().getId();
+
 
         return dto;
     }

@@ -47,6 +47,8 @@ public class FuncionarioDTO {
         dto.cep = funcionario.getEndereco().getCep();
 
 
+        dto.idUf = funcionario.getEndereco().getUf().getId();
+        dto.idPais = funcionario.getEndereco().getUf().getPais().getId();
         return dto;
     }
 }
