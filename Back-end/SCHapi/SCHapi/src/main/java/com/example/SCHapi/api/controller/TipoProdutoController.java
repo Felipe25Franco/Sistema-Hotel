@@ -1,5 +1,6 @@
 package com.example.SCHapi.api.controller;
 
+import com.example.SCHapi.exception.RegraNegocioException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -14,10 +15,7 @@ import com.example.SCHapi.service.TipoProdutoService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/tipoProdutos")
@@ -40,6 +38,20 @@ public class TipoProdutoController {
         }
         return ResponseEntity.ok(tipoProduto.map(TipoProdutoDTO::create));
     }
+
+    @PostMapping
+    public ResponseEntity post(@RequestBody TipoProdutoDTO dto) {
+        try {
+            TipoProduto tipoProduto = converter(dto);
+            tipoProduto = service.salvar(tipoProduto);
+            return new ResponseEntity(tipoProduto, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+
 
     public TipoProduto converter(TipoProdutoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();

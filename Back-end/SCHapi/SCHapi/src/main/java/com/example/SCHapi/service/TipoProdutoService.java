@@ -28,4 +28,22 @@ public class TipoProdutoService {
     public Optional<TipoProduto> getTipoProdutoById(Long id) {
         return repository.findById(id);
     }
+
+    @Transactional
+    public TipoProduto salvar(TipoProduto tipoProduto) {
+        validar(tipoProduto);
+        return repository.save(tipoProduto);
+    }
+
+
+
+
+    public void validar(TipoProduto tipoProduto) {
+        if (tipoProduto.getDescricao() == null || tipoProduto.getDescricao() == "") {
+            throw new RegraNegocioException("Descrição Invalida!!! Insira uma descrição valida.");
+        }
+        if (tipoProduto.getCategoria() == null || tipoProduto.getCategoria() == "") {
+            throw new RegraNegocioException("Categoria Invalida!!! Insira uma categoria valida.");
+        }
+    }
 }
