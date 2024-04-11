@@ -40,7 +40,7 @@ public class TipoQuartoService {
         if (tipoQuarto.getTitulo() == null || tipoQuarto.getTitulo() == "") {
             throw new RegraNegocioException("Titulo Invalido!!! Insira uma titulo valido.");
         }
-       
+
     }
 
 }
