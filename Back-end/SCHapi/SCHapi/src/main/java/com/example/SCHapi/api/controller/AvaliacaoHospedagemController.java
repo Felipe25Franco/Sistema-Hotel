@@ -1,5 +1,6 @@
 package com.example.SCHapi.api.controller;
 
+import com.example.SCHapi.exception.RegraNegocioException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -13,10 +14,7 @@ import com.example.SCHapi.service.AvaliacaoHospedagemService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/avaliacaoHospedagens")
@@ -39,6 +37,18 @@ public class AvaliacaoHospedagemController {
         }
         return ResponseEntity.ok(avaliacaoHospedagem.map(AvaliacaoHospedagemDTO::create));
     }
+
+    @PostMapping
+    public ResponseEntity post(@RequestBody AvaliacaoHospedagemDTO dto) {
+        try {
+            AvaliacaoHospedagem avaliacaoHospedagem = converter(dto);
+            avaliacaoHospedagem = service.salvar(avaliacaoHospedagem);
+            return new ResponseEntity(avaliacaoHospedagem, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
     public AvaliacaoHospedagem converter(AvaliacaoHospedagemDTO dto) {
         ModelMapper modelMapper = new ModelMapper();

@@ -38,10 +38,10 @@ public class TipoServicoService {
     }
 
     public void validar(TipoServico tipoServico) {
-        if (tipoServico.getDescricao() == null || tipoServico.getDescricao() == "") {
+        if (tipoServico.getDescricao() == null || tipoServico.getDescricao().trim().equals("")) {
             throw new RegraNegocioException("Descrição Invalida!!! Insira uma descrição valida.");
         }
-        if (tipoServico.getTitulo() == null || tipoServico.getTitulo() == "") {
+        if (tipoServico.getTitulo() == null || tipoServico.getTitulo().trim().equals("")) {
             throw new RegraNegocioException("Titulo Invalido!!! Insira uma titulo valido.");
         }
     }

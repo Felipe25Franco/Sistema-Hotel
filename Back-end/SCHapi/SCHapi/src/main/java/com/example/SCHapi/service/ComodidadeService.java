@@ -28,4 +28,25 @@ public class ComodidadeService {
     public Optional<Comodidade> getComodidadeById(Long id) {
         return repository.findById(id);
     }
+
+    @Transactional
+    public Comodidade salvar(Comodidade comodidade) {
+        validar(comodidade);
+        return repository.save(comodidade);
+    }
+
+    public void validar(Comodidade comodidade) {
+
+
+
+        if (comodidade.getTitulo() == null || comodidade.getTitulo().trim().equals("")){
+            throw new RegraNegocioException("Titulo Invalido!!! Insira um titulo valido.");
+        }
+        if (comodidade.getDescricao() == null || comodidade.getDescricao().trim().equals("")) {
+            throw new RegraNegocioException("Descrição Invalida!!! Insira uma descrição valida.");
+        }
+        if (comodidade.getTipoComodidade() == null || comodidade.getTipoComodidade().getId() == null || comodidade.getTipoComodidade().getId() == 0) {
+            throw new RegraNegocioException("Tipo de comodidade inválida!!!!");
+        }
+    }
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 
 
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -18,5 +19,5 @@ public class AvaliacaoHospedagem {
 
     private Long id;
     private String comentario;
-    private float nota;
+    private Float nota;
 }

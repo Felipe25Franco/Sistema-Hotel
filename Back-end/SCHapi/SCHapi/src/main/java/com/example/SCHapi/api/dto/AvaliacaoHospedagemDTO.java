@@ -13,7 +13,7 @@ public class AvaliacaoHospedagemDTO {
 
     private Long id;
     private String comentario;
-    private Integer nota;
+    private Float nota;
 
     public static AvaliacaoHospedagemDTO create(AvaliacaoHospedagem avaliacaoHospedagem) {
         ModelMapper modelMapper = new ModelMapper();

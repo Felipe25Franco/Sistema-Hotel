@@ -1,5 +1,8 @@
 package com.example.SCHapi.api.controller;
 
+import com.example.SCHapi.api.dto.TipoProdutoDTO;
+import com.example.SCHapi.exception.RegraNegocioException;
+import com.example.SCHapi.model.entity.TipoProduto;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -14,10 +17,7 @@ import com.example.SCHapi.service.TipoCamaService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/tipoCamas")
@@ -39,6 +39,17 @@ public class TipoCamaController {
             return new ResponseEntity("TipoCama não encontrada", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(tipoCama.map(TipoCamaDTO::create));
+    }
+
+    @PostMapping
+    public ResponseEntity post(@RequestBody TipoCamaDTO dto) {
+        try {
+            TipoCama tipoCama = converter(dto);
+            tipoCama = service.salvar(tipoCama);
+            return new ResponseEntity(tipoCama, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     public TipoCama converter(TipoCamaDTO dto) {

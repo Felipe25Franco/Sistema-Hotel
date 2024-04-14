@@ -39,10 +39,10 @@ public class TipoProdutoService {
 
 
     public void validar(TipoProduto tipoProduto) {
-        if (tipoProduto.getDescricao() == null || tipoProduto.getDescricao() == "") {
+        if (tipoProduto.getDescricao() == null || tipoProduto.getDescricao().trim().equals("")) {
             throw new RegraNegocioException("Descrição Invalida!!! Insira uma descrição valida.");
         }
-        if (tipoProduto.getCategoria() == null || tipoProduto.getCategoria() == "") {
+        if (tipoProduto.getCategoria() == null || tipoProduto.getCategoria().trim().equals("")) {
             throw new RegraNegocioException("Categoria Invalida!!! Insira uma categoria valida.");
         }
     }

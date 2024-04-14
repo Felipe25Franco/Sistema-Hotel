@@ -36,10 +36,10 @@ public class TipoComodidadeService {
     }
 
     public void validar(TipoComodidade tipoComodidade) {
-        if (tipoComodidade.getDescricao() == null || tipoComodidade.getDescricao() == "") {
+        if (tipoComodidade.getDescricao() == null || tipoComodidade.getDescricao().trim().equals("")) {
             throw new RegraNegocioException("Descrição Invalida!!! Insira uma descrição valida.");
         }
-        if (tipoComodidade.getCategoria() == null || tipoComodidade.getCategoria() == "") {
+        if (tipoComodidade.getCategoria() == null || tipoComodidade.getCategoria().trim().equals("")) {
             throw new RegraNegocioException("Categoria Invalida!!! Insira uma categoria valida.");
         }
     }
