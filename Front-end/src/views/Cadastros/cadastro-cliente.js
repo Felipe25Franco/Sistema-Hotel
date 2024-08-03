@@ -21,10 +21,10 @@ function CadastroCliente() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_endereco}/cliente`;
-  const baseURL_endereco = `${URL_endereco}/endereco`;
-  const baseURL_uf = `${URL_endereco}/uf`;
-  const baseURL_pais = `${URL_endereco}/pais`;
+  const baseURL = `${URL_endereco}/clientes`;
+  const baseURL_endereco = `${URL_endereco}/enderecos`;
+  const baseURL_uf = `${URL_endereco}/ufs`;
+  const baseURL_pais = `${URL_endereco}/paises`;
 
   const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');//cpf
@@ -48,6 +48,13 @@ function CadastroCliente() {
   const [var16, setVar16] = useState(0);//id end 
   const [var17, setVar17] = useState(0);//id uf 
   const [var18, setVar18] = useState(0);//id pais 
+
+  const [var41, setVar41] = useState(0);//dd ...
+  const [var42, setVar42] = useState(0);//dd ...
+  const [var43, setVar43] = useState(0);//dd ...
+  const [var44, setVar44] = useState(0);//dd ...
+  const [var45, setVar45] = useState(0);//dd ...
+  const [var46, setVar46] = useState(0);//dd ...
 
   //ESSA é A PARTE DO BOTAO EDITAR
   const [dados, setDados] = React.useState([]);
@@ -92,22 +99,39 @@ function CadastroCliente() {
       setVar8(dados.complemento);//com
       setVar9(dados.logradouro);//log
       setVar10(dados.bairro);//bai 
-      setVar17(dados.UF_id);//id uf
+      setVar17(dados.uf_id);//id uf
       setVar18(dados.pais_id);//ud pais 
     }
   }
 
   async function salvar() {
+    setVar41(var14.slice(0,2));
+    setVar42(var14.slice(2,4));
+    setVar43(var14.slice(4,var14.length));
+    setVar44(var15.slice(0,2));
+    setVar45(var15.slice(2,4));
+    setVar46(var15.slice(4,var15.length));
     let data = {
       id,
-      var0,
       var1,
+      var0,
       var2,
-      var3,
-      var4,
-      var5,
+      var11,
+      var12,
+      var41,
+      var42,
+      var43,
+      var44,
+      var45,
+      var46,
+      var7,
+      var8,
+      var9,
+      var10,
       var6,
-      var7
+      var5,
+      var17,
+      var18,
       //completar aqiiioaisaisaa
     };
     data = JSON.stringify(data);

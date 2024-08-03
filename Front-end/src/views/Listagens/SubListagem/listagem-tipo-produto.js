@@ -16,7 +16,7 @@ import axios from 'axios';
 
 import { URL_tipoProduto } from '../../../config/axios';
 
-const baseURL = `${URL_tipoProduto}/tipoProduto`;
+const baseURL = `${URL_tipoProduto}/tipoProdutos`;
 
 
 function ListagemTipoProduto() {

@@ -14,9 +14,9 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
 
-import { URL_tipoCama } from '../../../config/axios';
+import { URL_quarto } from '../../../config/axios';
 
-const baseURL = `${URL_tipoCama}/tipoCama`;
+const baseURL = `${URL_quarto}/tipoCamas`;
 
 
 function ListagemTipoCama() {

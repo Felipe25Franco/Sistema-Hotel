@@ -11,6 +11,8 @@ import Stack from '@mui/material/Stack';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import GradeIcon from '@mui/icons-material/Grade';
+import RoomServiceIcon from '@mui/icons-material/RoomService';
 
 import axios from 'axios';
 
@@ -18,7 +20,7 @@ import { BASE_URL } from '../../config/axios';
 import { URL_hospedagem } from '../../config/axios';
 import { URL_status } from '../../config/axios';
 
-const baseURL = `${URL_hospedagem}/hospedagem`;
+const baseURL = `${URL_hospedagem}/hospedagens`;
 
 
 function ListagemHospedagem() {
@@ -30,6 +32,14 @@ function ListagemHospedagem() {
 
   const editar = (id) => {
     navigate(`/cadastro-hospedagem/${id}`);
+  };
+
+  const avaliar = (id) => {
+    navigate(`/listagem-avaliacao-quarto-hospedagem/${id}`);
+  };
+
+  const servicos = (id) => {
+    navigate(`/listagem-servicos-solicitados/${id}`);
   };
 
   const [dados, setDados] = React.useState(null);
@@ -69,7 +79,7 @@ function ListagemHospedagem() {
   const [dados2, setDados2] = React.useState(null);
 
   React.useEffect(() => {
-    axios.get(`${URL_status}/statusHospedagem`).then((response) => {
+    axios.get(`${URL_status}/statusHospedagens`).then((response) => {
       setDados2(response.data);
     });
   }, []);
@@ -120,10 +130,22 @@ function ListagemHospedagem() {
                             <EditIcon />
                           </IconButton>
                           <IconButton
+                            aria-label='avaliar'
+                            onClick={() => servicos(dado.id)}
+                          >
+                            <RoomServiceIcon />
+                          </IconButton>
+                          <IconButton
                             aria-label='delete'
                             onClick={() => excluir(dado.id)}
                           >
                             <DeleteIcon />
+                          </IconButton>
+                          <IconButton
+                            aria-label='avaliar'
+                            onClick={() => avaliar(dado.id)}
+                          >
+                            <GradeIcon />
                           </IconButton>
                         </Stack>
                       </td>

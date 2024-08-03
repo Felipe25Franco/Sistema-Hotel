@@ -18,7 +18,7 @@ import axios from 'axios';
 import { URL_hospedagem } from '../../../config/axios';
 import { URL_hotel } from '../../../config/axios';
 
-const baseURL = `${URL_hospedagem}/avaliacaoHospedagem`;
+const baseURL = `${URL_hospedagem}/avaliacaoHospedagens`;
 
 
 function ListagemAvaliacaoHospedagem() {
@@ -71,7 +71,7 @@ function ListagemAvaliacaoHospedagem() {
   }, []);
 
   React.useEffect(() => {
-    axios.get(`${URL_hotel}/hotel`).then((response) => {
+    axios.get(`${URL_hotel}/hoteis`).then((response) => {
       setDados2(response.data);
     });
   }, []);

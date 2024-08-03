@@ -14,9 +14,9 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
 
-import { URL_cargos } from '../../../config/axios';
+import { URL_funcionario } from '../../../config/axios';
 
-const baseURL = `${URL_cargos}/cargo`;
+const baseURL = `${URL_funcionario}/cargos`;
 
 
 function ListagemCargos() {

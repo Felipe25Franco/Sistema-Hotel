@@ -20,7 +20,7 @@ function CadastroTipoCama() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_quarto}/tipoCama`;
+  const baseURL = `${URL_quarto}/tipoCamas`;
 
   const [id, setId] = useState('');
   const [var0, setVar0] = useState('');
@@ -34,6 +34,7 @@ function CadastroTipoCama() {
       setId('');
       setVar0('');
       setVar1('');
+      setVar2('');
     } else {
       setId(dados.id);
       setVar0(dados.titulo);
@@ -47,7 +48,7 @@ function CadastroTipoCama() {
       id,
       var0,
       var1,
-      var2
+      var2,
     };
     data = JSON.stringify(data);
     if (idParam == null) {

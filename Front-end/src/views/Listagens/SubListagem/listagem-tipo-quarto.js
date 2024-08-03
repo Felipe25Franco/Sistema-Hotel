@@ -14,9 +14,9 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
 
-import { URL_tipoQuarto } from '../../../config/axios';
+import { URL_quarto } from '../../../config/axios';
 
-const baseURL = `${URL_tipoQuarto}/tipoQuarto`;
+const baseURL = `${URL_quarto}/tipoQuartos`;
 
 
 function ListagemTipoQuarto() {
@@ -27,7 +27,11 @@ function ListagemTipoQuarto() {
   };
 
   const editar = (id) => {
-    navigate(`/cadastro-tipo-quarto/${id}`);
+    navigate(`/cadastro-tipo-quarto/${id}/${0}`);
+  };
+
+  const vizualizar = (id) => {
+    navigate(`/cadastro-tipo-quarto/${id}/${1}`);
   };
 
   const [dados, setDados] = React.useState(null);
@@ -92,8 +96,8 @@ function ListagemTipoQuarto() {
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
-                    <tr key={dado.id}>
-                      <td>{dado.titulo}</td>
+                    <tr key={dado.id} >
+                      <td class='vizualizar' onClick={()=>vizualizar(dado.id)}>{dado.titulo}</td>
                       <td>{dado.precoBase}</td>
                       <td>{dado.limiteAdulto + dado.limiteCrianca}</td>
                       <td>{dado.area}</td>

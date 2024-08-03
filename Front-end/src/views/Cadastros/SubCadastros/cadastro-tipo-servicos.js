@@ -20,7 +20,7 @@ function CadastroTipoServico() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_servico}/tipoServico`;
+  const baseURL = `${URL_servico}/tipoServicos`;
 
   const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');

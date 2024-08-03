@@ -14,9 +14,9 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
 
-import { URL_tipoServico } from '../../../config/axios';
+import { URL_servico } from '../../../config/axios';
 
-const baseURL = `${URL_tipoServico}/tipoServico`;
+const baseURL = `${URL_servico}/tipoServicos`;
 
 
 function ListagemTipoServico() {

@@ -13,9 +13,9 @@ import '../../../custom.css';
 
 import axios from 'axios';
 import { URL_hospedagem } from '../../../config/axios';
-import { URL_quarto } from '../../../config/axios';
+import { URL_quarto, URL_endereco } from '../../../config/axios';
 
-const baseURL = `${URL_hospedagem}/avaliacaoQuarto`;
+const baseURL = `${URL_hospedagem}/avaliacaoQuartos`;
 
 function CadastroAvaliacaoQuarto() {
   
@@ -28,6 +28,7 @@ function CadastroAvaliacaoQuarto() {
   const [var0, setVar0] = useState('');//nota
   const [var1, setVar1] = useState('');//comentario
   const [var2, setVar2] = useState('');//tipoQuarto_id
+  const [var3, setVar3] = useState('');//tipoQuarto_id
 
   const [dados, setDados] = React.useState([]);
 
@@ -37,11 +38,13 @@ function CadastroAvaliacaoQuarto() {
       setVar0('');
       setVar1('');
       setVar2('');
+      setVar3('');
     } else {
       setId(dados.id);
       setVar0(dados.nota);
       setVar1(dados.comentario);
       setVar2(dados.tipoQuarto_id);
+      setVar3(dados.hospedagem_id);
     }
   }
 
@@ -51,6 +54,7 @@ function CadastroAvaliacaoQuarto() {
       var0,
       var1,
       var2,
+      var3,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -89,14 +93,31 @@ function CadastroAvaliacaoQuarto() {
       setVar0(dados.nota);
       setVar1(dados.comentario);
       setVar2(dados.tipoQuarto_id);
+      setVar3(dados.hospedagem_id);
     }
   }
 
   const [dados2, setDados2] = React.useState(null); //tipo quarto
 
   useEffect(() => {
-    axios.get(`${URL_quarto}/tipoQuarto`).then((response) => {
+    axios.get(`${URL_quarto}/tipoQuartos`).then((response) => {
       setDados2(response.data);
+    });
+  }, []);
+
+  const [dados3, setDados3] = React.useState(null); //tipo quarto
+
+  useEffect(() => {
+    axios.get(`${URL_hospedagem}/hospedagens`).then((response) => {
+      setDados3(response.data);
+    });
+  }, []);
+
+  const [dados4, setDados4] = React.useState(null); //tipo quarto
+
+  useEffect(() => {
+    axios.get(`${URL_endereco}/clientes`).then((response) => {
+      setDados4(response.data);
     });
   }, []);
 
@@ -106,6 +127,8 @@ function CadastroAvaliacaoQuarto() {
   
   if (!dados) return null;
   if (!dados2) return null;
+  if (!dados3) return null;
+  if (!dados4) return null;
   
   return (
     <div className='container'>
@@ -114,7 +137,7 @@ function CadastroAvaliacaoQuarto() {
           <div className='col-lg-12'>
             <div className='bs-component'>
               <FormGroup label='Tipo de Quarto: *' htmlFor='selectTipo'>
-                <select
+                <select disabled
                   className='form-select'
                   id='selectTipo'
                   name='tipo'
@@ -130,6 +153,16 @@ function CadastroAvaliacaoQuarto() {
                     </option>
                   ))}
                 </select>
+              </FormGroup>
+              <FormGroup label='Hospedagem: *' htmlFor='selectHospedagem'>
+              <input disabled
+                  type='text'
+                  id='inputIdHospedagem'
+                  value={idParam}
+                  className='form-control'
+                  name='hospedagem'
+                  onChange={(e) => setVar3(e.target.value)}
+                  />
               </FormGroup>
               <FormGroup label='Nota: *' htmlFor='inputNota'>
                 <input

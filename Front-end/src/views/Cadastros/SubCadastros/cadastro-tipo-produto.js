@@ -21,7 +21,7 @@ function CadastroTipoProduto() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_produto}/tipoProduto`;
+  const baseURL = `${URL_produto}/tipoProdutos`;
 
   const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');
@@ -47,7 +47,7 @@ function CadastroTipoProduto() {
     let data = {
       id,
       var0,
-      var1
+      var1,
     };
     data = JSON.stringify(data);
     if (idParam == null) {

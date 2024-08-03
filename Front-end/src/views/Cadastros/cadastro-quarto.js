@@ -23,7 +23,7 @@ function CadastroQuarto() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_quarto}/quarto`;
+  const baseURL = `${URL_quarto}/quartos`;
 
   const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');//num
@@ -67,7 +67,8 @@ function CadastroQuarto() {
       var2,
       var3,
       var4,
-      var5
+      var5,
+      var3,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -115,7 +116,7 @@ function CadastroQuarto() {
   const [dados2, setDados2] = React.useState(null); //tipo quarto
 
   useEffect(() => {
-    axios.get(`${URL_quarto}/tipoQuarto`).then((response) => {
+    axios.get(`${URL_quarto}/tipoQuartos`).then((response) => {
       setDados2(response.data);
     });
   }, []);
@@ -123,7 +124,7 @@ function CadastroQuarto() {
   const [dados3, setDados3] = React.useState(null); //tipo quarto
 
   useEffect(() => {
-    axios.get(`${URL_hotel}/hotel`).then((response) => {
+    axios.get(`${URL_hotel}/hoteis`).then((response) => {
       setDados3(response.data);
     });
   }, []);
@@ -131,7 +132,7 @@ function CadastroQuarto() {
   const [dados4, setDados4] = React.useState(null); //tipo Produto
   
   useEffect(() => {
-    axios.get(`${URL_status}/statusQuarto`).then((response) => {
+    axios.get(`${URL_status}/statusQuartos`).then((response) => {
       setDados4(response.data);
     });
   }, []);

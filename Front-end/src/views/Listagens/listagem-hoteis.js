@@ -17,7 +17,7 @@ import axios from 'axios';
 import { BASE_URL } from '../../config/axios';
 import { URL_hotel } from '../../config/axios';
 
-const baseURL = `${URL_hotel}/hotel`;
+const baseURL = `${URL_hotel}/hoteis`;
 
 
 function ListagemHoteis() {

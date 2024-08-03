@@ -14,9 +14,9 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
 
-import { URL_tipoComodidade } from '../../../config/axios';
+import { URL_comodidade } from '../../../config/axios';
 
-const baseURL = `${URL_tipoComodidade}/tipoComodidade`;
+const baseURL = `${URL_comodidade}/tipoComodidades`;
 
 
 function ListagemTipoComodidade() {

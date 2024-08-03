@@ -24,7 +24,7 @@ function CadastroReserva() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_hospedagem}/reserva`;
+  const baseURL = `${URL_hospedagem}/reservas`;
 
   const [id, setId] = useState('');
   const [var0, setVar0] = useState('');
@@ -77,8 +77,8 @@ function CadastroReserva() {
       var4,
       var5,
       var6,
-      var7,
-      var8
+      var0,
+      tableData,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -127,26 +127,27 @@ function CadastroReserva() {
     }
   }
 
-  const [dados3, setDados3] = React.useState(null); //tipo Produto
+  const [dados3, setDados3] = React.useState(null); 
   
   useEffect(() => {
-    axios.get(`${URL_status}/statusReserva`).then((response) => {
+    axios.get(`${URL_status}/statusReservas`).then((response) => {
       setDados3(response.data);
     });
   }, []);
 
-  const [dados2, setDados2] = React.useState(null); //tipo Produto
+  const [dados2, setDados2] = React.useState(null); 
   
   useEffect(() => {
-    axios.get(`${URL_quarto}/tipoQuarto`).then((response) => {
+    axios.get(`${URL_quarto}/tipoQuartos`).then((response) => {
+    //axios.get(`${baseURL}/hotel/${var6}`).then((response) => {
       setDados2(response.data);
     });
-  }, []);
+  }, [var6,var1,var2]);
 
-  const [dados5, setDados5] = React.useState(null); //tipo Produto
+  const [dados5, setDados5] = React.useState(null); 
   
   useEffect(() => {
-    axios.get(`${URL_hotel}/hotel`).then((response) => {
+    axios.get(`${URL_hotel}/hoteis`).then((response) => {
       setDados5(response.data);
     });
   }, []);
@@ -186,6 +187,8 @@ function CadastroReserva() {
     };
   
     if (!tableData) return null;
+    if (!validarHotel(var6) && idParam==null) return <div>Selecione um Hotel primeiro</div>;
+    if (!validarData(var1, var2) && idParam==null) return <div>Selecione um período de estadia válido</div>;
     return (
       <div>
         <table className="table table-hover">
@@ -278,7 +281,7 @@ function CadastroReserva() {
                   id='selectHotel'
                   name='hotel'
                   value={var6}
-                  onChange={(e) => setVar6(e.target.value)}
+                  onChange={(e) => {setVar6(e.target.value);console.log(var6)}}
                 >
                   <option key='0' value='0'>
                     {' '}
@@ -308,14 +311,6 @@ function CadastroReserva() {
                   ))}
                 </select>
               </FormGroup>
-              
-              <FormGroup label='Quartos: *' htmlFor='selectQuartos'>
-              <div class="card">
-                <div class="card-body">
-                  <InteractiveTable />
-                </div>
-              </div>
-              </FormGroup>
               <FormGroup label='Data de Início: *' htmlFor='inputDataInicio'>
                 <input
                   type='date'
@@ -333,10 +328,18 @@ function CadastroReserva() {
                   value={var2}
                   className='form-control'
                   name='datafim'
-                  onChange={(e) => setVar2(e.target.value)}
+                  onChange={(e) => {setVar2(e.target.value);}}
                 />
               </FormGroup>
-              <FormGroup label='Valor da Resrva: *' htmlFor='inputValorResrva'>
+              
+              <FormGroup label='Quartos: *' htmlFor='selectQuartos'>
+              <div class="card">
+                <div class="card-body">
+                  <InteractiveTable />
+                </div>
+              </div>
+              </FormGroup>
+              <FormGroup label='Valor da Reserva: *' htmlFor='inputValorResrva'>
                 <input
                   type='text'
                   id='inputValorResrva'
@@ -390,6 +393,19 @@ function CadastroReserva() {
       </Card>
     </div>
   );
+}
+
+//validacoes liberacoes controles
+
+function validarData(var1, var2) {
+  if(var1===''||var2==='') return false;
+  if(var1<=var2) return true;
+  return false;
+}
+
+function validarHotel(var6) {
+  if(var6===''||var6===null||var6===0) return false;
+  return true;
 }
 
 export default CadastroReserva;

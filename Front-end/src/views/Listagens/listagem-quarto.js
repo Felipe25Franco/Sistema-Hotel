@@ -18,7 +18,7 @@ import { BASE_URL } from '../../config/axios';
 import { URL_quarto } from '../../config/axios';
 import { URL_status } from '../../config/axios';
 
-const baseURL = `${URL_quarto}/quarto`;
+const baseURL = `${URL_quarto}/quartos`;
 
 
 function ListagemQuarto() {
@@ -70,7 +70,7 @@ function ListagemQuarto() {
   const [dados2, setDados2] = React.useState(null);
 
   React.useEffect(() => {
-    axios.get(`${URL_status}/statusQuarto`).then((response) => {
+    axios.get(`${URL_status}/statusQuartos`).then((response) => {
       setDados2(response.data);
     });
   }, []);

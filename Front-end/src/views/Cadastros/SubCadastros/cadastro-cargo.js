@@ -12,7 +12,7 @@ import { mensagemSucesso, mensagemErro } from '../../../components/toastr';
 import '../../../custom.css';
 
 import axios from 'axios';
-import { URL_cargos } from '../../../config/axios';
+import { URL_funcionario } from '../../../config/axios';
 import { URL_hotel } from '../../../config/axios';
 
 function CadastroCargo() {
@@ -21,7 +21,7 @@ function CadastroCargo() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_cargos}/cargo`;
+  const baseURL = `${URL_funcionario}/cargos`;
 
   const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');//cargp
@@ -54,7 +54,7 @@ function CadastroCargo() {
        var0,
        var1,
        var2,
-       var3
+       var3,
      };
      data = JSON.stringify(data);
      if (idParam == null) {
@@ -101,7 +101,7 @@ function CadastroCargo() {
  
    useEffect(() => {
      //axios.get(`${URL_produto}/tipoProduto`).then((response) => {
-     axios.get(`${URL_hotel}/hotel`).then((response) => {
+     axios.get(`${URL_hotel}/hoteis`).then((response) => {
        setDados3(response.data);
      });
    }, []);

@@ -25,7 +25,7 @@ function CadastroServicos() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_servico}/servico`;
+  const baseURL = `${URL_servico}/servicos`;
 
   const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');//nome
@@ -70,11 +70,12 @@ function CadastroServicos() {
        id,
        var0,
        var1,
-       var2,
        var3,
+       var2,
        var4,
        var5,
-       var6
+       var6,
+       horarios
      };
      data = JSON.stringify(data);
      if (idParam == null) {
@@ -124,7 +125,7 @@ function CadastroServicos() {
   const [dados2, setDados2] = React.useState(null); //tipo servcio
 
   useEffect(() => {
-    axios.get(`${URL_servico}/tipoServico`).then((response) => {
+    axios.get(`${URL_servico}/tipoServicos`).then((response) => {
       setDados2(response.data);
     });
   }, []);
@@ -133,7 +134,7 @@ function CadastroServicos() {
 
   useEffect(() => {
     //axios.get(`${URL_produto}/tipoProduto`).then((response) => {
-    axios.get(`${URL_hotel}/hotel`).then((response) => {
+    axios.get(`${URL_hotel}/hoteis`).then((response) => {
       setDados3(response.data);
     });
   }, []);
@@ -141,7 +142,7 @@ function CadastroServicos() {
   const [dados4, setDados4] = React.useState(null); //tipo Produto
   
   useEffect(() => {
-    axios.get(`${URL_status}/statusServico`).then((response) => {
+    axios.get(`${URL_status}/statusServicos`).then((response) => {
       setDados4(response.data);
     });
   }, []);

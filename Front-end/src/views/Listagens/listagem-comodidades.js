@@ -17,7 +17,7 @@ import axios from 'axios';
 import { BASE_URL } from '../../config/axios';
 import { URL_comodidade } from '../../config/axios';
 
-const baseURL = `${URL_comodidade}/comodidade`;
+const baseURL = `${URL_comodidade}/comodidades`;
 
 
 function ListagemComodidades() {

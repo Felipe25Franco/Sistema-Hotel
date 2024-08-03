@@ -22,9 +22,9 @@ function CadastroHotel() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_hotel}/hotel`;
-  const baseURL_uf = `${URL_endereco}/uf`;
-  const baseURL_pais = `${URL_endereco}/pais`;
+  const baseURL = `${URL_hotel}/hoteis`;
+  const baseURL_uf = `${URL_endereco}/ufs`;
+  const baseURL_pais = `${URL_endereco}/paises`;
 
   const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');//titulo
@@ -43,6 +43,15 @@ function CadastroHotel() {
   const [var10, setVar10] = useState('');//bai 
   const [var22, setVar22] = useState(0);//id uf 
   const [var23, setVar23] = useState(0);//id pais 
+
+  const [var30, setVar30] = useState(0);//avali media ...
+
+  const [var41, setVar41] = useState(0);//dd ...
+  const [var42, setVar42] = useState(0);//dd ...
+  const [var43, setVar43] = useState(0);//dd ...
+  const [var44, setVar44] = useState(0);//dd ...
+  const [var45, setVar45] = useState(0);//dd ...
+  const [var46, setVar46] = useState(0);//dd ...
 
   const [dados, setDados] = React.useState([]);
 
@@ -65,6 +74,7 @@ function CadastroHotel() {
       setVar12('');
       setVar22('');
       setVar23('');
+      setVar30('');
     } else {
       setId(dados.id);
       setVar0(dados.titulo);
@@ -79,17 +89,38 @@ function CadastroHotel() {
       setVar8(dados.complemento);//com
       setVar9(dados.logradouro);//log
       setVar10(dados.bairro);//bai 
-      setVar22(dados.UF_id);//id uf
+      setVar22(dados.uf_id);//id uf
       setVar23(dados.pais_id);//ud pais 
+      setVar30(dados.avaliacaoMedia);
     }
   }
 
   async function salvar() {
+    setVar41(var11.slice(0,2));
+    setVar42(var11.slice(2,4));
+    setVar43(var11.slice(4,var11.length));
+    setVar44(var12.slice(0,2));
+    setVar45(var12.slice(2,4));
+    setVar46(var12.slice(4,var12.length));
     let data = {
       id,
       var0,
       var1,
-      var2
+      var30,
+      var41,
+      var42,
+      var43,
+      var44,
+      var45,
+      var46,
+      var7,
+      var8,
+      var9,
+      var10,
+      var6,
+      var5,
+      var22,
+      var23,
     };
     data = JSON.stringify(data);
     if (idParam == null) {

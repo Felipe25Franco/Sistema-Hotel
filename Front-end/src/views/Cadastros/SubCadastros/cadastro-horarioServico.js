@@ -20,7 +20,7 @@ function CadastroHorarioServico() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/horarioServico`;
+  const baseURL = `${BASE_URL}/horarioServicos`;
 
   const [id, setId] = useState('');
   const [var1, setVar1] = useState('');

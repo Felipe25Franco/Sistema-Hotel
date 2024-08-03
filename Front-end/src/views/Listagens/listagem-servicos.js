@@ -18,7 +18,7 @@ import { BASE_URL } from '../../config/axios';
 import { URL_servico } from '../../config/axios';
 import { URL_status } from '../../config/axios';
 
-const baseURL = `${URL_servico}/servico`;
+const baseURL = `${URL_servico}/servicos`;
 
 
 function ListagemServicos() {
@@ -69,7 +69,7 @@ function ListagemServicos() {
     const [dados2, setDados2] = React.useState(null);
   
     React.useEffect(() => {
-      axios.get(`${URL_status}/statusServico`).then((response) => {
+      axios.get(`${URL_status}/statusServicos`).then((response) => {
         setDados2(response.data);
       });
     }, []);

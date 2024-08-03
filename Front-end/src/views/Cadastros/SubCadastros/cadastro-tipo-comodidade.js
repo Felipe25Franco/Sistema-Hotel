@@ -20,7 +20,7 @@ function CadastroTipoComodidade() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_comodidade}/tipoComodidade`;
+  const baseURL = `${URL_comodidade}/tipoComodidades`;
 
   const [id, setId] = useState('');
   const [var0, setVar0] = useState('');

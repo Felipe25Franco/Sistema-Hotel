@@ -11,6 +11,7 @@ import Stack from '@mui/material/Stack';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import HotelIcon from '@mui/icons-material/Hotel';
 
 import axios from 'axios';
 
@@ -18,7 +19,7 @@ import { BASE_URL } from '../../config/axios';
 import { URL_hospedagem } from '../../config/axios';
 import { URL_status } from '../../config/axios';
 
-const baseURL = `${URL_hospedagem}/reserva`;
+const baseURL = `${URL_hospedagem}/reservas`;
 
 
 function ListagemReserva() {
@@ -69,13 +70,31 @@ function ListagemReserva() {
   const [dados2, setDados2] = React.useState(null);
 
   React.useEffect(() => {
-    axios.get(`${URL_status}/statusReserva`).then((response) => {
+    axios.get(`${URL_status}/statusReservas`).then((response) => {
       setDados2(response.data);
     });
   }, []);
-  
+
+  //teste botao pra hospedar
+  const BotaoHospedar = (dados) => {  
+    if (!dados) return null;
+    //console.log(dados['status']);
+    //console.log(dados.dados.status);
+    if (dados.dados.status > 4) return null;
+    
+    return (
+      <IconButton
+          aria-label='delete'
+          onClick={() => excluir(dados.id)}
+        >
+          <HotelIcon />
+      </IconButton>
+    );
+  }
+
   if (!dados2) return null;
   if (!dados) return null;
+  
 
   return (
     <div className='container'>
@@ -123,6 +142,9 @@ function ListagemReserva() {
                           >
                             <DeleteIcon />
                           </IconButton>
+                          <div >
+                            <BotaoHospedar dados={dado}  />
+                          </div>
                         </Stack>
                       </td>
                     </tr>

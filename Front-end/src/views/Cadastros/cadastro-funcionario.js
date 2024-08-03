@@ -23,11 +23,11 @@ function CadastroFuncionario() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_funcionario}/funcionario`;
-  const baseURL_endereco = `${URL_endereco}/endereco`;
-  const baseURL_uf = `${URL_endereco}/uf`;
-  const baseURL_pais = `${URL_endereco}/pais`;
-  const baseURL_hotel = `${URL_hotel}/hotel`;
+  const baseURL = `${URL_funcionario}/funcionarios`;
+  const baseURL_endereco = `${URL_endereco}/enderecos`;
+  const baseURL_uf = `${URL_endereco}/ufs`;
+  const baseURL_pais = `${URL_endereco}/paises`;
+  const baseURL_hotel = `${URL_hotel}/hoteis`;
 
   const [id, setId] = useState('');
   const [var0, setVar0] = useState('');//cpf
@@ -58,6 +58,12 @@ function CadastroFuncionario() {
   const [var22, setVar22] = useState(0);//id uf 
   const [var23, setVar23] = useState(0);//id pais 
 
+  const [var41, setVar41] = useState(0);//dd ...
+  const [var42, setVar42] = useState(0);//dd ...
+  const [var43, setVar43] = useState(0);//dd ...
+  const [var44, setVar44] = useState(0);//dd ...
+  const [var45, setVar45] = useState(0);//dd ...
+  const [var46, setVar46] = useState(0);//dd ...
 
   const [dados, setDados] = React.useState([]);
 
@@ -108,7 +114,7 @@ function CadastroFuncionario() {
       setVar8(dados.complemento);//com
       setVar9(dados.logradouro);//log
       setVar10(dados.bairro);//bai 
-      setVar22(dados.UF_id);//id uf
+      setVar22(dados.uf_id);//id uf
       setVar23(dados.pais_id);//ud pais 
 
       setVar19(dados.endereco_id);
@@ -118,6 +124,12 @@ function CadastroFuncionario() {
   }
 
   async function salvar() {
+    setVar41(var14.slice(0,2));
+    setVar42(var14.slice(2,4));
+    setVar43(var14.slice(4,var14.length));
+    setVar44(var15.slice(0,2));
+    setVar45(var15.slice(2,4));
+    setVar46(var15.slice(4,var15.length));
     let data = {
       id,
       var1,
@@ -128,9 +140,22 @@ function CadastroFuncionario() {
       var18,
       var16,
       var17,
-      var19,
+      var41,
+      var42,
+      var43,
+      var44,
+      var45,
+      var46,
+      var7,
+      var8,
+      var9,
+      var10,
+      var6,
+      var5,
+      var22,
+      var23,
       var20,
-      var21
+      var21,
       //tem q arrumar ainda
     };
     data = JSON.stringify(data);
@@ -201,7 +226,7 @@ function CadastroFuncionario() {
 
   useEffect(() => {
     //axios.get(`${URL_produto}/tipoProduto`).then((response) => {
-    axios.get(`${URL_funcionario}/cargo`).then((response) => {
+    axios.get(`${URL_funcionario}/cargos`).then((response) => {
       setDados5(response.data);
     });
   }, []);

@@ -17,7 +17,7 @@ import axios from 'axios';
 import { BASE_URL } from '../../config/axios';
 import { URL_funcionario } from '../../config/axios';
 
-const baseURL = `${URL_funcionario}/funcionario`;
+const baseURL = `${URL_funcionario}/funcionarios`;
 
 
 function ListagemFuncionario() {

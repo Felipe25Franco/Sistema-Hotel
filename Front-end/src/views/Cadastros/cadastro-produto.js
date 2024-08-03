@@ -23,7 +23,7 @@ function CadastroProduto() {
   const navigate = useNavigate();
 
   //const baseURL = `${BASE_URL}/produto`;
-  const baseURL = `${URL_produto}/produto`;
+  const baseURL = `${URL_produto}/produtos`;
 
   const [id, setId] = useState('');
   const [var0, setVar0] = useState('');//nome
@@ -63,8 +63,8 @@ function CadastroProduto() {
       var1,
       var2,
       var3,
+      var5,
       var4,
-      var5
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -114,14 +114,14 @@ function CadastroProduto() {
   
   useEffect(() => {
     //axios.get(`${URL_produto}/tipoProduto`).then((response) => {
-    axios.get(`${URL_produto}/tipoProduto`).then((response) => {
+    axios.get(`${URL_produto}/tipoProdutos`).then((response) => {
       setDados2(response.data);
     });
   }, []);
 
   useEffect(() => {
     //axios.get(`${URL_produto}/tipoProduto`).then((response) => {
-    axios.get(`${URL_hotel}/hotel`).then((response) => {
+    axios.get(`${URL_hotel}/hoteis`).then((response) => {
       setDados3(response.data);
     });
   }, []);

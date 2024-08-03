@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+import com.example.SCHapi.model.entity.Pessoa.Endereco;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,7 +32,9 @@ public abstract class Usuario {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Endereco endereco;
-
-
+    // @ManyToOne
+    // private Uf uf;
+    // @ManyToOne
+    // private Pais pais;
 
 }

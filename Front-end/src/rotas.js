@@ -20,7 +20,9 @@ import ListagemTipoProduto from './views/Listagens/SubListagem/listagem-tipo-pro
 import ListagemTipoQuarto from './views/Listagens/SubListagem/listagem-tipo-quarto';
 import ListagemTipoServicos from './views/Listagens/SubListagem/listagem-tipo-servico';
 import ListagemAvaliacaoQuarto from './views/Listagens/SubListagem/listagem-avaliacaoQuarto';
+import ListagemAvaliacaoQuartoHospedagem from './views/Listagens/SubListagem/listagem-avaliacaoQuarto-hospedagem';
 import ListagemAvaliacaoHospedagem from './views/Listagens/SubListagem/listagem-avaliacaoHospedagem';
+import ListagemServicosSolicitados from './views/Listagens/SubListagem/listagem-servicos-solicitados';
 
 
 import CadastroProduto from './views/Cadastros/cadastro-produto';
@@ -43,6 +45,7 @@ import CadastroTipoQuarto from './views/Cadastros/SubCadastros/cadastro-tipo-qua
 import CadastroTipoCama from './views/Cadastros/SubCadastros/cadastro-tipo-cama';
 import CadastroTipoComodidade from './views/Cadastros/SubCadastros/cadastro-tipo-comodidade';
 import CadastroCargo from './views/Cadastros/SubCadastros/cadastro-cargo';
+import CadastroServicoSolicitado from './views/Cadastros/SubCadastros/cadastro-servico-solicitado';
 
 
 function Rotas(props) {
@@ -54,7 +57,7 @@ function Rotas(props) {
         <Route path='/listagem-funcionario' element={<ListagemFuncionario />} />
         <Route path='/listagem-hoteis' element={<ListagemHoteis />} />   
         <Route path='/listagem-produtos' element={<ListagemProdutos />} />
-        <Route path='/listagem-servicos' element={<ListagemServicos />} />
+        <Route path='/listagem-servicos/' element={<ListagemServicos />} />
         <Route path='/listagem-comodidades' element={<ListagemComodidades />} />
         <Route path='/listagem-quarto' element={<ListagemQuarto />} />      
         <Route path='/listagem-reserva' element={<ListagemReserva />} />
@@ -67,7 +70,9 @@ function Rotas(props) {
         <Route path='/listagem-tipo-produto' element={<ListagemTipoProduto />} />
         <Route path='/listagem-tipo-servico' element={<ListagemTipoServicos />} />
         <Route path='/listagem-avaliacao-quarto' element={<ListagemAvaliacaoQuarto />} />
+        <Route path='/listagem-avaliacao-quarto-hospedagem/:idParam?' element={<ListagemAvaliacaoQuartoHospedagem />} />
         <Route path='/listagem-avaliacao-hospedagem' element={<ListagemAvaliacaoHospedagem />} />
+        <Route path='/listagem-servicos-solicitados/:idParam?' element={<ListagemServicosSolicitados />} />
         
 
         <Route path='/cadastro-produto/:idParam?' element={<CadastroProduto />} /> 
@@ -86,10 +91,11 @@ function Rotas(props) {
 
         <Route path='/cadastro-tipo-produto/:idParam?' element={<CadastroTipoProduto />} />     
         <Route path='/cadastro-tipo-servicos/:idParam?' element={<CadastroTipoServico/>} />  
-        <Route path='/cadastro-tipo-quarto/:idParam?' element={<CadastroTipoQuarto />} />     
+        <Route path='/cadastro-tipo-quarto/:idParam?/:idParam2?' element={<CadastroTipoQuarto />} />     
         <Route path='/cadastro-tipo-cama/:idParam?' element={<CadastroTipoCama />} />   
         <Route path='/cadastro-tipo-comodidade/:idParam?' element={<CadastroTipoComodidade />} />   
-        <Route path='/cadastro-cargo/:idParam?' element={<CadastroCargo />} />        
+        <Route path='/cadastro-cargo/:idParam?' element={<CadastroCargo />} />         
+        <Route path='/cadastro-servico-solicitado/:idParam?' element={<CadastroServicoSolicitado />} />        
       </Routes>
     </BrowserRouter>
   );

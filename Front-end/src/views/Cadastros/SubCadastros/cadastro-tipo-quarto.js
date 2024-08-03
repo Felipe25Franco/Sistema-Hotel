@@ -20,10 +20,13 @@ import { URL_quarto, URL_comodidade, URL_tipoQuarto } from '../../../config/axio
 function CadastroTipoQuarto() {
   
   const { idParam } = useParams();
-
+  const { idParam2 } = useParams();
+  //console.log(idParam)
+  //console.log(idParam2)
+  //if(idParam2==1) {const vizualizar = true} else {const vizualizar = false};
   const navigate = useNavigate();
 
-  const baseURL = `${URL_quarto}/tipoQuarto`;
+  const baseURL = `${URL_quarto}/tipoQuartos`;
 
   const [id, setId] = useState(0);
   const [var1, setVar1] = useState('');//titulo
@@ -77,7 +80,15 @@ function CadastroTipoQuarto() {
     let data = {
       id,
       var1,
-      var2
+      var2,
+      var3,
+      var4,
+      var5,
+      var6,
+      var7,
+      var8,
+      tableData,
+      tableData2,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -131,7 +142,7 @@ function CadastroTipoQuarto() {
   const [dados2, setDados2] = React.useState(null); //tipo Produto
   
   useEffect(() => {
-    axios.get(`${URL_comodidade}/comodidade`).then((response) => {
+    axios.get(`${URL_comodidade}/comodidades`).then((response) => {
       setDados2(response.data);
     });
   }, []);
@@ -139,7 +150,7 @@ function CadastroTipoQuarto() {
   const [dados3, setDados3] = React.useState(null); //tipo Produto
   
   useEffect(() => {
-    axios.get(`${URL_quarto}/tipoCama`).then((response) => {
+    axios.get(`${URL_quarto}/tipoCamas`).then((response) => {
       setDados3(response.data);
     });
   }, []);
@@ -193,7 +204,7 @@ function CadastroTipoQuarto() {
             {tableData.map(row => (
               <tr key={row.id} className="table-light">
                 <td>
-                  <select
+                  <select  disabled={vizualizar()}
                     className='form-select'
                     value={row.tipoCama_id}
                     onChange={(e) => handleChange(row.id, 'tipoCama_id', e.target.value)}
@@ -225,7 +236,7 @@ function CadastroTipoQuarto() {
                   </select>
                 </td> */}
                 <td>
-                  <input 
+                  <input  readOnly={vizualizar()}
                     type='number' 
                     className='form-control'
                     value = {row.quantidade}
@@ -299,7 +310,7 @@ function CadastroTipoQuarto() {
             {tableData2.map(row => (
               <tr key={row.id} className="table-light">
                 <td>
-                  <select
+                  <select  disabled={vizualizar()}
                     className='form-select'
                     value={row.id_comodidade_id}
                     onChange={(e) => handleChange(row.id, 'id_comodidade_id', e.target.value)}
@@ -331,7 +342,7 @@ function CadastroTipoQuarto() {
                   </select>
                 </td> */}
                 <td>
-                  <input 
+                  <input  readOnly={vizualizar()}
                     type='number' 
                     className='form-control'
                     value = {row.qtd}
@@ -360,6 +371,9 @@ function CadastroTipoQuarto() {
     );
   };
 
+  function vizualizar() {return (idParam2 == 1 ? true : false)};
+  console.log(vizualizar())
+
   if (!dados) return null;
   if (!dados2) return null;
   if (!dados3) return null;
@@ -371,7 +385,8 @@ function CadastroTipoQuarto() {
           <div className='col-lg-12'>
             <div className='bs-component'>
               <FormGroup label='Título: *' htmlFor='inputTitulo'>
-                <input
+                <input 
+                  readOnly={vizualizar()}
                   type='text'
                   id='inputTitulo'
                   value={var1}
@@ -381,7 +396,8 @@ function CadastroTipoQuarto() {
                 />
               </FormGroup>
               <FormGroup label='Descrição: *' htmlFor='inputDescricao'>
-                <input
+                <input 
+                  readOnly={vizualizar()}
                   type='text'
                   id='inputDescricao'
                   value={var2}
@@ -391,7 +407,8 @@ function CadastroTipoQuarto() {
                 />
               </FormGroup>
               <FormGroup label='Limite de Adultos: *' htmlFor='inputLimiteAdulto'>
-                <input
+                <input 
+                  readOnly={vizualizar()}
                   type='text'
                   id='inputLimiteAdulto'
                   value={var3}
@@ -401,7 +418,8 @@ function CadastroTipoQuarto() {
                 />
               </FormGroup>
               <FormGroup label='Limite de Crianças: *' htmlFor='inputLimiteCrianca'>
-                <input
+                <input 
+                  readOnly={vizualizar()}
                   type='text'
                   id='inputLimiteCrianca'
                   value={var4}
@@ -411,7 +429,8 @@ function CadastroTipoQuarto() {
                 />
               </FormGroup>
               <FormGroup label='Preço base: *' htmlFor='inputPrecoBase'>
-                <input
+                <input 
+                  readOnly={vizualizar()}
                   type='text'
                   id='inputPrecoBase'
                   value={var5}
@@ -421,7 +440,8 @@ function CadastroTipoQuarto() {
                 />
               </FormGroup>
               <FormGroup label='Limite de dias para cancelamento de reserva: *' htmlFor='inputDiasCancelarReserva'>
-                <input
+                <input 
+                  readOnly={vizualizar()}
                   type='text'
                   id='inputDiasCancelarReserva'
                   value={var7}
@@ -431,7 +451,8 @@ function CadastroTipoQuarto() {
                 />
               </FormGroup>
               <FormGroup label='Área (m²): *' htmlFor='inputArea'>
-                <input
+                <input 
+                  readOnly={vizualizar()}
                   type='text'
                   id='inputArea'
                   value={var8}

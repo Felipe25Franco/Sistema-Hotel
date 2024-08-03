@@ -31,7 +31,7 @@ function CadastroHospedagem() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_hospedagem}/hospedagem`;
+  const baseURL = `${URL_hospedagem}/hospedagens`;
 
   const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');
@@ -57,6 +57,9 @@ function CadastroHospedagem() {
   const [tableData, setTableData] = useState([]);
   const [tableData2, setTableData2] = useState([]);
 
+  const [var20, setVar20] = useState(0);
+  const [var21, setVar21] = useState('');
+
   function inicializar() {
     if (idParam == null) {
       setId('');
@@ -80,6 +83,8 @@ function CadastroHospedagem() {
       setTableData([]);
       setVarListaProd([]);
       setTableData2([]);
+      setVar21('');
+      setVar20(0);
     } else {
       setId(dados.id);
       setVar0(dados.status);
@@ -102,6 +107,8 @@ function CadastroHospedagem() {
       setTableData(dados.listaQuartos);
       setVarListaProd(dados.produtoHospedagem);
       setTableData2(dados.produtoHospedagem);
+      setVar20(dados.nota);
+      setVar21(dados.comentario);
     }
   }
 
@@ -120,9 +127,14 @@ function CadastroHospedagem() {
       var9, 
       var10, 
       var11, 
-      var12, 
-      var14,
-      var15
+      var12,
+      var0, 
+      var13,
+      var15,
+      tableData,
+      tableData2,
+      var20,
+      var21
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -178,13 +190,15 @@ function CadastroHospedagem() {
       setTableData(dados.listaQuartos);
       setVarListaProd(dados.produtoHospedagem);
       setTableData2(dados.produtoHospedagem);
+      setVar20(dados.nota);
+      setVar21(dados.comentario);
     }
   }
 
   const [dados2, setDados2] = React.useState(null); //tipo Produto
   
   useEffect(() => {
-    axios.get(`${URL_status}/statusHospedagem`).then((response) => {
+    axios.get(`${URL_status}/statusHospedagens`).then((response) => {
       setDados2(response.data);
     });
   }, []);
@@ -192,7 +206,7 @@ function CadastroHospedagem() {
   const [dados3, setDados3] = React.useState(null); //tipo Produto
   
   useEffect(() => {
-    axios.get(`${URL_quarto}/quarto`).then((response) => {
+    axios.get(`${URL_quarto}/quartos`).then((response) => {
       setDados3(response.data);
     });
   }, []);
@@ -200,7 +214,7 @@ function CadastroHospedagem() {
   const [dados4, setDados4] = React.useState(null); //tipo Produto
   
   useEffect(() => {
-    axios.get(`${URL_quarto}/tipoQuarto`).then((response) => {
+    axios.get(`${URL_quarto}/tipoQuartos`).then((response) => {
       setDados4(response.data);
     });
   }, []);
@@ -208,7 +222,7 @@ function CadastroHospedagem() {
   const [dados5, setDados5] = React.useState(null); //tipo Produto
   
   useEffect(() => {
-    axios.get(`${URL_hotel}/hotel`).then((response) => {
+    axios.get(`${URL_hotel}/hoteis`).then((response) => {
       setDados5(response.data);
     });
   }, []);
@@ -216,7 +230,7 @@ function CadastroHospedagem() {
   const [dados6, setDados6] = React.useState(null); //tipo Produto
   
   useEffect(() => {
-    axios.get(`${URL_produto}/produto`).then((response) => {
+    axios.get(`${URL_produto}/produtos`).then((response) => {
       setDados6(response.data);
     });
   }, []);
@@ -507,7 +521,8 @@ function CadastroHospedagem() {
   if (!dados4) return null;
   if (!dados5) return null;
   if (!dados6) return null;
-  if (idParam>0) return (
+
+  if (idParam>0) return (//////////////////////pro edit, la embaixo tem pro novo
     <div className='container'>
       <Card title='Cadastro de Hospedagem'>
         <div className='row'>
@@ -701,7 +716,7 @@ function CadastroHospedagem() {
                   onChange={(e) => setVar11(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='ID reserva:' htmlFor='inputIDReserva'>
+              {/* <FormGroup label='ID reserva:' htmlFor='inputIDReserva'>
                 <input
                   type='text'
                   id='inputIDReserva'
@@ -710,7 +725,7 @@ function CadastroHospedagem() {
                   name='IDReserva'
                   onChange={(e) => setVar15(e.target.value)}
                 />
-              </FormGroup>
+              </FormGroup> */}
               {/* <FormGroup label='Valor do Consumo: *' htmlFor='inputValorConsumo'>
                 <input
                   type='number'
@@ -757,6 +772,28 @@ function CadastroHospedagem() {
                   <InteractiveTable2 />
                 </div>
               </div>
+              </FormGroup>
+              <b>Avaliação da Hospedagem</b>
+              <FormGroup label='Nota:' htmlFor='inputNota'>
+                <input
+                  type='number'
+                  id='inputNota'
+                  min = "0" max = "5" step = "1"
+                  value={var20}
+                  className='form-control'
+                  name='Nota'
+                  onChange={(e) => setVar20(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup label='Comentario:' htmlFor='inputComentario'>
+                <input
+                  type='text'
+                  id='inputComentario'
+                  value={var21}
+                  className='form-control'
+                  name='Comentario'
+                  onChange={(e) => setVar21(e.target.value)}
+                />
               </FormGroup>
 
               <br></br>
@@ -977,7 +1014,7 @@ return (
                 onChange={(e) => setVar11(e.target.value)}
               />
             </FormGroup>
-            <FormGroup label='ID reserva:' htmlFor='inputIDReserva'>
+            {/* <FormGroup label='ID reserva:' htmlFor='inputIDReserva'>
               <input
                 type='text'
                 id='inputIDReserva'
@@ -986,7 +1023,7 @@ return (
                 name='IDReserva'
                 onChange={(e) => setVar15(e.target.value)}
               />
-            </FormGroup>
+            </FormGroup> */}
             {/* <FormGroup label='Valor do Consumo: *' htmlFor='inputValorConsumo'>
               <input
                 type='number'

@@ -21,8 +21,8 @@ function CadastroComodidades() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${URL_comodidade}/comodidade`;
-  const url_tipo = `${URL_comodidade}/tipoComodidade`;
+  const baseURL = `${URL_comodidade}/comodidades`;
+  const url_tipo = `${URL_comodidade}/tipoComodidades`;
 
   const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');

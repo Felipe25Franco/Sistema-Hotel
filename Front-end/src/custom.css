@@ -65,3 +65,8 @@ pre {
 .dropdown-item{
   text-align: center;
 }
+
+/* Gabriel add pra qdo o mouse tiver em cima mudar curso pra pointer em algusn casos */
+.vizualizar {
+  cursor:pointer;
+}
