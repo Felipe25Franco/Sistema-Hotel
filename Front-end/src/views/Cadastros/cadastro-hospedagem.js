@@ -97,12 +97,12 @@ function CadastroHospedagem() {
       setVar7(dados.valorServicos);
       setVar8(dados.valorEstadiaAdicional);
       setVar9(dados.valorTotal);
-      setVar10(dados.cliente_id);
-      setVar11(dados.funcionario_id);
-      setVar12(dados.hotel_id);
-      setVar13(dados.avaliacoesHospedagem_id);
-      setVar14(dados.quartoHospedagem_id);
-      setVar15(dados.reserva_id);
+      setVar10(dados.idCliente);
+      setVar11(dados.idFuncionario);
+      setVar12(dados.idHotel);
+      setVar13(dados.idAvaliacoesHospedagem);
+      setVar14(dados.idQuartoHospedagem);
+      setVar15(dados.idReserva);
       setVar16(dados.listaQuartos);
       setTableData(dados.listaQuartos);
       setVarListaProd(dados.produtoHospedagem);
@@ -115,26 +115,25 @@ function CadastroHospedagem() {
   async function salvar() {
     let data = {
       id,
-      var0,
-      var1, 
-      var2, 
-      var3, 
-      var4, 
-      var5, 
-      var6, 
-      var7, 
-      var8, 
-      var9, 
-      var10, 
-      var11, 
-      var12,
-      var0, 
-      var13,
-      var15,
-      tableData,
-      tableData2,
-      var20,
-      var21
+      status:var0,
+      dataInicio:var1, 
+      dataFim1:var2, 
+      dataFim2:var3, 
+      valorEstadia:var4, 
+      statusValorEstadia:var5, 
+      valorConsumo:var6, 
+      valorServicos:var7, 
+      valorEstadiaAdicional:var8, 
+      valorTotal:var9, 
+      idCliente:var10, 
+      idFuncionario:var11, 
+      idHotel:var12,
+      idAvaliacoesHospedagem:var13,
+      idReserva:var15,
+      listaQuartos:tableData,
+      produtoHospedagem:tableData2,
+      nota:var20,
+      comentario:var21
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -180,12 +179,12 @@ function CadastroHospedagem() {
       setVar7(dados.valorServicos);
       setVar8(dados.valorEstadiaAdicional);
       setVar9(dados.valorTotal);
-      setVar10(dados.cliente_id);
-      setVar11(dados.funcionario_id);
-      setVar12(dados.hotel_id);
-      setVar13(dados.avaliacoesHospedagem_id);
-      setVar14(dados.quartoHospedagem_id);
-      setVar15(dados.reserva_id);
+      setVar10(dados.idCliente);
+      setVar11(dados.idFuncionario);
+      setVar12(dados.idHotel);
+      setVar13(dados.idAvaliacoesHospedagem);
+      setVar14(dados.idQuartoHospedagem);
+      setVar15(dados.idReserva);
       setVar16(dados.listaQuartos);
       setTableData(dados.listaQuartos);
       setVarListaProd(dados.produtoHospedagem);
@@ -246,7 +245,7 @@ function CadastroHospedagem() {
     const addRow = () => {
   
       const newRow = {
-        id: tableData.length + 1,
+        idRow: tableData.length + 1,
         tipoQuarto: "null",
         num: 0,
         qtd: 0
@@ -257,14 +256,16 @@ function CadastroHospedagem() {
   
     const removeRow = (id) => {
   
-      const updatedTableData = tableData.filter(row => row.id !== id);
-  
+      const updatedTableData = tableData.filter(row => row.idRow !== id);
+      for(let i =1;i<=updatedTableData.length;i++) {
+        updatedTableData[i-1].idRow = i;
+      }
       setTableData(updatedTableData);
     };
   
     const handleChange = (id, column, value) => {
       const updatedRows = tableData.map((row) =>
-        row.id === id ? { ...row, [column]: value } : row
+        row.idRow === id ? { ...row, [column]: value } : row
       );
       setTableData(updatedRows);
     };
@@ -283,12 +284,12 @@ function CadastroHospedagem() {
           </thead>
           <tbody>
             {tableData.map(row => (
-              <tr key={row.id} className="table-light">
+              <tr key={row.idRow} className="table-light">
                 <td>
                   <select
                     className='form-select'
                     value={row.tipoQuarto}
-                    onChange={(e) => handleChange(row.id, 'tipoQuarto', e.target.value)}
+                    onChange={(e) => handleChange(row.idRow, 'tipoQuarto', e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
@@ -304,7 +305,7 @@ function CadastroHospedagem() {
                   <select
                     className='form-select'
                     value={row.num}
-                    onChange={(e) => handleChange(row.id, 'num', e.target.value)}
+                    onChange={(e) => handleChange(row.idRow, 'num', e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
@@ -321,13 +322,13 @@ function CadastroHospedagem() {
                     type='number' 
                     className='form-control'
                     value = {row.qtd}
-                    onChange={(e) => handleChange(row.id, 'qtd', e.target.value)}>
+                    onChange={(e) => handleChange(row.idRow, 'qtd', e.target.value)}>
                   </input>
                 </td> */}
                 <td>
                   <IconButton
                     aria-label='delete'
-                    onClick={() => removeRow(row.id)}
+                    onClick={() => removeRow(row.idRow)}
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -354,8 +355,8 @@ function CadastroHospedagem() {
     const addRow = () => {
   
       const newRow = {
-        id: tableData2.length + 1,
-        produto_id: 0,
+        idRow: tableData2.length + 1,
+        idProduto: 0,
         quant: 0,
         valorTotal: 0
       };
@@ -366,8 +367,8 @@ function CadastroHospedagem() {
     const addRow0 = () => {
   
       const newRow = {
-        id: 1,
-        produto_id: 1,
+        idRow: 1,
+        idProduto: 1,
         quant: 0,
         valorTotal: 0
       };
@@ -377,19 +378,21 @@ function CadastroHospedagem() {
   
     const removeRow = (id) => {
   
-      const updatedTableData2 = tableData2.filter(row => row.id !== id);
-  
+      const updatedTableData2 = tableData2.filter(row => row.idRow !== id);
+      for(let i =1;i<=updatedTableData2.length;i++) {
+        updatedTableData2[i-1].idRow = i;
+      }
       setTableData2(updatedTableData2);
     };
   
     const handleChange = (id, column, value) => {
       let updatedRows = tableData2.map((row) =>
-        row.id === id ? { ...row, [column]: value} : row
+        row.idRow === id ? { ...row, [column]: value} : row
         // row.id === id ? { ...row, [column]: value, ['valorTotal']: row.quant*(dados6.find(obj => obj.id === row.produto_id).preco) } : row
       );
       updatedRows = updatedRows.map((row) =>
         // row.id === id ? { ...row, [column]: value} : row
-        row.id === id ? { ...row, ['valorTotal']: row.quant*(dados6.find(obj => obj.id == row.produto_id).preco) } : row
+        row.id === id ? { ...row, ['valorTotal']: row.quant*(dados6.find(obj => obj.idRow == row.idProduto).preco) } : row
       );
       setTableData2(updatedRows);
 
@@ -430,12 +433,12 @@ function CadastroHospedagem() {
           </thead>
           <tbody>
             {tableData2.map(row => (
-              <tr key={row.id} className="table-light">
+              <tr key={row.idRow} className="table-light">
                 <td>
                   <select
                     className='form-select'
-                    value={row.produto_id}
-                    onChange={(e) => handleChange(row.id, 'produto_id', e.target.value)}
+                    value={row.idProduto}
+                    onChange={(e) => handleChange(row.idRow, 'idProduto', e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
@@ -453,7 +456,7 @@ function CadastroHospedagem() {
                     className='form-control'
                     min = '1'
                     value = {row.quant}
-                    onChange={(e) => handleChange(row.id, 'quant', e.target.value)}>
+                    onChange={(e) => handleChange(row.idRow, 'quant', e.target.value)}>
                   </input>
                 </td>
                 <td>
@@ -462,10 +465,10 @@ function CadastroHospedagem() {
                     className='form-control'
                     //min = '1'
                     readOnly
-                    //value = {(row.find(obj => obj.id === row.id).quant)*(dados6.find(obj => obj.id === row.produto_id).preco)}
+                    //value = {(row.find(obj => obj.id === row.idRow).quant)*(dados6.find(obj => obj.id === row.produto_id).preco)}
                     //value = {row.valorTotal}
                     value = {row.valorTotal}
-                    //onChange={(e) => handleChange(row.id, 'valorTotal', e.target.value)}
+                    //onChange={(e) => handleChange(row.idRow, 'valorTotal', e.target.value)}
                     >
                   </input>
                 </td>
@@ -474,13 +477,13 @@ function CadastroHospedagem() {
                     type='number' 
                     className='form-control'
                     value = {row.qtd}
-                    onChange={(e) => handleChange(row.id, 'qtd', e.target.value)}>
+                    onChange={(e) => handleChange(row.idRow, 'qtd', e.target.value)}>
                   </input>
                 </td> */}
                 <td>
                   <IconButton
                     aria-label='delete'
-                    onClick={() => removeRow(row.id)}
+                    onClick={() => removeRow(row.idRow)}
                   >
                     <DeleteIcon />
                   </IconButton>

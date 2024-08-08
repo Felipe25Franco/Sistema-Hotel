@@ -79,7 +79,7 @@ function CadastroHotel() {
       setId(dados.id);
       setVar0(dados.titulo);
       setVar1(dados.descricao);
-      setVar2(dados.endereco_id);
+      setVar2(dados.idEndereco);
       setVar11("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
       setVar12(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
       
@@ -89,8 +89,8 @@ function CadastroHotel() {
       setVar8(dados.complemento);//com
       setVar9(dados.logradouro);//log
       setVar10(dados.bairro);//bai 
-      setVar22(dados.uf_id);//id uf
-      setVar23(dados.pais_id);//ud pais 
+      setVar22(dados.idUf);//id uf
+      setVar23(dados.idPais);//ud pais 
       setVar30(dados.avaliacaoMedia);
     }
   }
@@ -104,23 +104,23 @@ function CadastroHotel() {
     setVar46(var12.slice(4,var12.length));
     let data = {
       id,
-      var0,
-      var1,
-      var30,
-      var41,
-      var42,
-      var43,
-      var44,
-      var45,
-      var46,
-      var7,
-      var8,
-      var9,
-      var10,
-      var6,
-      var5,
-      var22,
-      var23,
+      titulo:var0,
+      descricao:var1,
+      avaliacaoMedia:var30,
+      ddi1:var41,
+      ddd1:var42,
+      num1:var43,
+      ddi2:var44,
+      ddd2:var45,
+      num2:var46,
+      numero:var7,
+      complemento:var8,
+      logradouro:var9,
+      bairro:var10,
+      cep:var6,
+      cidade:var5,
+      idUf:var22,
+      idPais:var23,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -158,7 +158,7 @@ function CadastroHotel() {
       setId(dados.id);
       setVar0(dados.titulo);
       setVar1(dados.descricao);
-      setVar2(dados.endereco_id);
+      setVar2(dados.idEndereco);
       setVar11("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
       setVar12(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
       
@@ -168,8 +168,8 @@ function CadastroHotel() {
       setVar8(dados.complemento);//com
       setVar9(dados.logradouro);//log
       setVar10(dados.bairro);//bai 
-      setVar22(dados.UF_id);//id uf
-      setVar23(dados.pais_id);//ud pais 
+      setVar22(dados.idUf);//id uf
+      setVar23(dados.idPais);//ud pais 
     }
   }
   

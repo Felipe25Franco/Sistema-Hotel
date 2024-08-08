@@ -44,17 +44,17 @@ function CadastroCargo() {
        setVar0(dados.cargo);
        setVar1(dados.descricao);
        setVar2(dados.salarioBase);
-       setVar3(dados.hotel_id);
+       setVar3(dados.idHotel);
      }
    }
  
    async function salvar() {
      let data = {
        id,
-       var0,
-       var1,
-       var2,
-       var3,
+       cargo:var0,
+       descricao:var1,
+       salarioBase:var2,
+       idHotel:var3,
      };
      data = JSON.stringify(data);
      if (idParam == null) {
@@ -93,7 +93,7 @@ function CadastroCargo() {
        setVar0(dados.cargo);
        setVar1(dados.descricao);
        setVar2(dados.salarioBase);
-       setVar3(dados.hotel_id);
+       setVar3(dados.idHotel);
      }
    }
  

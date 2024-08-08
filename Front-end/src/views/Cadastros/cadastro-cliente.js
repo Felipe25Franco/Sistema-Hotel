@@ -85,7 +85,7 @@ function CadastroCliente() {
       setId(dados.id);
       setVar0(dados.cpf);
       setVar1(dados.nome);
-      setVar2(dados.dataNacimento);
+      setVar2(dados.dataNascimento);
       setVar11(dados.email);
       setVar12(dados.senha);
       setVar13(dados.senha);
@@ -99,8 +99,8 @@ function CadastroCliente() {
       setVar8(dados.complemento);//com
       setVar9(dados.logradouro);//log
       setVar10(dados.bairro);//bai 
-      setVar17(dados.uf_id);//id uf
-      setVar18(dados.pais_id);//ud pais 
+      setVar17(dados.idUf);//id uf
+      setVar18(dados.idPais);//ud pais 
     }
   }
 
@@ -113,25 +113,25 @@ function CadastroCliente() {
     setVar46(var15.slice(4,var15.length));
     let data = {
       id,
-      var1,
-      var0,
-      var2,
-      var11,
-      var12,
-      var41,
-      var42,
-      var43,
-      var44,
-      var45,
-      var46,
-      var7,
-      var8,
-      var9,
-      var10,
-      var6,
-      var5,
-      var17,
-      var18,
+      nome:var1,
+      cpf:var0,
+      dataNascimento:var2,
+      email:var11,
+      senha:var12,
+      ddi1:var41,
+      ddd1:var42,
+      num1:var43,
+      ddi2:var44,
+      ddd2:var45,
+      num2:var46,
+      numero:var7,
+      complemento:var8,
+      logradouro:var9,
+      bairro:var10,
+      cep:var6,
+      cidade:var5,
+      idUf:var17,
+      idPais:var18,
       //completar aqiiioaisaisaa
     };
     data = JSON.stringify(data);
@@ -171,7 +171,7 @@ function CadastroCliente() {
       setId(dados.id);
       setVar0(dados.cpf);
       setVar1(dados.nome);
-      setVar2(dados.dataNacimento);
+      setVar2(dados.dataNascimento);
       setVar11(dados.email);
       setVar12(dados.senha);
       setVar13(dados.senha);
@@ -185,8 +185,8 @@ function CadastroCliente() {
       setVar8(dados.complemento);//com
       setVar9(dados.logradouro);//log
       setVar10(dados.bairro);//bai 
-      setVar17(dados.UF_id);//id uf
-      setVar18(dados.pais_id);//ud pais 
+      setVar17(dados.idUf);//id uf
+      setVar18(dados.idPais);//ud pais 
 
     }
   }
@@ -232,7 +232,7 @@ function CadastroCliente() {
             <div className='bs-component'>
             <FormGroup label='CPF: *' htmlFor='inputCPF'>
               <input
-                type='number'
+                type='text'
                 id='inputCPF'
                 value={var0}
                 className='form-control'
@@ -332,7 +332,7 @@ function CadastroCliente() {
               </FormGroup>
               <FormGroup label='Complemento: ' htmlFor='inputComplemento'>
                 <input
-                  type='number'
+                  type='text'
                   id='inputComplemento'
                   value={var8}
                   className='form-control'

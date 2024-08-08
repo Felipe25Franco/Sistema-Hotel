@@ -9,106 +9,88 @@ import { URL_quarto } from '../config/axios';
 
 
 
-const InteractiveTable = () => {
+function InteractiveTable({tableData, infoTable}) {
 
-  const [dados3, setDados3] = React.useState(null); //tipo Produto
+  //let infoTable =[{head:"Título", prop:"titulo", initial:"", type: "text", extraData: null},{head:"Quantidade", prop:"qtd", initial:0, type: "number", extraData: null}];
   
-  useEffect(() => {
-    axios.get(`${URL_quarto}/quarto`).then((response) => {
-      setDados3(response.data);
-    });
-  }, []);
-
-  const [dados4, setDados4] = React.useState(null); //tipo Produto
-
-  useEffect(() => {
-    axios.get(`${URL_quarto}/tipoQuarto`).then((response) => {
-      setDados4(response.data);
-    });
-  }, []);
-
-  const [tableData, setTableData] = useState([]);
-
   const addRow = () => {
 
-    const newRow = {
-      id: tableData.length + 1,
-      tipoQuarto: "null",
-      num: 0,
-      quantidade: 0
-    };
+    // const newRow2 = {
+    //   id: tableData.length + 1,
+    //   tipoQuarto: "null",
+    //   num: 0,
+    //   quantidade: 0
+    // };
 
-    setTableData([...tableData, newRow]);
+    const newRow = {};
+    newRow.id = tableData.length + 1;
+    for (const element of infoTable) {
+      newRow[infoTable.prop] = infoTable.initial;
+    }
+
+    tableData = ([...tableData, newRow]);
   };
 
   const removeRow = (id) => {
 
     const updatedTableData = tableData.filter(row => row.id !== id);
 
-    setTableData(updatedTableData);
+    tableData = (updatedTableData);
   };
 
   const handleChange = (id, column, value) => {
     const updatedRows = tableData.map((row) =>
       row.id === id ? { ...row, [column]: value } : row
     );
-    setTableData(updatedRows);
+    tableData = (updatedRows);
   };
-
+  if(!tableData) return null;
   return (
     <div>
       <table className="table table-hover">
         <thead>
           <tr>
-            <th scope="col">Tipo</th>
-            <th scope="col">Nº</th>
-            <th scope="col">Quantidade</th>
+            {infoTable.map(obj =>(<th scope="col">{obj.head}</th>))}
             <th scope="col">Ações</th>
           </tr>
         </thead>
         <tbody>
           {tableData.map(row => (
             <tr key={row.id} className="table-light">
-              <td>
-                <select
-                  className='form-select'
-                  value={row.tipoQuarto}
-                  onChange={(e) => handleChange(row.id, 'tipoQuarto', e.target.value)}
-                >
-                  <option key='0' value='0'>
-                    {' '}
-                  </option>
-                  {dados4.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
-                      {dado.titulo}
-                    </option>
-                  ))}
-                </select>
-              </td>
-              <td>
-                <select
-                  className='form-select'
-                  value={row.num}
-                  onChange={(e) => handleChange(row.id, 'num', e.target.value)}
-                >
-                  <option key='0' value='0'>
-                    {' '}
-                  </option>
-                  {dados3.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
-                      {dado.numero}
-                    </option>
-                  ))}
-                </select>
-              </td>
-              <td>
-                <input 
-                  type='number' 
-                  className='form-control'
-                  value = {row.quantidade}
-                  onChange={(e) => handleChange(row.id, 'quantidade', e.target.value)}>
-                </input>
-              </td>
+              {()=> 
+                {
+                  for (const obj of infoTable) {
+                    if(!obj.type==="select") {
+                      <td>
+                        <input 
+                          type={obj.type}
+                          className='form-control'
+                          value = {row[obj.prop]}
+                          onChange={(e) => handleChange(row.id, obj.prop, e.target.value)}>
+                        </input>
+                      </td>
+                    }
+                    else {
+                      <td>
+                        <select
+                          className='form-select'
+                          value={row[obj.prop]}
+                          onChange={(e) => handleChange(row.id, obj.prop, e.target.value)}
+                        >
+                          <option key='0' value='0'>
+                            {' '}
+                          </option>
+                          {obj.extraData.map((dado) => (
+                            <option key={dado.id} value={dado.id}>
+                              {dado.titulo}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                    }
+                  }
+                }
+              }
               <td>
                 <IconButton
                   aria-label='delete'

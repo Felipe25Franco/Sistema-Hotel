@@ -54,21 +54,20 @@ function CadastroQuarto() {
       setVar1(dados.andar);
       setVar2(dados.bloco);
       setVar3(dados.status);
-      setVar4(dados.hotel_id);
-      setVar5(dados.tipoQuarto_id);
+      setVar4(dados.idHotel);
+      setVar5(dados.idTipoQuarto);
     }
   }
 
   async function salvar() {
     let data = {
       id,
-      var0,
-      var1,
-      var2,
-      var3,
-      var4,
-      var5,
-      var3,
+      numero:var0,
+      andar:var1,
+      bloco:var2,
+      status:var3,
+      idHotel:var4,
+      idTipoQuarto:var5
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -108,8 +107,8 @@ function CadastroQuarto() {
       setVar1(dados.andar);
       setVar2(dados.bloco);
       setVar3(dados.status);
-      setVar4(dados.hotel_id);
-      setVar5(dados.tipoQuarto_id);
+      setVar4(dados.idHotel);
+      setVar5(dados.idTipoQuarto);
     }
   }
 

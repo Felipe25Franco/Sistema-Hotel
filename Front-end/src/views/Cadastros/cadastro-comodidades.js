@@ -41,16 +41,16 @@ function CadastroComodidades() {
       setId(dados.id);
       setVar0(dados.titulo);
       setVar1(dados.descricao);
-      setVar2(dados.tipoComodidade_id);
+      setVar2(dados.idTipoComodidade);
     }
   }
 
   async function salvar() {
     let data = {
       id,
-      var0,
-      var1,
-      var2
+      titulo:var0,
+      descricao:var1,
+      idTipoComodidade:var2
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -88,7 +88,7 @@ function CadastroComodidades() {
       setId(dados.id);
       setVar0(dados.titulo);
       setVar1(dados.descricao);
-      setVar2(dados.tipoComodidade_id);
+      setVar2(dados.idTipoComodidade);
     }
   }
   

@@ -59,8 +59,8 @@ function CadastroServicos() {
        setVar2(dados.valorhorario);
        setVar3(dados.status);
        setVar4(dados.tipoReserva);
-       setVar5(dados.hotel_id);
-       setVar6(dados.tipoServico_id);
+       setVar5(dados.idHotel);
+       setVar6(dados.idTipoServico);
        setHorarios(dados.horarioServico);
      }
    }
@@ -68,14 +68,14 @@ function CadastroServicos() {
    async function salvar() {
      let data = {
        id,
-       var0,
-       var1,
-       var3,
-       var2,
-       var4,
-       var5,
-       var6,
-       horarios
+       titulo:var0,
+       descricao:var1,
+       status:var3,
+       valorhorario:var2,
+       tipoReserva:var4,
+       idHotel:var5,
+       idTipoServico:var6,
+       horarioServico:horarios
      };
      data = JSON.stringify(data);
      if (idParam == null) {

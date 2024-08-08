@@ -1,5 +1,6 @@
 package com.example.SCHapi.api.controller.Estadia;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import com.example.SCHapi.api.dto.Estadia.ReservaDTO;
 import com.example.SCHapi.api.dto.Estadia.Lista.TipoQuartoReservaDTOList;
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.Reserva;
+import com.example.SCHapi.model.entity.Estadia.StatusHospedagem;
 import com.example.SCHapi.model.entity.Estadia.StatusReserva;
 import com.example.SCHapi.model.entity.Estadia.Lista.TipoQuartoReserva;
 import com.example.SCHapi.model.entity.Pessoa.Cliente;
@@ -39,8 +41,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/reservas")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class ReservaController {
     private final ReservaService service;
     private final ClienteService clienteService;
@@ -96,16 +98,12 @@ public class ReservaController {
         try {
             Reserva reserva = converter(dto);
             reserva.setId(id);
-            // excluir a lista antiga de TipoQUarto
-            for (TipoQuartoReserva tipoQuartoReserva : service.getReservaById(id).get().getTipoQuartoReserva()){
-                tipoQuartoReservaService.excluir(tipoQuartoReserva);
-            }
-            service.salvar(reserva);
-            // Salvar os novos TipoQUarto
+            //converter lista de tipoquartoresrva
+            List<TipoQuartoReserva> tipoQuartoReservas = new ArrayList<TipoQuartoReserva>();
             for (TipoQuartoReservaDTOList tipoQuartoReservaDto : dto.getListaQuartos()) {
-                TipoQuartoReserva tipoQuartoReserva = converterTipoQuartoReserva(tipoQuartoReservaDto, reserva.getId());
-                tipoQuartoReservaService.salvar(tipoQuartoReserva);
+                tipoQuartoReservas.add(converterTipoQuartoReserva(tipoQuartoReservaDto, reserva.getId()));
             }
+            service.salvarFull(reserva, tipoQuartoReservas);
             return ResponseEntity.ok(reserva);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -127,6 +125,7 @@ public class ReservaController {
     }
 
     public Reserva converter(ReservaDTO dto) {
+        System.out.println(dto);
         ModelMapper modelMapper = new ModelMapper();
         Reserva reserva = modelMapper.map(dto, Reserva.class);
         if (dto.getIdCliente() != null) {
@@ -153,12 +152,12 @@ public class ReservaController {
                 reserva.setFuncionario(funcionario.get());
             }
         }
-        if (dto.getIdStatusReserva() != null) {
-            Optional<StatusReserva> statusreserva = statusreservaService.getStatusReservaById(dto.getIdStatusReserva());
-            if (!statusreserva.isPresent()) {
+        if (dto.getStatus() != null) {
+            Optional<StatusReserva> statusReserva = statusreservaService.getStatusReservaById(dto.getStatus());
+            if (!statusReserva.isPresent()) {
                 reserva.setStatusReserva(null);
             } else {
-                reserva.setStatusReserva(statusreserva.get());
+                reserva.setStatusReserva(statusReserva.get());
             }
         }
         return reserva;
@@ -167,6 +166,7 @@ public class ReservaController {
     public TipoQuartoReserva converterTipoQuartoReserva(TipoQuartoReservaDTOList dto, Long reservaId) {
         ModelMapper modelMapper = new ModelMapper();
         TipoQuartoReserva tipoQuartoReserva = modelMapper.map(dto, TipoQuartoReserva.class);
+        tipoQuartoReserva.setId(null);
         if (reservaId != null) {
             Optional<Reserva> reserva = service.getReservaById(reservaId);
             if (!reserva.isPresent()) {

@@ -41,6 +41,7 @@ public class HotelDTO {
         
         dto.id = hotel.getId();
         dto.descricao = hotel.getDescricao();
+        dto.titulo = hotel.getTitulo();
         dto.id = hotel.getId();
         // dto.idUf = hotel.getUf().getId();
         // dto.idPais = hotel.getPais().getId();

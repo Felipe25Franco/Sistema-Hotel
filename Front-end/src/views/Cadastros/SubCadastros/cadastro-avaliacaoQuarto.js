@@ -43,20 +43,22 @@ function CadastroAvaliacaoQuarto() {
       setId(dados.id);
       setVar0(dados.nota);
       setVar1(dados.comentario);
-      setVar2(dados.tipoQuarto_id);
-      setVar3(dados.hospedagem_id);
+      setVar2(dados.idTipoQuarto);
+      setVar3(dados.idHospedagem);
     }
   }
 
   async function salvar() {
     let data = {
       id,
-      var0,
-      var1,
-      var2,
-      var3,
+      nota:var0,
+      comentario:var1,
+      idTipoQuarto:var2,
+      idHospedagem:var3,
     };
     data = JSON.stringify(data);
+    console.log("teste data");
+    console.log(data);
     if (idParam == null) {
       await axios
         .post(baseURL, data, {
@@ -64,7 +66,7 @@ function CadastroAvaliacaoQuarto() {
         })
         .then(function (response) {
           mensagemSucesso(`Avaliação cadastrada com sucesso!`);
-          navigate(`/listagem-avaliacao-quarto`);
+          navigate(`/listagem-avaliacao-quarto-hospedagem/${dados.idHospedagem}`);
         })
         .catch(function (error) {
           mensagemErro(error.response.data);
@@ -76,7 +78,7 @@ function CadastroAvaliacaoQuarto() {
         })
         .then(function (response) {
           mensagemSucesso(`Avaliação alterada com sucesso!`);
-          navigate(`/listagem-avaliacao-quarto`);
+          navigate(`/listagem-avaliacao-quarto-hospedagem/${dados.idHospedagem}`);
         })
         .catch(function (error) {
           mensagemErro(error.response.data);
@@ -92,8 +94,8 @@ function CadastroAvaliacaoQuarto() {
       setId(dados.id);
       setVar0(dados.nota);
       setVar1(dados.comentario);
-      setVar2(dados.tipoQuarto_id);
-      setVar3(dados.hospedagem_id);
+      setVar2(dados.idTipoQuarto);
+      setVar3(dados.idHospedagem);
     }
   }
 

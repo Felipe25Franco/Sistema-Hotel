@@ -51,20 +51,20 @@ function CadastroProduto() {
       setVar1(dados.descricao);
       setVar2(dados.preco);
       setVar3(dados.quantidadeestoque);
-      setVar4(dados.tipoProduto_id);
-      setVar5(dados.hotel_id);
+      setVar4(dados.idTipoProduto);
+      setVar5(dados.idHotel);
     }
   }
 
   async function salvar() {
     let data = {
       id,
-      var0,
-      var1,
-      var2,
-      var3,
-      var5,
-      var4,
+      titulo: var0,
+      descricao: var1,
+      preco: var2,
+      quantidadeestoque: var3,
+      idHotel: var5,
+      idTipoProduto: var4,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -104,8 +104,8 @@ function CadastroProduto() {
       setVar1(dados.descricao);
       setVar2(dados.preco);
       setVar3(dados.quantidadeestoque);
-      setVar4(dados.tipoProduto_id);
-      setVar5(dados.hotel_id);
+      setVar4(dados.idTipoProduto);
+      setVar5(dados.idHotel);
     }
   }
 
@@ -181,7 +181,7 @@ function CadastroProduto() {
               </FormGroup>
               <FormGroup label='Preço: *' htmlFor='inputPreco'>
                 <input
-                  type='text'
+                  type='number'
                   id='inputPreco'
                   value={var2}
                   className='form-control'

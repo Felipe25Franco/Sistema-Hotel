@@ -114,12 +114,12 @@ function CadastroFuncionario() {
       setVar8(dados.complemento);//com
       setVar9(dados.logradouro);//log
       setVar10(dados.bairro);//bai 
-      setVar22(dados.uf_id);//id uf
-      setVar23(dados.pais_id);//ud pais 
+      setVar22(dados.idUf);//id uf
+      setVar23(dados.idPais);//ud pais 
 
-      setVar19(dados.endereco_id);
-      setVar20(dados.hotel_id);
-      setVar21(dados.cargo_id);
+      setVar19(dados.idEndereco);
+      setVar20(dados.idHotel);
+      setVar21(dados.idCargo);
     }
   }
 
@@ -132,30 +132,30 @@ function CadastroFuncionario() {
     setVar46(var15.slice(4,var15.length));
     let data = {
       id,
-      var1,
-      var0,
-      var2,
-      var11,
-      var12,
-      var18,
-      var16,
-      var17,
-      var41,
-      var42,
-      var43,
-      var44,
-      var45,
-      var46,
-      var7,
-      var8,
-      var9,
-      var10,
-      var6,
-      var5,
-      var22,
-      var23,
-      var20,
-      var21,
+      nome:var1,
+      cpf:var0,
+      dataNacimento:var2,
+      email:var11,
+      senha:var12,
+      salario:var18,
+      horaInicio:var16,
+      horaFim:var17,
+      ddi1:var41,
+      ddd1:var42,
+      num1:var43,
+      ddi2:var44,
+      ddd2:var45,
+      num2:var46,
+      numero:var7,
+      complemento:var8,
+      logradouro:var9,
+      bairro:var10,
+      cep:var6,
+      cidade:var5,
+      idUf:var22,
+      idPais:var23,
+      idHotel:var20,
+      idCargo:var21,
       //tem q arrumar ainda
     };
     data = JSON.stringify(data);
@@ -213,12 +213,12 @@ function CadastroFuncionario() {
       setVar8(dados.complemento);//com
       setVar9(dados.logradouro);//log
       setVar10(dados.bairro);//bai 
-      setVar22(dados.UF_id);//id uf
-      setVar23(dados.pais_id);//ud pais 
+      setVar22(dados.idUf);//id uf
+      setVar23(dados.idPais);//ud pais 
 
-      setVar19(dados.endereco_id);
-      setVar20(dados.hotel_id);
-      setVar21(dados.cargo_id);
+      setVar19(dados.idEndereco);
+      setVar20(dados.idHotel);
+      setVar21(dados.idCargo);
     }
   }
   

@@ -41,16 +41,16 @@ function CadastroAvaliacaoHospedagem() {
       setId(dados.id);
       setVar0(dados.nota);
       setVar1(dados.comentario);
-      setVar2(dados.hotel_id);
+      setVar2(dados.idHotel);
     }
   }
 
   async function salvar() {
     let data = {
       id,
-      var0,
-      var1,
-      var2,
+      nota:var0,
+      comentario:var1,
+      idHotel:var2,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -88,7 +88,7 @@ function CadastroAvaliacaoHospedagem() {
       setId(dados.id);
       setVar0(dados.nota);
       setVar1(dados.comentario);
-      setVar2(dados.hotel_id);
+      setVar2(dados.idHotel);
     }
   }
 

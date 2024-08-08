@@ -6,10 +6,9 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 
+import InteractiveTable from '../../components/interactiveTable';
 import Card from '../../components/card';
-
 import FormGroup from '../../components/form-group';
-
 import { mensagemSucesso, mensagemErro } from '../../components/toastr';
 
 import '../../custom.css';
@@ -30,7 +29,7 @@ function CadastroReserva() {
   const [var0, setVar0] = useState('');
   const [var1, setVar1] = useState('');
   const [var2, setVar2] = useState('');
-  const [var3, setVar3] = useState('');
+  const [var3, setVar3] = useState(0);
   const [var4, setVar4] = useState('');
   const [var5, setVar5] = useState('');
   const [var6, setVar6] = useState('');
@@ -57,12 +56,12 @@ function CadastroReserva() {
       setVar0(dados.status);
       setVar1(dados.dataInicio);
       setVar2(dados.dataFim);
-      setVar3(dados.valorResrva);
-      setVar4(dados.cliente_id);
-      setVar5(dados.funcionario_id);
-      setVar6(dados.hotel_id);
-      setVar7(dados.hospedagem_id);
-      setVar8(dados.tipoQuarto_id);
+      setVar3(dados.valorReserva);
+      setVar4(dados.idCliente);
+      setVar5(dados.idFuncionario);
+      setVar6(dados.idHotel);
+      setVar7(dados.idHospedagem);
+      setVar8(dados.idTipoQuarto);
       setTableData(dados.listaQuartos);
     }
   }
@@ -70,17 +69,18 @@ function CadastroReserva() {
   async function salvar() {
     let data = {
       id,
-      var0,
-      var1,
-      var2,
-      var3,
-      var4,
-      var5,
-      var6,
-      var0,
-      tableData,
+      status:var0,
+      dataInicio:var1,
+      dataFim:var2,
+      valorReserva:var3,
+      idCliente:var4,
+      idFuncionario:var5,
+      idHotel:var6,
+      idHospedagem:var0,
+      listaQuartos:tableData,
     };
     data = JSON.stringify(data);
+    console.log(data)
     if (idParam == null) {
       await axios
         .post(baseURL, data, {
@@ -117,13 +117,18 @@ function CadastroReserva() {
       setVar0(dados.status);
       setVar1(dados.dataInicio);
       setVar2(dados.dataFim);
-      setVar3(dados.valorResrva);
-      setVar4(dados.cliente_id);
-      setVar5(dados.funcionario_id);
-      setVar6(dados.hotel_id);
-      setVar7(dados.hospedagem_id);
-      setVar8(dados.tipoQuarto_id);
+      setVar3(dados.valorReserva);
+      setVar4(dados.idCliente);
+      setVar5(dados.idFuncionario);
+      setVar6(dados.idHotel);
+      setVar7(dados.idHospedagem);
+      setVar8(dados.idTipoQuarto);
       setTableData(dados.listaQuartos);
+      //console.log(tableData);
+      // for(let i =1;i<=tableData.length;i++) {
+      //   tableData[i].id = null;
+      // }
+      // console.log(tableData);
     }
   }
 
@@ -156,16 +161,17 @@ function CadastroReserva() {
     buscar(); // eslint-disable-next-line
   }, [id]);
   
+
+
   //tabela interativa------------------------------------------------
-  const InteractiveTable = () => {
+  const InteractiveTableHold = () => {
     // const [tableData, setTableData] = useState([]);
     // setTableData = var16;
     const addRow = () => {
   
       const newRow = {
-        id: tableData.length + 1,
+        idRow: tableData.length + 1,
         tipoQuarto: "null",
-        num: 0,
         qtd: 0
       };
   
@@ -173,20 +179,27 @@ function CadastroReserva() {
     };
   
     const removeRow = (id) => {
-  
-      const updatedTableData = tableData.filter(row => row.id !== id);
+      // console.log(tableData);
+
+      const updatedTableData = tableData.filter(row => row.idRow !== id);
+      //acertar idRow da tabela inteira
+      for(let i =1;i<=updatedTableData.length;i++) {
+        updatedTableData[i-1].idRow = i;
+      }
+      //console.log(updatedTableData);
   
       setTableData(updatedTableData);
     };
   
     const handleChange = (id, column, value) => {
       const updatedRows = tableData.map((row) =>
-        row.id === id ? { ...row, [column]: value } : row
+        row.idRow === id ? { ...row, [column]: value } : row
       );
       setTableData(updatedRows);
     };
   
     if (!tableData) return null;
+    //console.log(tableData)
     if (!validarHotel(var6) && idParam==null) return <div>Selecione um Hotel primeiro</div>;
     if (!validarData(var1, var2) && idParam==null) return <div>Selecione um período de estadia válido</div>;
     return (
@@ -202,12 +215,12 @@ function CadastroReserva() {
           </thead>
           <tbody>
             {tableData.map(row => (
-              <tr key={row.id} className="table-light">
+              <tr key={row.idRow} className="table-light">
                 <td>
                   <select
                     className='form-select'
                     value={row.tipoQuarto}
-                    onChange={(e) => handleChange(row.id, 'tipoQuarto', e.target.value)}
+                    onChange={(e) => handleChange(row.idRow, 'tipoQuarto', e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
@@ -223,7 +236,7 @@ function CadastroReserva() {
                   <select
                     className='form-select'
                     value={row.num}
-                    onChange={(e) => handleChange(row.id, 'num', e.target.value)}
+                    onChange={(e) => handleChange(row.idRow, 'num', e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
@@ -240,13 +253,13 @@ function CadastroReserva() {
                     type='number' 
                     className='form-control'
                     value = {row.qtd}
-                    onChange={(e) => handleChange(row.id, 'qtd', e.target.value)}>
+                    onChange={(e) => handleChange(row.idRow, 'qtd', e.target.value)}>
                   </input>
                 </td>
                 <td>
                   <IconButton
                     aria-label='delete'
-                    onClick={() => removeRow(row.id)}
+                    onClick={() => removeRow(row.idRow)}
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -333,15 +346,16 @@ function CadastroReserva() {
               </FormGroup>
               
               <FormGroup label='Quartos: *' htmlFor='selectQuartos'>
-              <div class="card">
-                <div class="card-body">
-                  <InteractiveTable />
+              <div className="card">
+                <div className="card-body">
+                  <InteractiveTableHold/>
+                  {/* <InteractiveTable tableData = {tableData} infoTable={[{head:"Tipo", prop:"tipoQuarto", initial:null, type: "select", extraData: null},{head:"Quantidade", prop:"qtd", initial:0, type: "number", extraData: null}]}/> */}
                 </div>
               </div>
               </FormGroup>
               <FormGroup label='Valor da Reserva: *' htmlFor='inputValorResrva'>
                 <input
-                  type='text'
+                  type='number'
                   id='inputValorResrva'
                   value={var3}
                   className='form-control'
