@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.example.SCHapi.exception.RegraNegocioException;
+import com.example.SCHapi.model.entity.*;
 import com.example.SCHapi.model.entity.Pessoa.Cargo;
 import com.example.SCHapi.model.entity.Pessoa.Endereco;
 import com.example.SCHapi.model.entity.Pessoa.Funcionario;
@@ -15,6 +16,7 @@ import com.example.SCHapi.model.entity.Pessoa.Uf;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
+import com.example.SCHapi.api.dto.Pessoa.ClienteDTO;
 import com.example.SCHapi.api.dto.Pessoa.FuncionarioDTO;
 import com.example.SCHapi.service.Pessoa.CargoService;
 import com.example.SCHapi.service.Pessoa.EnderecoService;
@@ -29,8 +31,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/funcionarios")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class FuncionarioController {
 
     private final FuncionarioService service;

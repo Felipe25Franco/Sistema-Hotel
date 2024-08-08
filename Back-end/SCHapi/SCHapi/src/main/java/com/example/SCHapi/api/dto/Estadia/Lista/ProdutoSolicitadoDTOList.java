@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProdutoSolicitadoDTOList {
     private Long id;
+    private Long idRow;
     private Integer quant;
     private Float valorTotal;
     private Long idProduto;
@@ -29,8 +30,11 @@ public class ProdutoSolicitadoDTOList {
 
     public static List<ProdutoSolicitadoDTOList> createList (List<ProdutoSolicitado> list) {
         List<ProdutoSolicitadoDTOList> listDto = new ArrayList<ProdutoSolicitadoDTOList>();
+        Long idRow = (long) 0; // esse ide é pra padronizar o id da tabla no front pois o id original nao importa
         for (ProdutoSolicitado produtoSolicitado : list) {
             listDto.add(ProdutoSolicitadoDTOList.create(produtoSolicitado));
+            idRow++;
+            listDto.getLast().setIdRow(idRow);
         }
         return listDto;
     }

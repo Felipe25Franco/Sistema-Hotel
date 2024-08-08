@@ -1,11 +1,15 @@
 package com.example.SCHapi.api.controller.Estadia.Lista;
 
+import com.example.SCHapi.api.dto.Estadia.HospedagemDTO;
+import com.example.SCHapi.api.dto.Estadia.Lista.ProdutoSolicitadoDTOList;
 import com.example.SCHapi.api.dto.Estadia.Lista.ServicoSolicitadoDTO;
 import com.example.SCHapi.api.dto.Servico.Lista.RelacaoHorarioServicoDTOList;
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.Hospedagem;
+import com.example.SCHapi.model.entity.Estadia.Lista.ProdutoSolicitado;
+import com.example.SCHapi.model.entity.Estadia.Lista.QuartoHospedagem;
 import com.example.SCHapi.model.entity.Estadia.Lista.ServicoSolicitado;
-
+import com.example.SCHapi.model.entity.Produto.Produto;
 import com.example.SCHapi.model.entity.Servico.HorarioServico;
 import com.example.SCHapi.model.entity.Servico.Servico;
 import com.example.SCHapi.model.entity.Servico.Lista.RelacaoHorarioServico;
@@ -30,8 +34,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/servicoSolicitados")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class ServicoSolicitadoController {
 
     private final ServicoSolicitadoService service;

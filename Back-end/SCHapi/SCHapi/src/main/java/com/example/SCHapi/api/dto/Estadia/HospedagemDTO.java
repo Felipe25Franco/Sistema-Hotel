@@ -72,7 +72,7 @@ public class HospedagemDTO {
         this.listaQuartos = new ArrayList<QuartoHospedagemDTOList>();
         for (TipoQuartoReserva tipoQuarto: listaQuartos){
             for(int i = 1;i<=tipoQuarto.getQtd();i++){
-                this.listaQuartos.add(new QuartoHospedagemDTOList(null, tipoQuarto.getTipoQuarto().getId(), 0, null));
+                this.listaQuartos.add(new QuartoHospedagemDTOList(null, null, tipoQuarto.getTipoQuarto().getId(), 0, null));
             }
         }
         this.produtoHospedagem = null;

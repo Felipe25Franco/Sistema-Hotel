@@ -3,6 +3,7 @@ package com.example.SCHapi.api.controller.Estadia;
 import com.example.SCHapi.api.dto.Estadia.AvaliacaoHospedagemDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.AvaliacaoHospedagem;
+import com.example.SCHapi.model.entity.Estadia.Hospedagem;
 import com.example.SCHapi.service.Estadia.AvaliacaoHospedagemService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/avaliacaoHospedagens")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class AvaliacaoHospedagemController {
 
     private final AvaliacaoHospedagemService service;

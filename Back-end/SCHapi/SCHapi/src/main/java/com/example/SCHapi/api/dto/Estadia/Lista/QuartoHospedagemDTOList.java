@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class QuartoHospedagemDTOList {
     private Long id;
+    private Long idRow;
     private Long tipoQuarto;
     private Integer qtd;
     private Long num;
@@ -29,8 +30,11 @@ public class QuartoHospedagemDTOList {
 
     public static List<QuartoHospedagemDTOList> createList (List<QuartoHospedagem> list) {
         List<QuartoHospedagemDTOList> listDto = new ArrayList<QuartoHospedagemDTOList>();
+        Long idRow = (long) 0; // esse ide é pra padronizar o id da tabla no front pois o id original nao importa
         for (QuartoHospedagem quartoHospedagem : list) {
             listDto.add(QuartoHospedagemDTOList.create(quartoHospedagem));
+            idRow++;
+            listDto.getLast().setIdRow(idRow);
         }
         return listDto;
     }

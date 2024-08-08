@@ -8,9 +8,12 @@ import com.example.SCHapi.exception.RegraNegocioException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
+import com.example.SCHapi.api.dto.Estadia.ReservaDTO;
 import com.example.SCHapi.api.dto.Estadia.ReservaDTOBackup;
+import com.example.SCHapi.api.dto.Pessoa.FuncionarioDTO;
 import com.example.SCHapi.model.entity.Estadia.Reserva;
 import com.example.SCHapi.model.entity.Estadia.StatusReserva;
+import com.example.SCHapi.model.entity.Estadia.Lista.TipoQuartoReserva;
 import com.example.SCHapi.model.entity.Pessoa.Cliente;
 import com.example.SCHapi.model.entity.Pessoa.Funcionario;
 import com.example.SCHapi.model.entity.Pessoa.Hotel;
@@ -20,7 +23,7 @@ import com.example.SCHapi.service.Estadia.Lista.TipoQuartoReservaService;
 import com.example.SCHapi.service.Pessoa.ClienteService;
 import com.example.SCHapi.service.Pessoa.FuncionarioService;
 import com.example.SCHapi.service.Pessoa.HotelService;
-
+import com.example.SCHapi.service.Quarto.TipoQuartoService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +31,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/reservasBackup")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class ReservaControllerBackup {
     private final ReservaService service;
     private final ClienteService clienteService;

@@ -10,13 +10,16 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 
-
+import com.example.SCHapi.api.dto.Estadia.Lista.ProdutoSolicitadoDTOList;
+import com.example.SCHapi.api.dto.Estadia.Lista.QuartoHospedagemDTOList;
 import com.example.SCHapi.api.dto.Quarto.TipoQuartoDTO;
 import com.example.SCHapi.api.dto.Quarto.Lista.ComodidadeTipoQuartoDTOList;
 import com.example.SCHapi.api.dto.Quarto.Lista.TipoCamaTipoQuartoDTOList;
 import com.example.SCHapi.model.entity.Quarto.TipoCama;
 import com.example.SCHapi.model.entity.Quarto.TipoQuarto;
 import com.example.SCHapi.model.entity.Quarto.Lista.TipoCamaTipoQuarto;
+import com.example.SCHapi.model.entity.Estadia.Lista.ProdutoSolicitado;
+import com.example.SCHapi.model.entity.Estadia.Lista.QuartoHospedagem;
 import com.example.SCHapi.model.entity.Quarto.Comodidade;
 import com.example.SCHapi.model.entity.Quarto.Lista.ComodidadeTipoQuarto;
 import com.example.SCHapi.service.Pessoa.HotelService;
@@ -32,8 +35,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/tipoQuartos")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class TipoQuartoController {
 
     private final TipoQuartoService service;

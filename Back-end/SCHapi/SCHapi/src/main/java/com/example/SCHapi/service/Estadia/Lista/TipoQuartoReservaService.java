@@ -1,5 +1,6 @@
 package com.example.SCHapi.service.Estadia.Lista;
 
+import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.Reserva;
 import com.example.SCHapi.model.entity.Estadia.Lista.ServicoSolicitado;
 import com.example.SCHapi.model.entity.Estadia.Lista.TipoQuartoReserva;
@@ -36,7 +37,7 @@ public class TipoQuartoReservaService {
 
     @Transactional
     public TipoQuartoReserva salvar(TipoQuartoReserva tipoQuartoReserva) {
-        // validar(tipoQuartoReserva);
+        validar(tipoQuartoReserva);
         return repository.save(tipoQuartoReserva);
     }
 
@@ -47,4 +48,18 @@ public class TipoQuartoReservaService {
     }
 
     //fazer o validar dps
+    public void validar(TipoQuartoReserva tipoQuartoReserva) {
+        
+        if (tipoQuartoReserva.getReserva() == null || tipoQuartoReserva.getReserva().getId() == null || tipoQuartoReserva.getReserva().getId() == 0) {
+            throw new RegraNegocioException("Reserva inválid0!!!!");
+        }
+        if (tipoQuartoReserva.getTipoQuarto() == null || tipoQuartoReserva.getTipoQuarto().getId() == null || tipoQuartoReserva.getTipoQuarto().getId() == 0) {
+            throw new RegraNegocioException("Tipo Quarto inválid0!!!!");
+        }
+        if (tipoQuartoReserva.getQtd()<=0 || tipoQuartoReserva.getQtd()==null) {
+            throw new RegraNegocioException("Quantidade deve ser maior que zero");
+        }
+
+        // FALTA LISTA DE QUARTOS
+    }
 }

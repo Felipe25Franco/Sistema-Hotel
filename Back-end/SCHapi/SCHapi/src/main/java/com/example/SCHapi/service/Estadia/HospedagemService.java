@@ -145,9 +145,6 @@ public class HospedagemService {
         // if (hospedagem.getAvaliacaoHospedagem() == null || hospedagem.getAvaliacaoHospedagem().getId() == null || hospedagem.getAvaliacaoHospedagem().getId() == 0) {
         //     throw new RegraNegocioException("Avaliação de hospedagem inválida!!!!");
         // }
-        
-
-        
 
     }
 }

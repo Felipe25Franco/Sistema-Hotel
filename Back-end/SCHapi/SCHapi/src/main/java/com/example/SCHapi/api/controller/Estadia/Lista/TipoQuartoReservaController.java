@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import com.example.SCHapi.api.dto.Estadia.Lista.TipoQuartoReservaDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.Reserva;
+import com.example.SCHapi.model.entity.Estadia.Lista.ServicoSolicitado;
 import com.example.SCHapi.model.entity.Estadia.Lista.TipoQuartoReserva;
 import com.example.SCHapi.model.entity.Quarto.TipoQuarto;
 import com.example.SCHapi.service.Estadia.ReservaService;
@@ -30,8 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/tipoQuartoReservas")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class TipoQuartoReservaController {
 
     private final TipoQuartoReservaService service;

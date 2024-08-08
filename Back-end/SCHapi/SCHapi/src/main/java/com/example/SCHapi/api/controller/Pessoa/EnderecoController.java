@@ -20,9 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/enderecos")
-@CrossOrigin
 @RequiredArgsConstructor
-
+@CrossOrigin
 public class EnderecoController {
     
     private final EnderecoService service;

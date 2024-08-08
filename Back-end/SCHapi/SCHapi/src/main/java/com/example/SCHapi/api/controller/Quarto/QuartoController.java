@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/quartos")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class QuartoController {
 
     private final QuartoService service;

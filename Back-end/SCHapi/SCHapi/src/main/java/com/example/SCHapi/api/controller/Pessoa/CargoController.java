@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
 import com.example.SCHapi.model.entity.Pessoa.Cargo;
+import com.example.SCHapi.model.entity.Pessoa.Cliente;
 import com.example.SCHapi.model.entity.Pessoa.Hotel;
 import com.example.SCHapi.service.Pessoa.CargoService;
 import com.example.SCHapi.service.Pessoa.HotelService;
@@ -20,8 +21,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/cargos")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class CargoController {
 
     private final CargoService service;

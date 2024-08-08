@@ -36,7 +36,7 @@ function ListagemAvaliacaoQuartoHospedagem() {
   React.useEffect(() => {
     console.log(idParam)
     if (idParam != null) {
-      axios.get(`${baseURL}/${idParam}`).then((response) => {
+      axios.get(`${baseURL}/avaliacaoQuartos/hospedagens/${idParam}`).then((response) => {
         setDados(response.data);
       });
     }
@@ -52,7 +52,6 @@ function ListagemAvaliacaoQuartoHospedagem() {
   
   if (!dados2) return null;
   if (!dados) return null;
-  console.log(dados)
   return (
     <div className='container'>
       <Card title={`Listagem de Avaliações de Quartos - Hospedagem ID: ${idParam}`}>
@@ -72,7 +71,7 @@ function ListagemAvaliacaoQuartoHospedagem() {
                     <tr key={dado.id}>
                       {/* <td>{dado.tipoQuarto_id}</td> */}
                       {/* <td>{dados2.filter(obj => obj.tipoQuarto_id == dado.tipoQuarto_id).titulo}</td> */}
-                      <td>{dados2.find(obj => obj.id === dado.tipoQuarto_id).titulo}</td>
+                      <td>{dados2.find(obj => obj.id === dado.idTipoQuarto).titulo}</td>
                       <td>{dado.nota}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>

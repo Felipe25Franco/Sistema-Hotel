@@ -5,6 +5,7 @@ import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.Hospedagem;
 import com.example.SCHapi.model.entity.Estadia.Lista.ProdutoSolicitado;
 import com.example.SCHapi.model.entity.Produto.Produto;
+import com.example.SCHapi.model.entity.Quarto.Lista.TipoCamaTipoQuarto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,8 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/produtoSolicitados")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class ProdutoSolicitadoController {
 
     private final ProdutoSolicitadoService service;

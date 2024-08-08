@@ -45,8 +45,8 @@ function CadastroTipoServico() {
   async function salvar() {
     let data = {
       id,
-      var0,
-      var1
+      titulo:var0,
+      descricao:var1
     };
     data = JSON.stringify(data);
     if (idParam == null) {

@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/avaliacaoQuartos")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class AvaliacaoQuartoController {
 
     private final AvaliacaoQuartoService service;

@@ -2,6 +2,7 @@ package com.example.SCHapi.api.controller.Produto;
 
 import com.example.SCHapi.api.dto.Produto.TipoProdutoDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
+import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.model.entity.Produto.TipoProduto;
 import com.example.SCHapi.service.Produto.TipoProdutoService;
 
@@ -18,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/tipoProdutos")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class TipoProdutoController {
 
     private final TipoProdutoService service;
@@ -77,7 +78,7 @@ public class TipoProdutoController {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        } 
     }
 
     public TipoProduto converter(TipoProdutoDTO dto) {

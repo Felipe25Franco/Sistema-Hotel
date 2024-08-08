@@ -3,6 +3,7 @@ package com.example.SCHapi.api.controller.Estadia.Lista;
 import com.example.SCHapi.api.dto.Estadia.Lista.QuartoHospedagemDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.Hospedagem;
+import com.example.SCHapi.model.entity.Estadia.Lista.ProdutoSolicitado;
 import com.example.SCHapi.model.entity.Estadia.Lista.QuartoHospedagem;
 import com.example.SCHapi.model.entity.Quarto.Quarto;
 
@@ -24,8 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/quartoHospedagens")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class QuartoHospedagemController {
 
     private final QuartoHospedagemService service;

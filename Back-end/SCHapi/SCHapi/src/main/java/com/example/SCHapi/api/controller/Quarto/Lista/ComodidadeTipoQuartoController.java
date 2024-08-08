@@ -5,7 +5,7 @@ import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Quarto.TipoQuarto;
 import com.example.SCHapi.model.entity.Quarto.Comodidade;
 import com.example.SCHapi.model.entity.Quarto.Lista.ComodidadeTipoQuarto;
-
+import com.example.SCHapi.model.entity.Servico.Lista.RelacaoHorarioServico;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/comodidadeTipoQuartos")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class ComodidadeTipoQuartoController {
 
     private final ComodidadeTipoQuartoService service;

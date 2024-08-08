@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.example.SCHapi.api.dto.Produto.ProdutoDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Pessoa.Hotel;
+import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.model.entity.Produto.Produto;
 import com.example.SCHapi.model.entity.Produto.TipoProduto;
 import com.example.SCHapi.service.Pessoa.HotelService;
@@ -21,8 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/produtos")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class ProdutoController {
 
     private final ProdutoService service;
@@ -46,9 +47,10 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity post(@RequestBody ProdutoDTO dto) {
+        System.out.println(dto);
         try {
             Produto produto = converter(dto);
-            produto = service.salvar(produto);
+            produto = service.salvar(produto);            
             return new ResponseEntity(produto, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -46,9 +46,9 @@ function CadastroTipoCama() {
   async function salvar() {
     let data = {
       id,
-      var0,
-      var1,
-      var2,
+      titulo:var0,
+      descricao:var1,
+      ocupantes:var2,
     };
     data = JSON.stringify(data);
     if (idParam == null) {

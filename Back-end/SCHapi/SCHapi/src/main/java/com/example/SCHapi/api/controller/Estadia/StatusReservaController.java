@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import com.example.SCHapi.api.dto.Estadia.StatusReservaDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.StatusReserva;
+import com.example.SCHapi.model.entity.Quarto.Quarto;
 import com.example.SCHapi.service.Estadia.StatusReservaService;
 
 @RestController
 @RequestMapping("/api/v1/statusReservas")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class StatusReservaController {
     
     private final StatusReservaService service;

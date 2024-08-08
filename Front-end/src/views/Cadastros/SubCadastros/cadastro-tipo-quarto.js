@@ -79,16 +79,16 @@ function CadastroTipoQuarto() {
   async function salvar() {
     let data = {
       id,
-      var1,
-      var2,
-      var3,
-      var4,
-      var5,
-      var6,
-      var7,
-      var8,
-      tableData,
-      tableData2,
+      titulo:var1,
+      descricao:var2,
+      limiteAdulto:var3,
+      limiteCrianca:var4,
+      precoBase:var5,
+      avaliacaoMedia:var6,
+      diasCancelarReserva:var7,
+      area:var8,
+      camaTipoQuarto:tableData,
+      comodidadeTipoQuarto:tableData2,
     };
     data = JSON.stringify(data);
     if (idParam == null) {

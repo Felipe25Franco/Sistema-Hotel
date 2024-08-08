@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.SCHapi.api.dto.Servico.HorarioServicoDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
+import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.model.entity.Servico.HorarioServico;
 import com.example.SCHapi.model.entity.Servico.Servico;
 import com.example.SCHapi.service.Servico.HorarioServicoService;
@@ -20,8 +21,8 @@ import org.modelmapper.ModelMapper;
 
 @RestController
 @RequestMapping("/api/v1/horarioServicos")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class HorarioServicoController {
     
     private final HorarioServicoService service;

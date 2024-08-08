@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/comodidades")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class ComodidadeController {
 
     private final ComodidadeService service;
