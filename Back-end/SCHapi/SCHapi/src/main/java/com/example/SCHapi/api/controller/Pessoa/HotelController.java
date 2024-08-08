@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/hoteis")
-@RequiredArgsConstructor
 @CrossOrigin
+@RequiredArgsConstructor
 public class HotelController {
 
     private final HotelService service;
