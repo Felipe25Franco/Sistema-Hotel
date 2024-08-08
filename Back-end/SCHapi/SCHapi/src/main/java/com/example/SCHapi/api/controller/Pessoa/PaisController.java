@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/paises")
+@CrossOrigin
 @RequiredArgsConstructor
 public class PaisController {
     

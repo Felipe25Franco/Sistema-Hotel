@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 
 import com.example.SCHapi.model.entity.Pessoa.Cliente;
 import com.example.SCHapi.model.entity.Pessoa.Endereco;
-import com.example.SCHapi.model.entity.Pessoa.Hotel;
 import com.example.SCHapi.model.entity.Pessoa.Pais;
 import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.service.Pessoa.ClienteService;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/clientes")
+@CrossOrigin
 @RequiredArgsConstructor
 public class ClienteController {
 

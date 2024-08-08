@@ -2,7 +2,6 @@ package com.example.SCHapi.api.controller.Servico;
 
 import com.example.SCHapi.api.dto.Servico.TipoServicoDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
-import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.model.entity.Servico.TipoServico;
 import com.example.SCHapi.service.Servico.TipoServicoService;
 
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/tipoServicos")
+@CrossOrigin
 @RequiredArgsConstructor
 public class TipoServicoController {
 

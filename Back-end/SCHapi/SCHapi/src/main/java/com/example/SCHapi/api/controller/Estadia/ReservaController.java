@@ -11,7 +11,6 @@ import com.example.SCHapi.api.dto.Estadia.ReservaDTO;
 import com.example.SCHapi.api.dto.Estadia.Lista.TipoQuartoReservaDTOList;
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.Reserva;
-import com.example.SCHapi.model.entity.Estadia.StatusHospedagem;
 import com.example.SCHapi.model.entity.Estadia.StatusReserva;
 import com.example.SCHapi.model.entity.Estadia.Lista.TipoQuartoReserva;
 import com.example.SCHapi.model.entity.Pessoa.Cliente;
@@ -28,6 +27,7 @@ import com.example.SCHapi.service.Quarto.TipoQuartoService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/reservas")
+@CrossOrigin
 @RequiredArgsConstructor
 public class ReservaController {
     private final ReservaService service;

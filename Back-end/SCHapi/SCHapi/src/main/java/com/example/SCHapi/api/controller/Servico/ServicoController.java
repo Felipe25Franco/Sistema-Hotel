@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/servicos")
+@CrossOrigin
 @RequiredArgsConstructor
 public class ServicoController {
     private final ServicoService service;

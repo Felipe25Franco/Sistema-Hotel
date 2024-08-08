@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.SCHapi.api.dto.Servico.StatusServicoDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
-import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.model.entity.Servico.StatusServico;
 import com.example.SCHapi.service.Servico.StatusServicoService;
 
 @RestController
 @RequestMapping("/api/v1/statusServicos")
+@CrossOrigin
 @RequiredArgsConstructor
 public class StatusServicoController {
     

@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.SCHapi.api.dto.Quarto.StatusQuartoDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
-import com.example.SCHapi.model.entity.Quarto.Comodidade;
 import com.example.SCHapi.model.entity.Quarto.StatusQuarto;
 import com.example.SCHapi.service.Quarto.StatusQuartoService;
 
 @RestController
 @RequestMapping("/api/v1/statusQuartos")
+@CrossOrigin
 @RequiredArgsConstructor
 public class StatusQuartoController {
     

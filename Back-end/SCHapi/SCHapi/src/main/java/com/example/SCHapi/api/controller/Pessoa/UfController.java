@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/ufs")
+@CrossOrigin
 @RequiredArgsConstructor
 public class UfController {
     
