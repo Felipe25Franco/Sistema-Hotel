@@ -10,10 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
 import com.example.SCHapi.api.dto.Estadia.HospedagemDTO;
-import com.example.SCHapi.api.dto.Estadia.ReservaDTO;
 import com.example.SCHapi.api.dto.Estadia.Lista.ProdutoSolicitadoDTOList;
 import com.example.SCHapi.api.dto.Estadia.Lista.QuartoHospedagemDTOList;
-import com.example.SCHapi.api.dto.Estadia.Lista.TipoQuartoReservaDTOList;
 import com.example.SCHapi.model.entity.Estadia.AvaliacaoHospedagem;
 import com.example.SCHapi.model.entity.Estadia.AvaliacaoQuarto;
 import com.example.SCHapi.model.entity.Estadia.Hospedagem;
@@ -23,12 +21,10 @@ import com.example.SCHapi.model.entity.Estadia.Lista.ProdutoSolicitado;
 import com.example.SCHapi.model.entity.Estadia.Lista.QuartoHospedagem;
 import com.example.SCHapi.model.entity.Estadia.Lista.TipoQuartoReserva;
 import com.example.SCHapi.model.entity.Pessoa.Cliente;
-import com.example.SCHapi.model.entity.Pessoa.Endereco;
 import com.example.SCHapi.model.entity.Pessoa.Funcionario;
 import com.example.SCHapi.model.entity.Pessoa.Hotel;
 import com.example.SCHapi.model.entity.Produto.Produto;
 import com.example.SCHapi.model.entity.Quarto.Quarto;
-import com.example.SCHapi.model.entity.Quarto.TipoQuarto;
 import com.example.SCHapi.service.Estadia.AvaliacaoHospedagemService;
 import com.example.SCHapi.service.Estadia.AvaliacaoQuartoService;
 import com.example.SCHapi.service.Estadia.HospedagemService;
@@ -42,9 +38,7 @@ import com.example.SCHapi.service.Pessoa.FuncionarioService;
 import com.example.SCHapi.service.Pessoa.HotelService;
 import com.example.SCHapi.service.Produto.ProdutoService;
 import com.example.SCHapi.service.Quarto.QuartoService;
-import com.example.SCHapi.service.Quarto.TipoQuartoService;
 
-import jakarta.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +46,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/hospedagens")
+@CrossOrigin
 @RequiredArgsConstructor
 public class HospedagemController {
     private final HospedagemService service;

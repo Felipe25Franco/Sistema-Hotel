@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/servicoSolicitados")
+@CrossOrigin
 @RequiredArgsConstructor
 public class ServicoSolicitadoController {
 
