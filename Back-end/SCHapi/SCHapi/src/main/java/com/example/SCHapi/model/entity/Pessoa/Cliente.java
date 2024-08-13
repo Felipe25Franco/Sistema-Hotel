@@ -2,8 +2,8 @@ package com.example.SCHapi.model.entity.Pessoa;
 
 import com.example.SCHapi.model.entity.Usuario;
 
-import jakarta.persistence.Entity;
-// import jakarta.persistence.MappedSuperclass;
+import javax.persistence.Entity;
+// import javax.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

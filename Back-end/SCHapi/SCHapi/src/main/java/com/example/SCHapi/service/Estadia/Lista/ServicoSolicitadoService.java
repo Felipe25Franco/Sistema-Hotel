@@ -9,7 +9,7 @@ import com.example.SCHapi.model.repository.Estadia.Lista.ServicoSolicitadoReposi
 import com.example.SCHapi.model.repository.Servico.ServicoRepository;
 import com.example.SCHapi.service.Servico.Lista.RelacaoHorarioServicoService;
 
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 
 import java.util.List;
 import java.util.Objects;

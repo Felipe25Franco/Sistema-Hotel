@@ -3,7 +3,7 @@ package com.example.SCHapi.model.entity.Quarto.Lista;
 import com.example.SCHapi.model.entity.Quarto.TipoCama;
 import com.example.SCHapi.model.entity.Quarto.TipoQuarto;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

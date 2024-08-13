@@ -2,7 +2,7 @@ package com.example.SCHapi.model.entity.Produto;
 
 import com.example.SCHapi.model.entity.Pessoa.Hotel;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

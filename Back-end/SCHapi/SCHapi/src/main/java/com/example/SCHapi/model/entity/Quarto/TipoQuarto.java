@@ -7,7 +7,7 @@ import com.example.SCHapi.model.entity.Quarto.Lista.ComodidadeTipoQuarto;
 import com.example.SCHapi.model.entity.Quarto.Lista.TipoCamaTipoQuarto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -44,7 +44,7 @@ import com.example.SCHapi.service.Produto.ProdutoService;
 import com.example.SCHapi.service.Quarto.QuartoService;
 import com.example.SCHapi.service.Quarto.TipoQuartoService;
 
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

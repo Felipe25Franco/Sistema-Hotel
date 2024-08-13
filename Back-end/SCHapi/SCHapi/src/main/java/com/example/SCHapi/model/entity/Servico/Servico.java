@@ -6,7 +6,7 @@ import com.example.SCHapi.model.entity.Estadia.AvaliacaoQuarto;
 import com.example.SCHapi.model.entity.Pessoa.Hotel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

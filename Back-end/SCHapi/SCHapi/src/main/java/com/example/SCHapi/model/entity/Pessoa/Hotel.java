@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.example.SCHapi.model.entity.Estadia.Hospedagem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

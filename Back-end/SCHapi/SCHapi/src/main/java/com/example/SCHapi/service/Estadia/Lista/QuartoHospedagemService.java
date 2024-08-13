@@ -7,7 +7,7 @@ import com.example.SCHapi.model.entity.Quarto.Quarto;
 import com.example.SCHapi.model.repository.Estadia.Lista.QuartoHospedagemRepository;
 import com.example.SCHapi.model.repository.Quarto.QuartoRepository;
 
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 

@@ -3,7 +3,7 @@ package com.example.SCHapi.model.entity.Estadia.Lista;
 import com.example.SCHapi.model.entity.Estadia.Hospedagem;
 import com.example.SCHapi.model.entity.Quarto.Quarto;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
