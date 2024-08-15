@@ -59,7 +59,7 @@ public class TipoProdutoController {
     @ApiOperation("Cadastrar um tipo de produto")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Tipo de produto cadastrado"),
-            @ApiResponse(code = 404, message = "Tipo de produto não encontrado")
+            @ApiResponse(code = 404, message = "Tipo de produto não cadastrado")
     })
     public ResponseEntity post(@RequestBody TipoProdutoDTO dto) {
         try {
