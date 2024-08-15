@@ -14,6 +14,11 @@ import com.example.SCHapi.service.Pessoa.HotelService;
 import com.example.SCHapi.service.Produto.ProdutoService;
 import com.example.SCHapi.service.Produto.TipoProdutoService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -23,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/produtos")
 @RequiredArgsConstructor
+@Api("API de Produto")
 @CrossOrigin
 public class ProdutoController {
 
@@ -31,12 +37,22 @@ public class ProdutoController {
     private final TipoProdutoService tipoProdutoService;
 
     @GetMapping()
+    @ApiOperation("Obter todos os produtos")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Produto encontrado"),
+            @ApiResponse(code = 404, message = "Produto não encontrado")
+    })
     public ResponseEntity get() {
        List<Produto> produtos = service.getProdutos();
         return ResponseEntity.ok(produtos.stream().map(ProdutoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Obter detalhes de um produto")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Produto encontrado"),
+            @ApiResponse(code = 404, message = "Produto não encontrado")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Produto> produto = service.getProdutoById(id);
         if (!produto.isPresent()) {
@@ -46,6 +62,11 @@ public class ProdutoController {
     }
 
     @PostMapping
+    @ApiOperation("Cadastrar um produto")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Produto encontrado"),
+            @ApiResponse(code = 404, message = "Produto não encontrado")
+    })
     public ResponseEntity post(@RequestBody ProdutoDTO dto) {
         System.out.println(dto);
         try {
@@ -58,6 +79,11 @@ public class ProdutoController {
     }
 
     @PutMapping("{id}")
+    @ApiOperation("Atualizar um produto")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "produto encontrado"),
+            @ApiResponse(code = 404, message = "produto não encontrado")
+    })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ProdutoDTO dto) {
         if (!service.getProdutoById(id).isPresent()) {
             return new ResponseEntity("Produto não encontrado", HttpStatus.NOT_FOUND);
@@ -74,6 +100,11 @@ public class ProdutoController {
     }
 
     @DeleteMapping("{id}")
+    @ApiOperation("Excluir um produto")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "produto encontrado"),
+            @ApiResponse(code = 404, message = "produto não encontrado")
+    })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Produto> produto = service.getProdutoById(id);
         if (!produto.isPresent()) {
