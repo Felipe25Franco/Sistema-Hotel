@@ -34,7 +34,7 @@ public class QuartoHospedagemDTOList {
         for (QuartoHospedagem quartoHospedagem : list) {
             listDto.add(QuartoHospedagemDTOList.create(quartoHospedagem));
             idRow++;
-            listDto.getLast().setIdRow(idRow);
+            //listDto.getLast().setIdRow(idRow);
         }
         return listDto;
     }

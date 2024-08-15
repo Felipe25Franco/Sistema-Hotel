@@ -32,7 +32,7 @@ public class TipoQuartoReservaDTOList {
         for (TipoQuartoReserva tipoQuartoReserva : list) {
             listDto.add(TipoQuartoReservaDTOList.create(tipoQuartoReserva));
             idRow++;
-            listDto.getLast().setIdRow(idRow);
+            //listDto.getLast().setIdRow(idRow);
         }
         return listDto;
     }

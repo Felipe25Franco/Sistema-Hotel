@@ -34,7 +34,7 @@ public class ProdutoSolicitadoDTOList {
         for (ProdutoSolicitado produtoSolicitado : list) {
             listDto.add(ProdutoSolicitadoDTOList.create(produtoSolicitado));
             idRow++;
-            listDto.getLast().setIdRow(idRow);
+            //listDto.getLast().setIdRow(idRow);
         }
         return listDto;
     }
