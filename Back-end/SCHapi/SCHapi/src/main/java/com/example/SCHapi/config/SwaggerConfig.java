@@ -11,8 +11,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 
-import org.springdoc.core;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
