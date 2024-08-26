@@ -1,9 +1,8 @@
 package com.example.SCHapi.model.entity.Pessoa;
 
-import com.example.SCHapi.model.entity.Usuario;
 
 import javax.persistence.Entity;
-// import javax.persistence.MappedSuperclass;
+// import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cliente extends Usuario{
+public class Cliente extends Pessoa {
 
     private String descricao;
 }

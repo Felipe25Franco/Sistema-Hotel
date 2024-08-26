@@ -4,6 +4,7 @@ import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.StatusHospedagem;
 import com.example.SCHapi.model.entity.Quarto.StatusQuarto;
 import com.example.SCHapi.model.entity.Quarto.TipoCama;
+import com.example.SCHapi.model.entity.Quarto.TipoComodidade;
 import com.example.SCHapi.model.repository.Estadia.StatusHospedagemRepository;
 import com.example.SCHapi.model.repository.Quarto.TipoCamaRepository;
 
@@ -54,6 +55,10 @@ public class TipoCamaService {
         }
         if (ocupantes <= 0 || ocupantes == null) {
             throw new RegraNegocioException("A quantidade de ocupupantes em uma cama tem que ser maior que 0.");
+        }
+        List<TipoCama> tipoCamas = getTipoCamas();
+        if(tipoCamas.stream().anyMatch((x) -> {return x.getTitulo().trim().equals(tipoCama.getTitulo().trim())&&!tipoCama.getId().equals(x.getId());})) {
+            throw new RegraNegocioException("Título já cadastrado");
         }
     }
 }

@@ -6,11 +6,12 @@ import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.model.entity.Produto.TipoProduto;
 import com.example.SCHapi.service.Produto.TipoProdutoService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+// import io.swagger.v3.oas.annotations.*;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import io.swagger.annotations.*;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -26,15 +27,17 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Api("API de Tipo Produto")
 @CrossOrigin
+
 public class TipoProdutoController {
 
     private final TipoProdutoService service;
 
     @GetMapping()
-    @ApiOperation("Obter todos os tipos de produto")
+    @ApiOperation("Obter a lista de tipo de produto")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Tipo de produto encontrado"),
-            @ApiResponse(code = 404, message = "Tipo de produto não encontrado")
+            @ApiResponse(code  = "200", message  = "Lista de Tipo de Produto retornada com sucesso"),
+            @ApiResponse(code  = "404", message  = "Tipo de Produto não encontrado"),
+            @ApiResponse(code  = "500", message  = "Erro interno no servidor")
     })
     public ResponseEntity get() {
        List<TipoProduto> tipoProdutos = service.getTipoProdutos();
@@ -44,8 +47,9 @@ public class TipoProdutoController {
     @GetMapping("/{id}")
     @ApiOperation("Obter detalhes de um tipo de produto")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Tipo de produto encontrado"),
-            @ApiResponse(code = 404, message = "Tipo de produto não encontrado")
+            @ApiResponse(code  = "200", message  = "Tipo de Produto encontrado"),
+            @ApiResponse(code  = "404", message  = "Tipo de Produto não encontrado"),
+            @ApiResponse(code  = "500", message  = "Erro interno no servidor")
     })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<TipoProduto> tipoProduto = service.getTipoProdutoById(id);
@@ -56,14 +60,16 @@ public class TipoProdutoController {
     }
 
     @PostMapping
-    @ApiOperation("Cadastrar um tipo de produto")
+    @ApiOperation("Salva um tipo de produto")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "Tipo de produto cadastrado"),
-            @ApiResponse(code = 404, message = "Tipo de produto não cadastrado")
+            @ApiResponse(code  = "201", message  = "Tipo de Produto salvo com sucesso"),
+            @ApiResponse(code  = "404", message  = "Erro ao salvar o Tipo de Produto"),
+            @ApiResponse(code  = "500", message  = "Erro interno no servidor")
     })
     public ResponseEntity post(@RequestBody TipoProdutoDTO dto) {
         try {
             TipoProduto tipoProduto = converter(dto);
+            System.err.println(dto);
             tipoProduto = service.salvar(tipoProduto);
             return new ResponseEntity(tipoProduto, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
@@ -72,10 +78,11 @@ public class TipoProdutoController {
     }
 
     @PutMapping("{id}")
-    @ApiOperation("Atualizar um tipo de produto")
+    @ApiOperation("Atualiza um tipo de produto")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Tipo de produto encontrado"),
-            @ApiResponse(code = 404, message = "Tipo de produto não encontrado")
+            @ApiResponse(code  = "200", message  = "Tipo de Produto alterado com sucesso"),
+            @ApiResponse(code  = "404", message  = "Tipo de Produto não encontrado"),
+            @ApiResponse(code  = "500", message  = "Erro interno no servidor")
     })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody TipoProdutoDTO dto) {
         if (!service.getTipoProdutoById(id).isPresent()) {
@@ -93,12 +100,13 @@ public class TipoProdutoController {
     }
 
     @DeleteMapping("{id}")
-    @ApiOperation("Excluir um tipo de produto")
+    @ApiOperation("Exclui um tipo de produto")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Tipo de produto encontrado"),
-            @ApiResponse(code = 404, message = "Tipo de produto não encontrado")
+            @ApiResponse(code  = "204", message  = "Tipo de Produto excluído com sucesso"),
+            @ApiResponse(code  = "404", message  = "Tipo de Produto não encontrado"),
+            @ApiResponse(code  = "500", message  = "Erro interno no servidor")
     })
-    public ResponseEntity excluir(@PathVariable("id") Long id) {
+    public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<TipoProduto> tipoProduto = service.getTipoProdutoById(id);
         if (!tipoProduto.isPresent()) {
             return new ResponseEntity("TipoProduto não encontrado", HttpStatus.NOT_FOUND);

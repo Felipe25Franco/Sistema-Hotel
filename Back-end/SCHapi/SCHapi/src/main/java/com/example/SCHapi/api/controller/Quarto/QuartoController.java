@@ -7,6 +7,11 @@ import com.example.SCHapi.service.Quarto.QuartoService;
 import com.example.SCHapi.service.Quarto.StatusQuartoService;
 import com.example.SCHapi.service.Quarto.TipoQuartoService;
 
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,12 +40,24 @@ public class QuartoController {
     private final StatusQuartoService statusquartoService;
 
     @GetMapping()
+    // @Operation(summary ="Obter a lista de quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Quarto retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Quarto não encontrado")
+    // })
     public ResponseEntity get() {
        List<Quarto> quartos = service.getQuartos();
         return ResponseEntity.ok(quartos.stream().map(QuartoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    // @Operation(summary ="Obter detalhes de um quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Quarto encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Quarto> quarto = service.getQuartoById(id);
         if (!quarto.isPresent()) {
@@ -50,6 +67,12 @@ public class QuartoController {
     }
 
     @PostMapping
+    // @Operation(summary ="Salva um quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Quarto salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Quarto"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody QuartoDTO dto) {
         try {
             Quarto quarto = converter(dto);
@@ -61,7 +84,13 @@ public class QuartoController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody QuartoDTO dto) {
+    // @Operation(summary ="Atualiza um quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Quarto alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity atualizar(@PathVariable("id")  Long id, @RequestBody QuartoDTO dto) {
         if (!service.getQuartoById(id).isPresent()) {
             return new ResponseEntity("Quarto não encontrado", HttpStatus.NOT_FOUND);
         }
@@ -77,7 +106,13 @@ public class QuartoController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity excluir(@PathVariable("id") Long id) {
+    // @Operation(summary ="Exclui um quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Quarto excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<Quarto> quarto = service.getQuartoById(id);
         if (!quarto.isPresent()) {
             return new ResponseEntity("Quarto não encontrado", HttpStatus.NOT_FOUND);
@@ -110,8 +145,8 @@ public class QuartoController {
                 quarto.setTipoQuarto(tipoquarto.get());
             }
         }
-        if (dto.getIdStatusQuarto() != null) {
-            Optional<StatusQuarto> statusquarto = statusquartoService.getStatusQuartoById(dto.getIdStatusQuarto());
+        if (dto.getStatus() != null) {
+            Optional<StatusQuarto> statusquarto = statusquartoService.getStatusQuartoById(dto.getStatus());
             if (!statusquarto.isPresent()) {
                 quarto.setStatusQuarto(null);
             } else {

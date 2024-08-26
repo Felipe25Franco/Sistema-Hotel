@@ -51,7 +51,8 @@ public class HospedagemDTO {
     public HospedagemDTO(Reserva reserva, List<TipoQuartoReserva> listaQuartos) {
         this.id = null;
         this.status = (long) 1;
-        this.dataInicio = ""+LocalDate.now().getDayOfMonth()+"/"+LocalDate.now().getMonthValue()+"/"+LocalDate.now().getYear(); // mudar pra data do sisteam
+        this.dataInicio = LocalDate.now().toString();
+        // this.dataInicio = ""+String.valueOf(LocalDate.now().getYear())+"-"+LocalDate.now().getMonthValue()+"-"+LocalDate.now().getDayOfMonth(); // mudar pra data do sisteam
         this.dataFim1 = reserva.getDataFim();
         this.dataFim2 = null;
         this.valorEstadia = reserva.getValorReserva();
@@ -70,9 +71,11 @@ public class HospedagemDTO {
         // this.idAvaliacaoHospedagem = null;
         this.idReserva = reserva.getId();
         this.listaQuartos = new ArrayList<QuartoHospedagemDTOList>();
+        Long idRow = (long) 0; // esse ide é pra padronizar o id da tabla no front pois o id original nao importa
         for (TipoQuartoReserva tipoQuarto: listaQuartos){
             for(int i = 1;i<=tipoQuarto.getQtd();i++){
-                this.listaQuartos.add(new QuartoHospedagemDTOList(null, null, tipoQuarto.getTipoQuarto().getId(), 0, null));
+                idRow++;
+                this.listaQuartos.add(new QuartoHospedagemDTOList(null, idRow, tipoQuarto.getTipoQuarto().getId(), 0, null));
             }
         }
         this.produtoHospedagem = null;

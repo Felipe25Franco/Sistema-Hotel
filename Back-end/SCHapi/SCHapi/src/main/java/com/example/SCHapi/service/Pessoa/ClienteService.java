@@ -4,6 +4,7 @@ import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.*;
 import com.example.SCHapi.model.entity.Pessoa.Cliente;
 import com.example.SCHapi.model.entity.Pessoa.Endereco;
+import com.example.SCHapi.model.entity.Produto.TipoProduto;
 import com.example.SCHapi.model.repository.Pessoa.ClienteRepository;
 
 import org.springframework.stereotype.Service;
@@ -69,23 +70,24 @@ public class ClienteService {
         }
         if (telefone2 != null) {
             telefone2 = telefone2.replaceAll("[()\\-]", ""); // Remove parênteses e traços
+            System.out.println(telefone2.length());
             if (telefone2.length() != 12 && telefone2.length() != 13) {
                 throw new RegraNegocioException("O telefone 2 não pode estar nulo e deve ter 12 ou 13 dígitos.");
             }
         }
-        if (cliente.getSenha() == null || cliente.getSenha().trim().equals("") || !cliente.getSenha().matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$")){
-            throw new RegraNegocioException("Senha invalida, a senha deve conter no minimo uma letra maiuscula, no minimo um numero, no minimo um caracter especial e ter no minimo 8 digitos!!!!");
-        }
+        // if (cliente.getSenha() == null || cliente.getSenha().trim().equals("") || !cliente.getSenha().matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$")){
+        //     throw new RegraNegocioException("Senha invalida, a senha deve conter no minimo uma letra maiuscula, no minimo um numero, no minimo um caracter especial e ter no minimo 8 digitos!!!!");
+        // }
         if (cliente.getEmail() == null || cliente.getEmail().trim().equals("") || !cliente.getEmail().contains("@")) {
             throw new RegraNegocioException("O e-mail deve conter um '@'.");
         }
         if (cliente.getDataNascimento() == null ||
-                !cliente.getDataNascimento().matches("^\\d{2}/\\d{2}/\\d{4}$")) {
+                !cliente.getDataNascimento().matches("^\\d{4}-\\d{2}-\\d{2}$")) {
             throw new RegraNegocioException("Data de nascimento inválida! Insira uma data de nascimento no formato dd/MM/yyyy.");
         }
-        if (cliente.getDescricao() == null || cliente.getDescricao().trim().equals("")){
-            throw new RegraNegocioException("Descrição Invalido!!! Insira uma descrição valida.");
-        }
+        // if (cliente.getDescricao() == null || cliente.getDescricao().trim().equals("")){
+        //     throw new RegraNegocioException("Descrição Invalido!!! Insira uma descrição valida.");
+        // }
         if (cliente.getEndereco().getLogradouro() == null || cliente.getEndereco().getLogradouro().trim().equals("")){
             throw new RegraNegocioException("Logradouro Invalido!!! Insira um Logradouro valido.");
         }
@@ -110,6 +112,11 @@ public class ClienteService {
         }
         if (cliente.getEndereco().getUf().getPais() == null || cliente.getEndereco().getUf().getPais().getId() == null || cliente.getEndereco().getUf().getPais().getId() == 0) {
             throw new RegraNegocioException("Pais inválido!!!!");
+        }
+
+        List<Cliente> clientes = getClientes();
+        if(clientes.stream().anyMatch((x) -> {return !cliente.getId().equals(x.getId())&&(x.getCpf().trim().equals(cliente.getCpf().trim())||x.getEmail().trim().equals(cliente.getEmail().trim()));})) {
+            throw new RegraNegocioException("CPF ou e-mail já cadastrado");
         }
 
         

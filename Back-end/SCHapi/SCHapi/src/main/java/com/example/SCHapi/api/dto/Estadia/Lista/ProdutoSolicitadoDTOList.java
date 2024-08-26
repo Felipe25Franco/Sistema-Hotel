@@ -28,15 +28,20 @@ public class ProdutoSolicitadoDTOList {
         return dto;
     }
 
-    public static List<ProdutoSolicitadoDTOList> createList (List<ProdutoSolicitado> list) {
-        List<ProdutoSolicitadoDTOList> listDto = new ArrayList<ProdutoSolicitadoDTOList>();
-        Long idRow = (long) 0; // esse ide é pra padronizar o id da tabla no front pois o id original nao importa
+    public static List<ProdutoSolicitadoDTOList> createList(List<ProdutoSolicitado> list) {
+        List<ProdutoSolicitadoDTOList> listDto = new ArrayList<>();
+        Long idRow = 0L; // Esse ID é para padronizar o ID da tabela no front, pois o ID original não importa
+
         for (ProdutoSolicitado produtoSolicitado : list) {
-            listDto.add(ProdutoSolicitadoDTOList.create(produtoSolicitado));
+            ProdutoSolicitadoDTOList dto = ProdutoSolicitadoDTOList.create(produtoSolicitado);
+            listDto.add(dto);
             idRow++;
-            //listDto.getLast().setIdRow(idRow);
+            // Atualiza o ID da linha no último elemento da lista
+            if (!listDto.isEmpty()) {
+                listDto.get(listDto.size() - 1).setIdRow(idRow);
+            }
         }
+
         return listDto;
     }
 }
-

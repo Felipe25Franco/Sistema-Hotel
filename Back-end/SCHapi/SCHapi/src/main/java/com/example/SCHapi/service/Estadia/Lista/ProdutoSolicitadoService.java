@@ -4,6 +4,8 @@ import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.*;
 import com.example.SCHapi.model.entity.Estadia.Hospedagem;
 import com.example.SCHapi.model.entity.Estadia.Lista.ProdutoSolicitado;
+import com.example.SCHapi.model.entity.Estadia.Lista.ServicoSolicitado;
+import com.example.SCHapi.model.entity.Estadia.Lista.TipoQuartoReserva;
 import com.example.SCHapi.model.entity.Quarto.Lista.TipoCamaTipoQuarto;
 import com.example.SCHapi.model.repository.Estadia.Lista.ProdutoSolicitadoRepository;
 
@@ -39,7 +41,7 @@ public class ProdutoSolicitadoService {
 
     @Transactional
     public ProdutoSolicitado salvar(ProdutoSolicitado produtoSolicitado) {
-        // validar(produtoSolicitado);
+        validar(produtoSolicitado);
         return repository.save(produtoSolicitado);
     }
 
@@ -47,5 +49,25 @@ public class ProdutoSolicitadoService {
     public void excluir(ProdutoSolicitado produtoSolicitado) {
         Objects.requireNonNull(produtoSolicitado.getId());
         repository.delete(produtoSolicitado);
+    }
+
+    
+    public void validar(ProdutoSolicitado produtoSolicitado) {
+        
+        if (produtoSolicitado.getProduto() == null || produtoSolicitado.getProduto().getId() == null || produtoSolicitado.getProduto().getId() == 0) {
+            throw new RegraNegocioException("Produto inválid0!!!!");
+        }
+        if (produtoSolicitado.getHospedagem() == null || produtoSolicitado.getHospedagem().getId() == null || produtoSolicitado.getHospedagem().getId() == 0) {
+            throw new RegraNegocioException("Hospedagem inválid0!!!!");
+        }
+        if (produtoSolicitado.getQuantidade()<=0) {
+            throw new RegraNegocioException("Quantidade deve ser maior que zero");
+        }
+
+        // FALTA LISTA DE QUARTOS
+        List<ProdutoSolicitado> produtoSolicitados = getProdutoSolicitadoByHospedagem(Optional.of(produtoSolicitado.getHospedagem()));
+        if(produtoSolicitados.stream().anyMatch((x) -> x.getProduto().getId()==produtoSolicitado.getProduto().getId())) {
+            throw new RegraNegocioException("Horários duplicado. Selecione Horários distintos");
+        }
     }
 }

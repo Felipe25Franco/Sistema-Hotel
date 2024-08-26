@@ -4,6 +4,8 @@ import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.*;
 import com.example.SCHapi.model.entity.Quarto.Comodidade;
 import com.example.SCHapi.model.entity.Quarto.TipoComodidade;
+import com.example.SCHapi.model.entity.Quarto.TipoQuarto;
+import com.example.SCHapi.model.entity.Quarto.Lista.TipoCamaTipoQuarto;
 import com.example.SCHapi.model.repository.Quarto.ComodidadeRepository;
 
 import org.springframework.stereotype.Service;
@@ -32,6 +34,10 @@ public class ComodidadeService {
         return repository.findById(id);
     }
 
+    public List<Comodidade> getComodidadeByTipoComodidade(Optional<TipoComodidade> TipoComodidade) {
+        return repository.findByTipoComodidade(TipoComodidade);
+    }
+
 
     @Transactional
     public Comodidade salvar(Comodidade comodidade) {
@@ -56,6 +62,11 @@ public class ComodidadeService {
         }
         if (comodidade.getTipoComodidade() == null || comodidade.getTipoComodidade().getId() == null || comodidade.getTipoComodidade().getId() == 0) {
             throw new RegraNegocioException("Tipo de comodidade inválida!!!!");
+        }
+
+        List<Comodidade> comodidades = getComodidadeByTipoComodidade(Optional.of(comodidade.getTipoComodidade()));
+        if(comodidades.stream().anyMatch((x) -> !comodidade.getId().equals(x.getId())&&x.getTitulo().trim().equals(comodidade.getTitulo().trim()))) {
+            throw new RegraNegocioException("Título já cadastrado para a categoria selecionada");
         }
     }
 }

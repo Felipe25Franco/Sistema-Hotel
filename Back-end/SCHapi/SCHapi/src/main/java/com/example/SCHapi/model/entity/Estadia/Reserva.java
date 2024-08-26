@@ -46,5 +46,9 @@ public class Reserva {
     @OneToMany (mappedBy = "reserva")
     private List<TipoQuartoReserva> tipoQuartoReserva;
 
+    @JsonIgnore
+    @OneToOne (mappedBy = "reserva")
+    private Hospedagem hospedagem;
+
 
 }

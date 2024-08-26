@@ -50,5 +50,10 @@ public class TipoServicoService {
         if (tipoServico.getTitulo() == null || tipoServico.getTitulo().trim().equals("")) {
             throw new RegraNegocioException("Titulo Invalido!!! Insira uma titulo valido.");
         }
+
+        List<TipoServico> tipoServicos = getTipoServicos();
+        if(tipoServicos.stream().anyMatch((x) -> {System.out.println(x.getTitulo().trim().equals(tipoServico.getTitulo().trim())&&!tipoServico.getId().equals(x.getId()));;return x.getTitulo().trim().equals(tipoServico.getTitulo().trim())&&!tipoServico.getId().equals(x.getId());})) {
+            throw new RegraNegocioException("Título já cadastrado");
+        }
     }
 }

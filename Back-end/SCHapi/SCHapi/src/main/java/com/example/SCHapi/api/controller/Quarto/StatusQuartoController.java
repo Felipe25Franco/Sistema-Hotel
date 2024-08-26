@@ -17,6 +17,11 @@ import com.example.SCHapi.model.entity.Quarto.Comodidade;
 import com.example.SCHapi.model.entity.Quarto.StatusQuarto;
 import com.example.SCHapi.service.Quarto.StatusQuartoService;
 
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/api/v1/statusQuartos")
 @RequiredArgsConstructor
@@ -26,13 +31,25 @@ public class StatusQuartoController {
     private final StatusQuartoService service;
 
     @GetMapping()
+    // @Operation(summary ="Obter a lista de status de quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Status de Quarto retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Status de Quarto não encontrado")
+    // })
     public ResponseEntity get() {
        List<StatusQuarto> statusQuartos = service.getStatusQuarto();
         return ResponseEntity.ok(statusQuartos.stream().map(StatusQuartoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    // @Operation(summary ="Obter detalhes de um status de quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Status de Quarto encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Status de Quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity get(@PathVariable("id")  Long id) {
         Optional<StatusQuarto> statusQuarto = service.getStatusQuartoById(id);
         if (!statusQuarto.isPresent()) {
             return new ResponseEntity("Status de Quarto não encontrado", HttpStatus.NOT_FOUND);
@@ -41,6 +58,12 @@ public class StatusQuartoController {
     }
 
     @PostMapping
+    // @Operation(summary ="Salva um status de quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Status de Quarto salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Status de Quarto"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody StatusQuartoDTO dto) {
         try {
             StatusQuarto statusQuarto = converter(dto);
@@ -52,6 +75,12 @@ public class StatusQuartoController {
     }
 
     @PutMapping("{id}")
+    // @Operation(summary ="Atualiza um status de quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Status de Quarto alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Status de Quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody StatusQuartoDTO dto) {
         if (!service.getStatusQuartoById(id).isPresent()) {
             return new ResponseEntity("StatusQuarto não encontrado", HttpStatus.NOT_FOUND);
@@ -68,6 +97,12 @@ public class StatusQuartoController {
     }
 
     @DeleteMapping("{id}")
+    // @Operation(summary ="Exclui um status de quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Status de Quarto excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Status de Quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<StatusQuarto> statusQuarto = service.getStatusQuartoById(id);
         if (!statusQuarto.isPresent()) {

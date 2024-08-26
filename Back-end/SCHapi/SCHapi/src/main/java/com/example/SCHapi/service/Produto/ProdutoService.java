@@ -4,6 +4,9 @@ import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.*;
 import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.model.entity.Produto.Produto;
+import com.example.SCHapi.model.entity.Produto.TipoProduto;
+import com.example.SCHapi.model.entity.Quarto.Comodidade;
+import com.example.SCHapi.model.entity.Quarto.TipoComodidade;
 import com.example.SCHapi.model.repository.Produto.ProdutoRepository;
 
 import org.springframework.stereotype.Service;
@@ -30,6 +33,10 @@ public class ProdutoService {
 
     public Optional<Produto> getProdutoById(Long id) {
         return repository.findById(id);
+    }
+
+    public List<Produto> getProdutoByTipoProduto(Optional<TipoProduto> TipoProduto) {
+        return repository.findByTipoProduto(TipoProduto);
     }
 
     @Transactional
@@ -66,6 +73,11 @@ public class ProdutoService {
         }
         if (produto.getHotel() == null || produto.getHotel().getId() == null || produto.getHotel().getId() == 0) {
             throw new RegraNegocioException("Hotel inválido!!!!");
+        }
+
+        List<Produto> produtos = getProdutoByTipoProduto(Optional.of(produto.getTipoProduto()));
+        if(produtos.stream().anyMatch((x) -> !produto.getId().equals(x.getId())&&x.getTitulo().trim().equals(produto.getTitulo().trim())&&x.getHotel().getId()==produto.getHotel().getId())) {
+            throw new RegraNegocioException("Título já cadastrado para a categoria e hotel selecionado");
         }
     }
 

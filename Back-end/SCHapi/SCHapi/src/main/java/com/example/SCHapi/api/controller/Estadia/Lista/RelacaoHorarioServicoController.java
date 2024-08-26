@@ -1,4 +1,4 @@
-package com.example.SCHapi.api.controller.Servico.Lista;
+package com.example.SCHapi.api.controller.Estadia.Lista;
 
 
 import lombok.RequiredArgsConstructor;
@@ -13,19 +13,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.SCHapi.api.dto.Estadia.Lista.RelacaoHorarioServicoDTO;
 import com.example.SCHapi.api.dto.Quarto.Lista.ComodidadeTipoQuartoDTO;
-import com.example.SCHapi.api.dto.Servico.Lista.RelacaoHorarioServicoDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.AvaliacaoQuarto;
+import com.example.SCHapi.model.entity.Estadia.Lista.RelacaoHorarioServico;
 import com.example.SCHapi.model.entity.Estadia.Lista.ServicoSolicitado;
 import com.example.SCHapi.model.entity.Quarto.Comodidade;
 import com.example.SCHapi.model.entity.Quarto.TipoQuarto;
 import com.example.SCHapi.model.entity.Quarto.Lista.ComodidadeTipoQuarto;
 import com.example.SCHapi.model.entity.Servico.HorarioServico;
-import com.example.SCHapi.model.entity.Servico.Lista.RelacaoHorarioServico;
+import com.example.SCHapi.service.Estadia.Lista.RelacaoHorarioServicoService;
 import com.example.SCHapi.service.Estadia.Lista.ServicoSolicitadoService;
 import com.example.SCHapi.service.Servico.HorarioServicoService;
-import com.example.SCHapi.service.Servico.Lista.RelacaoHorarioServicoService;
+
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/api/v1/relacaoHorarioServicos")
@@ -38,12 +43,24 @@ public class RelacaoHorarioServicoController {
     private final ServicoSolicitadoService servicoSolicitadoService;
     
     @GetMapping()
+    // @Operation(summary ="Obter a lista de horário reservado do serviço solicitado")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Horário reservado do serviço solicitado retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Horário reservado do serviço solicitado não encontrado")
+    // })
     public ResponseEntity get() {
        List<RelacaoHorarioServico> relacaoHorarioServicos = service.getRelacaoHorariosServico();
         return ResponseEntity.ok(relacaoHorarioServicos.stream().map(RelacaoHorarioServicoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    // @Operation(summary ="Obter detalhes de um horário reservado do serviço solicitado")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Horário reservado do serviço solicitado encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Horário reservado do serviço solicitado não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<RelacaoHorarioServico> relacaoHorarioServico = service.getRelacaoHorariosServicoById(id);
         if (!relacaoHorarioServico.isPresent()) {
@@ -53,6 +70,12 @@ public class RelacaoHorarioServicoController {
     }
 
     @PostMapping
+    // @Operation(summary ="Salva um horário reservado do serviço solicitado")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Horário reservado do serviço solicitado salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Horário reservado do serviço solicitado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody RelacaoHorarioServicoDTO dto) {
         try {
             RelacaoHorarioServico relacaoHorarioServico = converter(dto);
@@ -64,6 +87,12 @@ public class RelacaoHorarioServicoController {
     }
 
     @PutMapping("{id}")
+    // @Operation(summary ="Atualiza um horário reservado do serviço solicitado")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Horário reservado do serviço solicitado alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Horário reservado do serviço solicitado não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody RelacaoHorarioServicoDTO dto) {
         if (!service.getRelacaoHorariosServicoById(id).isPresent()) {
             return new ResponseEntity("RelacaoHorarioServico não encontrado", HttpStatus.NOT_FOUND);
@@ -80,6 +109,12 @@ public class RelacaoHorarioServicoController {
     }
 
     @DeleteMapping("{id}")
+    // @Operation(summary ="Exclui um horário reservado do serviço solicitado")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Horário reservado do serviço solicitado excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Horário reservado do serviço solicitado não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<RelacaoHorarioServico> relacaoHorarioServico = service.getRelacaoHorariosServicoById(id);
         if (!relacaoHorarioServico.isPresent()) {

@@ -2,6 +2,7 @@ package com.example.SCHapi.service.Produto;
 
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.*;
+import com.example.SCHapi.model.entity.Estadia.Lista.TipoQuartoReserva;
 import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.model.entity.Produto.TipoProduto;
 import com.example.SCHapi.model.repository.Produto.TipoProdutoRepository;
@@ -51,6 +52,11 @@ public class TipoProdutoService {
         }
         if (tipoProduto.getTitulo() == null || tipoProduto.getTitulo().trim().equals("")) {
             throw new RegraNegocioException("Titulo Invalido!!! Insira um titulo valido.");
+        }
+
+        List<TipoProduto> tipoProdutos = getTipoProdutos();
+        if(tipoProdutos.stream().anyMatch((x) -> {System.out.println(x.getTitulo().trim()+" "+tipoProduto.getTitulo().trim());System.out.println(tipoProduto.getId().equals(x.getId()));return x.getTitulo().trim().equals(tipoProduto.getTitulo().trim())&&!tipoProduto.getId().equals(x.getId());})) {
+            throw new RegraNegocioException("Título já cadastrado");
         }
     }
 }

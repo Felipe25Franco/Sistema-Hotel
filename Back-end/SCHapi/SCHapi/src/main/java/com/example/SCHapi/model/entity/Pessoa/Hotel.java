@@ -40,6 +40,7 @@ public class Hotel {
     public Float getMediaAvaliacao() {
         //List<Hospedagem> hospedagens = hospedagemService.getHospedagemByHotel(hotel);
         //hospedagens.stream().map(x->x.getAvaliacaoHospedagem().getNota()).toList();
+        if (this.hospedagens==null) return (float) -1;
         if (this.hospedagens.isEmpty()) return (float) -1;
         Float avaliacaoMedia = (float)0;
         Float i = (float)0;

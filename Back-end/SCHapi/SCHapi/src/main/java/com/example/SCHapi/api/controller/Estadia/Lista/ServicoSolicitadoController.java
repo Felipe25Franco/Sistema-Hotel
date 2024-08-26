@@ -2,20 +2,24 @@ package com.example.SCHapi.api.controller.Estadia.Lista;
 
 import com.example.SCHapi.api.dto.Estadia.HospedagemDTO;
 import com.example.SCHapi.api.dto.Estadia.Lista.ProdutoSolicitadoDTOList;
+import com.example.SCHapi.api.dto.Estadia.Lista.RelacaoHorarioServicoDTOList;
+import com.example.SCHapi.api.dto.Estadia.Lista.RelacaoHorarioServicoDTOList2;
 import com.example.SCHapi.api.dto.Estadia.Lista.ServicoSolicitadoDTO;
-import com.example.SCHapi.api.dto.Servico.Lista.RelacaoHorarioServicoDTOList;
+import com.example.SCHapi.api.dto.Estadia.Lista.TipoQuartoReservaDTOList;
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.Hospedagem;
 import com.example.SCHapi.model.entity.Estadia.Lista.ProdutoSolicitado;
 import com.example.SCHapi.model.entity.Estadia.Lista.QuartoHospedagem;
+import com.example.SCHapi.model.entity.Estadia.Lista.RelacaoHorarioServico;
 import com.example.SCHapi.model.entity.Estadia.Lista.ServicoSolicitado;
+import com.example.SCHapi.model.entity.Estadia.Lista.TipoQuartoReserva;
 import com.example.SCHapi.model.entity.Produto.Produto;
 import com.example.SCHapi.model.entity.Servico.HorarioServico;
 import com.example.SCHapi.model.entity.Servico.Servico;
-import com.example.SCHapi.model.entity.Servico.Lista.RelacaoHorarioServico;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,10 +27,15 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 
 import com.example.SCHapi.service.Estadia.HospedagemService;
+import com.example.SCHapi.service.Estadia.Lista.RelacaoHorarioServicoService;
 import com.example.SCHapi.service.Estadia.Lista.ServicoSolicitadoService;
 import com.example.SCHapi.service.Servico.HorarioServicoService;
 import com.example.SCHapi.service.Servico.ServicoService;
-import com.example.SCHapi.service.Servico.Lista.RelacaoHorarioServicoService;
+
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,12 +54,24 @@ public class ServicoSolicitadoController {
     private final RelacaoHorarioServicoService relacaoHorarioServicoService;
 
     @GetMapping()
+    // @Operation(summary ="Obter a lista de serviço solicitado")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Serviço Solicitado retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Serviço Solicitado não encontrado")
+    // })
     public ResponseEntity get() {
        List<ServicoSolicitado> servicoSolicitados = service.getServicoSolicitados();
         return ResponseEntity.ok(servicoSolicitados.stream().map(ServicoSolicitadoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    // @Operation(summary ="Obter detalhes de um serviço solicitado")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Serviço Solicitado encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Serviço Solicitado não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<ServicoSolicitado> servicoSolicitado = service.getServicoSolicitadoById(id);
         if (!servicoSolicitado.isPresent()) {
@@ -63,7 +84,14 @@ public class ServicoSolicitadoController {
     }
 
     @GetMapping("/hospedagens/{id}")//retorna os servicos solidictados da hospedagem do id
+    // @Operation(summary ="Obter detalhes de um serviço solicitado")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Serviço Solicitado encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Serviço Solicitado não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity getByHospedagemId(@PathVariable("id") Long id) {
+        //System.out.println("oi");
         Optional<Hospedagem> hospedagem = hospedagemService.getHospedagemById(id);
         if (!hospedagem.isPresent()) {
             return new ResponseEntity("Hospedagem  não encontrada", HttpStatus.NOT_FOUND);
@@ -73,15 +101,29 @@ public class ServicoSolicitadoController {
     }
 
     @PostMapping
+    // @Operation(summary ="Salva um serviço solicitado")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Serviço Solicitado salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Serviço Solicitado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody ServicoSolicitadoDTO dto) {
+        System.out.println("post dto");
+        System.out.println(dto);
         try {
             ServicoSolicitado servicoSolicitado = converter(dto);
-            servicoSolicitado = service.salvar(servicoSolicitado);
-            // loop para cada elemento da lista salvar o produtosolicitado
-            for (RelacaoHorarioServicoDTOList relacaoHorarioServicoDto : dto.getRelacaoHorarioServico()) {
-                RelacaoHorarioServico relacaoHorarioServico = converterRelacaoHorarioServico(relacaoHorarioServicoDto, servicoSolicitado.getId());
-                relacaoHorarioServicoService.salvar(relacaoHorarioServico);
+            // // loop para cada elemento da lista salvar o produtosolicitado
+            // for (RelacaoHorarioServicoDTOList relacaoHorarioServicoDto : dto.getRelacaoHorarioServico()) {
+            //     RelacaoHorarioServico relacaoHorarioServico = converterRelacaoHorarioServico(relacaoHorarioServicoDto, servicoSolicitado.getId());
+            //     relacaoHorarioServicoService.salvar(relacaoHorarioServico);
+            // }
+            List<RelacaoHorarioServico> relacaoHorarioServicos = new ArrayList<RelacaoHorarioServico>();
+            for (RelacaoHorarioServicoDTOList2 relacaoHorarioServicoDto2 : dto.getRelacaoHorarioServico()) {
+                if (relacaoHorarioServicoDto2.getSelect() != null)
+                     if (relacaoHorarioServicoDto2.getSelect())
+                        relacaoHorarioServicos.add(converterRelacaoHorarioServico2(relacaoHorarioServicoDto2, servicoSolicitado.getId()));
             }
+            servicoSolicitado = service.salvarFull(servicoSolicitado, relacaoHorarioServicos);
             return new ResponseEntity(servicoSolicitado, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -89,7 +131,15 @@ public class ServicoSolicitadoController {
     }
 
     @PutMapping("{id}")
+    // @Operation(summary ="Atualiza um serviço solicitado")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Serviço Solicitado alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Serviço Solicitado não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ServicoSolicitadoDTO dto) {
+            System.out.println("put dto");
+            System.out.println(dto);
         if (!service.getServicoSolicitadoById(id).isPresent()) {
             return new ResponseEntity("ServicoSolicitado não encontrado", HttpStatus.NOT_FOUND);
         }
@@ -97,14 +147,26 @@ public class ServicoSolicitadoController {
             ServicoSolicitado servicoSolicitado = converter(dto);
             servicoSolicitado.setId(id);
             //System.out.println(dto);
-            for (RelacaoHorarioServico relacaoHorarioServico : service.getServicoSolicitadoById(id).get().getRelacaoHorarioServico()){
-                relacaoHorarioServicoService.excluir(relacaoHorarioServico);
+            // for (RelacaoHorarioServico relacaoHorarioServico : service.getServicoSolicitadoById(id).get().getRelacaoHorarioServico()){
+            //     relacaoHorarioServicoService.excluir(relacaoHorarioServico);
+            // }
+            // service.salvar(servicoSolicitado);
+            // for (RelacaoHorarioServicoDTOList relacaoHorarioServicoDto : dto.getRelacaoHorarioServico()) {
+            //     RelacaoHorarioServico relacaoHorarioServico = converterRelacaoHorarioServico(relacaoHorarioServicoDto, servicoSolicitado.getId());
+            //     relacaoHorarioServicoService.salvar(relacaoHorarioServico);
+            // }
+
+            //converter lista de tipoquartoresrva
+            List<RelacaoHorarioServico> relacaoHorarioServicos = new ArrayList<RelacaoHorarioServico>();
+            for (RelacaoHorarioServicoDTOList2 relacaoHorarioServicoDto2 : dto.getRelacaoHorarioServico()) {
+                if (relacaoHorarioServicoDto2.getSelect() != null)
+                    if (relacaoHorarioServicoDto2.getSelect())
+                        relacaoHorarioServicos.add(converterRelacaoHorarioServico2(relacaoHorarioServicoDto2, servicoSolicitado.getId()));
+            //System.out.println(relacaoHorarioServicos.isEmpty());
+            //System.out.println(relacaoHorarioServicos.getLast().getServicoSolicitado().getId());
             }
-            service.salvar(servicoSolicitado);
-            for (RelacaoHorarioServicoDTOList relacaoHorarioServicoDto : dto.getRelacaoHorarioServico()) {
-                RelacaoHorarioServico relacaoHorarioServico = converterRelacaoHorarioServico(relacaoHorarioServicoDto, servicoSolicitado.getId());
-                relacaoHorarioServicoService.salvar(relacaoHorarioServico);
-            }
+            //System.out.println("oi");
+            service.salvarFull(servicoSolicitado, relacaoHorarioServicos);
             return ResponseEntity.ok(servicoSolicitado);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -112,6 +174,12 @@ public class ServicoSolicitadoController {
     }
 
     @DeleteMapping("{id}")
+    // @Operation(summary ="Exclui um serviço solicitado")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Serviço Solicitado excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Serviço Solicitado não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<ServicoSolicitado> servicoSolicitado = service.getServicoSolicitadoById(id);
         if (!servicoSolicitado.isPresent()) {
@@ -126,8 +194,11 @@ public class ServicoSolicitadoController {
     }
 
     public ServicoSolicitado converter(ServicoSolicitadoDTO dto) {
-        ModelMapper modelMapper = new ModelMapper();
-        ServicoSolicitado servicoSolicitado = modelMapper.map(dto, ServicoSolicitado.class);
+        //ModelMapper modelMapper = new ModelMapper();
+        //ServicoSolicitado servicoSolicitado = modelMapper.map(dto, ServicoSolicitado.class);
+        ServicoSolicitado servicoSolicitado = new ServicoSolicitado();
+        servicoSolicitado.setId(dto.getId());
+        servicoSolicitado.setValorTotal(dto.getValorTotal());
         if (dto.getIdHospedagem() != null) {
             Optional<Hospedagem> hospedagem = hospedagemService.getHospedagemById(dto.getIdHospedagem());
             if (!hospedagem.isPresent()) {
@@ -167,6 +238,38 @@ public class ServicoSolicitadoController {
                 relacaoHorarioServico.setHorarioServico(horarioServico.get());
             }
         }
+        return relacaoHorarioServico;
+    }
+
+    public RelacaoHorarioServico converterRelacaoHorarioServico2(RelacaoHorarioServicoDTOList2 dto, Long servicoSolicitadoId) {
+        // ModelMapper modelMapper = new ModelMapper();
+        // RelacaoHorarioServico relacaoHorarioServico = modelMapper.map(dto, RelacaoHorarioServico.class);
+        RelacaoHorarioServico relacaoHorarioServico = new RelacaoHorarioServico();
+        relacaoHorarioServico.setQuantidadeVagas(dto.getQuantidadeVagas());
+        //relacaoHorarioServico.setId(null);
+        System.out.println("id servicosolicitado");
+        System.out.println(servicoSolicitadoId);
+        if (servicoSolicitadoId != null) {
+            Optional<ServicoSolicitado> servicoSolicitado = service.getServicoSolicitadoById(servicoSolicitadoId);
+            if (!servicoSolicitado.isPresent()) {
+                relacaoHorarioServico.setServicoSolicitado(null);
+            } else {
+                relacaoHorarioServico.setServicoSolicitado(servicoSolicitado.get());
+                //System.out.println("teste solicitado "+relacaoHorarioServico.getServicoSolicitado().getId());
+            }
+        }
+        if (dto.getIdHorarioServico() != null) {
+            Optional<HorarioServico> horarioServico = horarioServicoService.getHorarioServicoById(dto.getIdHorarioServico());
+            if (!horarioServico.isPresent()) {
+                relacaoHorarioServico.setHorarioServico(null);
+            } else {
+                relacaoHorarioServico.setHorarioServico(horarioServico.get());
+                //System.out.println("teste horario "+relacaoHorarioServico.getHorarioServico().getId());
+            }
+        }
+        System.out.println("\napos converter o dto do shoraris");
+        // System.out.println(dto.getIdHorarioServico());
+        // System.out.println(relacaoHorarioServico.getHorarioServico());
         return relacaoHorarioServico;
     }
 }

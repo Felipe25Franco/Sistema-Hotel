@@ -2,9 +2,11 @@ package com.example.SCHapi.model.entity.Estadia.Lista;
 
 import java.util.List;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import com.example.SCHapi.model.entity.Estadia.Hospedagem;
 import com.example.SCHapi.model.entity.Servico.Servico;
-import com.example.SCHapi.model.entity.Servico.Lista.RelacaoHorarioServico;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -36,5 +38,6 @@ public class ServicoSolicitado {
 
     @JsonIgnore
     @OneToMany (mappedBy = "servicoSolicitado")
+    //@NotFound(action = NotFoundAction.IGNORE)
     private List<RelacaoHorarioServico> relacaoHorarioServico;
 }

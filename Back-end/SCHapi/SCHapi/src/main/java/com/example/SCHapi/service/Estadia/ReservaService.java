@@ -37,26 +37,31 @@ public class ReservaService {
         return repository.findById(id);
     }
 
-    @Transactional
-    public Reserva salvar(Reserva reserva) {
-        validar(reserva);
-        return repository.save(reserva);
-    }
+    // @Transactional
+    // public Reserva salvar(Reserva reserva) {
+    //     validar(reserva);
+    //     return repository.save(reserva);
+    // }
 
     @Transactional
     public Reserva salvarFull(Reserva reserva, List<TipoQuartoReserva> tipoQuartoReservas) {
+        validar(reserva, tipoQuartoReservas);
+        reserva = repository.save(reserva);
         // excluir a lista antiga de TipoQUarto
-        List<TipoQuartoReserva> listaQuartos = tipoQuartoReservaService.getTipoQuartoReservaByReserva(Optional.of(reserva));
+        List<TipoQuartoReserva> tipoQuartoReservasDel = tipoQuartoReservaService.getTipoQuartoReservaByReserva(Optional.of(reserva));
         // loop para cada elemento da lista deletar o tipoquartoreserva
-        for (TipoQuartoReserva tipoQuartoReserva : listaQuartos) {
-            tipoQuartoReservaService.excluir(tipoQuartoReserva);
+        for (TipoQuartoReserva tipoQuartoReserva : tipoQuartoReservasDel) {
+            //tipoQuartoReservaService.excluir(tipoQuartoReserva);
+            if (!tipoQuartoReservas.stream().anyMatch((o)-> tipoQuartoReserva.getId().equals(o.getId()))){
+                tipoQuartoReservaService.excluir(tipoQuartoReserva);
+            }
         }
         // Salvar os novos TipoQUarto
         for (TipoQuartoReserva tipoQuartoReserva : tipoQuartoReservas) {
+            tipoQuartoReserva.setReserva(reserva);
             tipoQuartoReservaService.salvar(tipoQuartoReserva);
         }
-        validar(reserva);
-        return repository.save(reserva);
+        return reserva;
     }
 
     @Transactional
@@ -77,17 +82,17 @@ public class ReservaService {
     }
 
 
-    public void validar(Reserva reserva) {
+    public void validar(Reserva reserva, List<TipoQuartoReserva> tipoQuartoReservas) {
 
         Float valorReserva = reserva.getValorReserva();
 
 
         if (reserva.getDataInicio() == null || reserva.getDataInicio().trim().equals("") || !reserva.getDataInicio().matches("^\\d{4}-\\d{2}-\\d{2}$")){
              throw new RegraNegocioException("Data de inicio Invalido!!! Insira uma data valida yyyy/mm/dd.");
-         }
-        // if (reserva.getDataFim() == null || reserva.getDataFim().trim().equals("") || !reserva.getDataFim().matches("^\\d{2}/\\d{2}/\\d{4}-\\d{2}:\\d{2}$")){
-        //     throw new RegraNegocioException("data fim Invalido!!! Insira uma data valida dd/mm/yyy-hh:mm.");
-        // }
+        }
+        if (reserva.getDataFim() == null || reserva.getDataFim().trim().equals("") || !reserva.getDataFim().matches("^\\d{4}-\\d{2}-\\d{2}$")){
+            throw new RegraNegocioException("data fim Invalido!!! Insira uma data valida dd/mm/yyy-hh:mm.");
+        }
         if (valorReserva == null || valorReserva <= 0 ) {
             //System.out.println(valorReserva);
             throw new RegraNegocioException("Valor de reserva invalido, valor não pode ser menor ou igual a 0 ou nulo.");
@@ -107,5 +112,9 @@ public class ReservaService {
         }
 
         // FALTA LISTA DE QUARTOS
+
+        if (tipoQuartoReservas.isEmpty()) {
+            throw new RegraNegocioException("Selecione pelo menos um quarto válido");
+        }
     }
 }

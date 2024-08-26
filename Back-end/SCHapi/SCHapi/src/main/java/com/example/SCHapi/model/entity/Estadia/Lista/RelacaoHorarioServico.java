@@ -1,6 +1,5 @@
-package com.example.SCHapi.model.entity.Servico.Lista;
+package com.example.SCHapi.model.entity.Estadia.Lista;
 
-import com.example.SCHapi.model.entity.Estadia.Lista.ServicoSolicitado;
 import com.example.SCHapi.model.entity.Servico.HorarioServico;
 
 import javax.persistence.*;

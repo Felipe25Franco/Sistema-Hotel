@@ -19,6 +19,8 @@ import com.example.SCHapi.service.Estadia.HospedagemService;
 import com.example.SCHapi.service.Estadia.Lista.ProdutoSolicitadoService;
 import com.example.SCHapi.service.Produto.ProdutoService;
 
+// 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,13 +36,25 @@ public class ProdutoSolicitadoController {
     private final HospedagemService hospedagemService;
 
     @GetMapping()
+    // @Operation(summary ="Obter a lista de produto solicitado da hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Produto Solicitado da Hospedagem retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Produto Solicitado da Hospedagem não encontrado")
+    // })
     public ResponseEntity get() {
        List<ProdutoSolicitado> produtoSolicitados = service.getProdutoSolicitados();
         return ResponseEntity.ok(produtoSolicitados.stream().map(ProdutoSolicitadoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    // @Operation(summary ="Obter detalhes de um produto solicitado da hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Produto Solicitado da Hospedagem encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Produto Solicitado da Hospedagem não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity get(@PathVariable("id")  Long id) {
         Optional<ProdutoSolicitado> produtoSolicitado = service.getProdutoSolicitadoById(id);
         if (!produtoSolicitado.isPresent()) {
             return new ResponseEntity("ProdutoSolicitado não encontrada", HttpStatus.NOT_FOUND);
@@ -49,6 +63,12 @@ public class ProdutoSolicitadoController {
     }
 
     @PostMapping
+    // @Operation(summary ="Salva um produto solicitado da hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Produto Solicitado da Hospedagem salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Produto Solicitado da Hospedagem"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody ProdutoSolicitadoDTO dto) {
         try {
             ProdutoSolicitado produtoSolicitado = converter(dto);
@@ -60,7 +80,13 @@ public class ProdutoSolicitadoController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ProdutoSolicitadoDTO dto) {
+    // @Operation(summary ="Atualiza um produto solicitado da hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Produto Solicitado da Hospedagem alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Produto Solicitado da Hospedagem não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity atualizar(@PathVariable("id")  Long id, @RequestBody ProdutoSolicitadoDTO dto) {
         if (!service.getProdutoSolicitadoById(id).isPresent()) {
             return new ResponseEntity("ProdutoSolicitado não encontrado", HttpStatus.NOT_FOUND);
         }
@@ -76,7 +102,13 @@ public class ProdutoSolicitadoController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity excluir(@PathVariable("id") Long id) {
+    // @Operation(summary ="Exclui um produto solicitado da hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Produto Solicitado da Hospedagem excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Produto Solicitado da Hospedagem não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<ProdutoSolicitado> produtoSolicitado = service.getProdutoSolicitadoById(id);
         if (!produtoSolicitado.isPresent()) {
             return new ResponseEntity("ProdutoSolicitado não encontrado", HttpStatus.NOT_FOUND);

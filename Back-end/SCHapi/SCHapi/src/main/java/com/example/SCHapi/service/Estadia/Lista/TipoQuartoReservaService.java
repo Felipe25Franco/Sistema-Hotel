@@ -2,6 +2,7 @@ package com.example.SCHapi.service.Estadia.Lista;
 
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Estadia.Reserva;
+import com.example.SCHapi.model.entity.Estadia.Lista.QuartoHospedagem;
 import com.example.SCHapi.model.entity.Estadia.Lista.ServicoSolicitado;
 import com.example.SCHapi.model.entity.Estadia.Lista.TipoQuartoReserva;
 import com.example.SCHapi.model.repository.Estadia.Lista.TipoQuartoReservaRepository;
@@ -47,6 +48,12 @@ public class TipoQuartoReservaService {
         repository.delete(tipoQuartoReserva);
     }
 
+    @Transactional
+    public void excluirList(List<TipoQuartoReserva> tipoQuartoReservas) {
+        //Objects.requireNonNull(tipoQuartoReserva.getId());
+        repository.deleteAllById(tipoQuartoReservas.stream().map(TipoQuartoReserva::getId).toList());
+    }
+
     //fazer o validar dps
     public void validar(TipoQuartoReserva tipoQuartoReserva) {
         
@@ -61,5 +68,10 @@ public class TipoQuartoReservaService {
         }
 
         // FALTA LISTA DE QUARTOS
+
+        List<TipoQuartoReserva> tipoQuartoReservas = getTipoQuartoReservaByReserva(Optional.of(tipoQuartoReserva.getReserva()));
+        if(tipoQuartoReservas.stream().anyMatch((x) -> x.getTipoQuarto().getId()==tipoQuartoReserva.getTipoQuarto().getId())) {
+            throw new RegraNegocioException("Quartos duplicado. Selecione quartos distintos");
+        }
     }
 }

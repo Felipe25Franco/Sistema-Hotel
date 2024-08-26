@@ -32,6 +32,7 @@ public class ReservaDTO {
     private Long idFuncionario;
     private Long idHotel;
     private Long idStatusReserva;
+    private Long idHospedagem;
     private List<TipoQuartoReservaDTOList> listaQuartos;
 
     public static ReservaDTO create(Reserva reserva) {
@@ -51,6 +52,10 @@ public class ReservaDTO {
             dto.idFuncionario = null;
         dto.idHotel = reserva.getHotel().getId();
         dto.idStatusReserva = reserva.getStatusReserva().getId();
+        if(reserva.getHospedagem()!=null)
+            dto.idHospedagem = reserva.getHospedagem().getId();
+        else
+            dto.idHospedagem = null;
 
         dto.listaQuartos = TipoQuartoReservaDTOList.createList(reserva.getTipoQuartoReserva());
 

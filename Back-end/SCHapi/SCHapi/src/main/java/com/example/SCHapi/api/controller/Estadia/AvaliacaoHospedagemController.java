@@ -6,6 +6,10 @@ import com.example.SCHapi.model.entity.Estadia.AvaliacaoHospedagem;
 import com.example.SCHapi.model.entity.Estadia.Hospedagem;
 import com.example.SCHapi.service.Estadia.AvaliacaoHospedagemService;
 
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -26,6 +30,12 @@ public class AvaliacaoHospedagemController {
     private final AvaliacaoHospedagemService service;
 
     @GetMapping()
+    // @Operation(summary ="Obter a lista de avaliação de uma hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Avaliação de uma hospedagem retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Avaliação de uma hospedagem não encontrado")
+    // })
     public ResponseEntity get() {
         System.out.println(AvaliacaoHospedagem.getMedia((long)1));
         List<AvaliacaoHospedagem> avaliacaoHospedagens = service.getAvaliacaoHospedagens();
@@ -33,6 +43,12 @@ public class AvaliacaoHospedagemController {
     }
 
     @GetMapping("/{id}")
+    // @Operation(summary ="Obter detalhes de um avaliação de uma hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Avaliação de uma hospedagem encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Avaliação de uma hospedagem não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<AvaliacaoHospedagem> avaliacaoHospedagem = service.getAvaliacaoHospedagemById(id);
         if (!avaliacaoHospedagem.isPresent()) {
@@ -42,6 +58,12 @@ public class AvaliacaoHospedagemController {
     }
 
     @PostMapping
+    // @Operation(summary ="Salva um avaliação de uma hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Avaliação de uma hospedagem salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Avaliação de uma hospedagem"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody AvaliacaoHospedagemDTO dto) {
         try {
             AvaliacaoHospedagem avaliacaoHospedagem = converter(dto);
@@ -53,7 +75,13 @@ public class AvaliacaoHospedagemController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody AvaliacaoHospedagemDTO dto) {
+    // @Operation(summary ="Atualiza um avaliação de uma hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Avaliação de uma hospedagem alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Avaliação de uma hospedagem não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity atualizar(@PathVariable("id")Long id, @RequestBody AvaliacaoHospedagemDTO dto) {
         if (!service.getAvaliacaoHospedagemById(id).isPresent()) {
             return new ResponseEntity("AvaliacaoHospedagem não encontrado", HttpStatus.NOT_FOUND);
         }
@@ -69,7 +97,13 @@ public class AvaliacaoHospedagemController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity excluir(@PathVariable("id") Long id) {
+    // @Operation(summary ="Exclui um avaliação de uma hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Avaliação de uma hospedagem excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Avaliação de uma hospedagem não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<AvaliacaoHospedagem> avaliacaoHospedagem = service.getAvaliacaoHospedagemById(id);
         if (!avaliacaoHospedagem.isPresent()) {
             return new ResponseEntity("Avaliação de Hospedagem não encontrada", HttpStatus.NOT_FOUND);

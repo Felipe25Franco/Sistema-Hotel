@@ -19,6 +19,11 @@ import com.example.SCHapi.service.Quarto.TipoCamaService;
 import com.example.SCHapi.service.Quarto.TipoQuartoService;
 import com.example.SCHapi.service.Quarto.Lista.TipoCamaTipoQuartoService;
 
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,13 +39,25 @@ public class TipoCamaTipoQuartoController {
     private final TipoQuartoService tipoQuartoService;
 
     @GetMapping()
+    // @Operation(summary ="Obter a lista de tipo de cama de um tipo de quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Tipo de Cama de um Tipo de Quarto retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Tipo de Cama de um Tipo de Quarto não encontrado")
+    // })
     public ResponseEntity get() {
        List<TipoCamaTipoQuarto> tipoCamaTipoQuartos = service.getTipoCamaTipoQuartos();
         return ResponseEntity.ok(tipoCamaTipoQuartos.stream().map(TipoCamaTipoQuartoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    // @Operation(summary ="Obter detalhes de um tipo de cama de um tipo de quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Tipo de Cama de um Tipo de Quarto encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Tipo de Cama de um Tipo de Quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity get(@PathVariable("id")  Long id) {
         Optional<TipoCamaTipoQuarto> tipoCamaTipoQuarto = service.getTipoCamaTipoQuartoById(id);
         if (!tipoCamaTipoQuarto.isPresent()) {
             return new ResponseEntity("TipoCamaTipoQuarto não encontrada", HttpStatus.NOT_FOUND);
@@ -49,6 +66,12 @@ public class TipoCamaTipoQuartoController {
     }
 
     @PostMapping
+    // @Operation(summary ="Salva um tipo de cama de um tipo de quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Tipo de Cama de um Tipo de Quarto salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Tipo de Cama de um Tipo de Quarto"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody TipoCamaTipoQuartoDTO dto) {
         try {
             TipoCamaTipoQuarto tipoCamaTipoQuarto = converter(dto);
@@ -60,6 +83,12 @@ public class TipoCamaTipoQuartoController {
     }
 
     @PutMapping("{id}")
+    // @Operation(summary ="Atualiza um tipo de cama de um tipo de quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Tipo de Cama de um Tipo de Quarto alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Tipo de Cama de um Tipo de Quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody TipoCamaTipoQuartoDTO dto) {
         if (!service.getTipoCamaTipoQuartoById(id).isPresent()) {
             return new ResponseEntity("TipoCamaTipoQuarto não encontrado", HttpStatus.NOT_FOUND);
@@ -76,7 +105,13 @@ public class TipoCamaTipoQuartoController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity excluir(@PathVariable("id") Long id) {
+    // @Operation(summary ="Exclui um tipo de cama de um tipo de quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Tipo de Cama de um Tipo de Quarto excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Tipo de Cama de um Tipo de Quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<TipoCamaTipoQuarto> tipoCamaTipoQuarto = service.getTipoCamaTipoQuartoById(id);
         if (!tipoCamaTipoQuarto.isPresent()) {
             return new ResponseEntity("TipoCamaTipoQuarto não encontrado", HttpStatus.NOT_FOUND);

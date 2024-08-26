@@ -1,7 +1,7 @@
 package com.example.SCHapi.service.Pessoa;
 
 import com.example.SCHapi.exception.RegraNegocioException;
-
+import com.example.SCHapi.model.entity.Pessoa.Hotel;
 import com.example.SCHapi.model.entity.Pessoa.Pais;
 import com.example.SCHapi.model.repository.Pessoa.PaisRepository;
 
@@ -48,6 +48,11 @@ public class PaisService {
 
         if (pais.getTitulo() == null || pais.getTitulo().trim().equals("") || !titulo.matches("[a-zA-ZÀ-ÿ\\s]+")){
             throw new RegraNegocioException("Titulo Invalido!!! Insira um titulo valido, titulo deve ter apenas letras de A a Z.");
+        }
+
+        List<Pais> paiss = getPaises();
+        if(paiss.stream().anyMatch((x) -> {return !pais.getId().equals(x.getId())&&x.getTitulo().trim().equals(pais.getTitulo().trim());})) {
+            throw new RegraNegocioException("Título já cadastrado");
         }
     }
 }

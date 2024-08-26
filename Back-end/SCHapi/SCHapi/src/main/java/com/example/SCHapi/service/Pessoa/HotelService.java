@@ -6,6 +6,7 @@ import com.example.SCHapi.service.Estadia.HospedagemService;
 import com.example.SCHapi.service.Estadia.Lista.QuartoHospedagemService;
 import com.example.SCHapi.model.entity.*;
 import com.example.SCHapi.model.entity.Estadia.Hospedagem;
+import com.example.SCHapi.model.entity.Pessoa.Cliente;
 import com.example.SCHapi.model.entity.Pessoa.Hotel;
 import com.example.SCHapi.model.entity.Pessoa.Uf;
 
@@ -73,9 +74,9 @@ public class HotelService {
         if (avaliacaoMedia == null || (avaliacaoMedia < 0 || avaliacaoMedia > 5 )) {
             throw new RegraNegocioException("A avaliação media do hotel tem que estar entre 0 e 5 e não pode ser nula, avaliação media invalida.");
         }
-        if (!String.valueOf(avaliacaoMedia).matches("^\\d+(\\.\\d+)?$")) {
-            throw new RegraNegocioException("A avaliação média do hotel deve conter apenas números e ponto decimal.");
-        }
+        // if (!String.valueOf(avaliacaoMedia).matches("^\\d+(\\.\\d+)?$")) {
+        //     throw new RegraNegocioException("A avaliação média do hotel deve conter apenas números e ponto decimal.");
+        // }
         if (telefone1 != null) {
             telefone1 = telefone1.replaceAll("[()\\-]", ""); // Remove parênteses e traços
             if (telefone1.length() != 12 && telefone1.length() != 13) {
@@ -112,6 +113,13 @@ public class HotelService {
         }
         if (hotel.getEndereco().getUf().getPais() == null || hotel.getEndereco().getUf().getPais().getId() == null || hotel.getEndereco().getUf().getPais().getId() == 0) {
             throw new RegraNegocioException("Pais inválido!!!!");
+        }
+
+        
+
+        List<Hotel> hotels = getHoteis();
+        if(hotels.stream().anyMatch((x) -> {return !hotel.getId().equals(x.getId())&&x.getTitulo().trim().equals(hotel.getTitulo().trim());})) {
+            throw new RegraNegocioException("título já cadastrado");
         }
         
     }

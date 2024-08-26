@@ -18,6 +18,7 @@ import com.example.SCHapi.service.Estadia.Lista.ServicoSolicitadoService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -58,10 +59,82 @@ public class HospedagemService {
         return repository.findByHotel(hotel);
     }
 
+    // @Transactional
+    // public Hospedagem salvar(Hospedagem hospedagem) {
+    //     validar(hospedagem);
+    //     return repository.save(hospedagem);
+    // }
+
     @Transactional
-    public Hospedagem salvar(Hospedagem hospedagem) {
-        validar(hospedagem);
-        return repository.save(hospedagem);
+    public Hospedagem salvarFull(Hospedagem hospedagem, List<QuartoHospedagem> quartoHospedagems, List<ProdutoSolicitado> produtoSolicitados) {
+        validar(hospedagem, quartoHospedagems);
+        hospedagem = repository.save(hospedagem);
+        // excluir a lista antiga de TipoQUarto
+        List<QuartoHospedagem> quartoHospedagemsDel = quartoHospedagemService.getQuartoHospedagemByHospedagem(Optional.of(hospedagem));
+        // loop para cada elemento da lista deletar o quartohospedagem
+        for (QuartoHospedagem quartoHospedagem : quartoHospedagemsDel) {
+            //quartoHospedagemService.excluir(quartoHospedagem);
+            if (!quartoHospedagems.stream().anyMatch((o)-> quartoHospedagem.getId().equals(o.getId()))){
+                quartoHospedagemService.excluir(quartoHospedagem);
+            }
+        }
+        // Salvar os novos TipoQUarto
+        for (QuartoHospedagem quartoHospedagem : quartoHospedagems) {
+            quartoHospedagem.setHospedagem(hospedagem);
+            quartoHospedagemService.salvar(quartoHospedagem);
+        }
+        
+        // excluir a lista antiga de TipoQUarto
+        List<ProdutoSolicitado> produtoSolicitadosDel = produtoSolicitadoService.getProdutoSolicitadoByHospedagem(Optional.of(hospedagem));
+        // loop para cada elemento da lista deletar o produtosolicitado
+        for (ProdutoSolicitado produtoSolicitado : produtoSolicitadosDel) {
+            //produtoSolicitadoService.excluir(produtoSolicitado);
+            if (!produtoSolicitados.stream().anyMatch((o)-> produtoSolicitado.getId().equals(o.getId()))){
+                produtoSolicitadoService.excluir(produtoSolicitado);
+            }
+        }
+        // Salvar os novos TipoQUarto
+        for (ProdutoSolicitado produtoSolicitado : produtoSolicitados) {
+            produtoSolicitado.setHospedagem(hospedagem);
+            produtoSolicitadoService.salvar(produtoSolicitado);
+        }
+        //remanejar avaliacoes
+        //System.out.println(hospedagem.getId());
+        //Hospedagem hospedagemS = service.getHospedagemById(id).get();
+        for (QuartoHospedagem quartoHospedagem : quartoHospedagemService.getQuartoHospedagemByHospedagem(Optional.of(hospedagem))){
+            Boolean flagBreak = false;
+            for (AvaliacaoQuarto avaliacaoQuarto : avaliacaoQuartoService.getAvaliacaoQuartoByHospedagem(Optional.of(hospedagem))){
+                if(avaliacaoQuarto.getTipoQuarto().getId()==quartoHospedagem.getQuarto().getTipoQuarto().getId()){
+                    System.out.println("break "+avaliacaoQuarto.getTipoQuarto().getId());
+                    flagBreak = true;
+                    break;
+                }
+            }
+            if(!flagBreak){
+                //System.out.println("criei ava topquarto" + quartoHospedagem.getQuarto().getTipoQuarto().getId());
+                AvaliacaoQuarto avaliacaoQuartoNew = new AvaliacaoQuarto();
+                avaliacaoQuartoNew.setNota((float) -1);
+                avaliacaoQuartoNew.setTipoQuarto(quartoHospedagem.getQuarto().getTipoQuarto());
+                avaliacaoQuartoNew.setHospedagem(hospedagem);
+                avaliacaoQuartoService.salvarSemValidar(avaliacaoQuartoNew);
+            }
+        }
+        for (AvaliacaoQuarto avaliacaoQuarto : avaliacaoQuartoService.getAvaliacaoQuartoByHospedagem(Optional.of(hospedagem))){
+            Boolean flagBreak = false;
+            for (QuartoHospedagem quartoHospedagem: quartoHospedagemService.getQuartoHospedagemByHospedagem(Optional.of(hospedagem))){
+                if(avaliacaoQuarto.getTipoQuarto().getId()==quartoHospedagem.getQuarto().getTipoQuarto().getId()){
+                    System.out.println("break "+avaliacaoQuarto.getTipoQuarto().getId());
+                    flagBreak = true;
+                    break;
+                }
+            }
+            if(!flagBreak){
+                //System.out.println("deletei ava topquarto" + avaliacaoQuarto.getTipoQuarto().getId());
+                avaliacaoQuartoService.excluir(avaliacaoQuarto);
+            }
+        }
+
+        return hospedagem;
     }
 
     @Transactional
@@ -91,7 +164,7 @@ public class HospedagemService {
     }
 
 
-    public void validar(Hospedagem hospedagem) {
+    public void validar(Hospedagem hospedagem, List<QuartoHospedagem> quartoHospedagems) {
 
         Float valorEstadia = hospedagem.getValorEstadia();
         Float valotTotalPago = hospedagem.getValorTotalPago();
@@ -145,6 +218,9 @@ public class HospedagemService {
         // if (hospedagem.getAvaliacaoHospedagem() == null || hospedagem.getAvaliacaoHospedagem().getId() == null || hospedagem.getAvaliacaoHospedagem().getId() == 0) {
         //     throw new RegraNegocioException("Avaliação de hospedagem inválida!!!!");
         // }
+        if (quartoHospedagems.isEmpty()) {
+            throw new RegraNegocioException("Selecione pelo menos um quarto válido");
+        }
 
     }
 }

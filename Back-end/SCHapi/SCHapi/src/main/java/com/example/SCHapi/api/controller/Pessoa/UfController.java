@@ -15,6 +15,11 @@ import org.modelmapper.ModelMapper;
 import com.example.SCHapi.service.Pessoa.PaisService;
 import com.example.SCHapi.service.Pessoa.UfService;
 
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +35,25 @@ public class UfController {
     private final PaisService paisService;
 
     @GetMapping()
+    // @Operation(summary ="Obter a lista de uf")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de UF retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "UF não encontrado")
+    // })
     public ResponseEntity get() {
         List<Uf> ufs = service.getUfs(); 
         return ResponseEntity.ok(ufs.stream().map(UfDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    // @Operation(summary ="Obter detalhes de um uf")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "UF encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "UF não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity get(@PathVariable("id")  Long id) {
         Optional<Uf> uf = service.getUfById(id);
         if (!uf.isPresent()) {
             return new ResponseEntity("UF não encontrado", HttpStatus.NOT_FOUND);
@@ -45,6 +62,12 @@ public class UfController {
     }
 
     @PostMapping
+    // @Operation(summary ="Salva um uf")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "UF salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o UF"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody UfDTO dto) {
         try {
             Uf uf = converter(dto);
@@ -56,7 +79,13 @@ public class UfController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody UfDTO dto) {
+    // @Operation(summary ="Atualiza um uf")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "UF alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "UF não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity atualizar(@PathVariable("id")  Long id, @RequestBody UfDTO dto) {
         if (!service.getUfById(id).isPresent()) {
             return new ResponseEntity("Uf não encontrado", HttpStatus.NOT_FOUND);
         }
@@ -72,6 +101,12 @@ public class UfController {
     }
 
     @DeleteMapping("{id}")
+    // @Operation(summary ="Exclui um uf")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "UF excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "UF não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Uf> uf = service.getUfById(id);
         if (!uf.isPresent()) {

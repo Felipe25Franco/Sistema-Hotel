@@ -1,13 +1,14 @@
-package com.example.SCHapi.api.dto.Servico.Lista;
+package com.example.SCHapi.api.dto.Estadia.Lista;
 
 
-import com.example.SCHapi.model.entity.Servico.Lista.RelacaoHorarioServico;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.SCHapi.model.entity.Estadia.Lista.RelacaoHorarioServico;
 
 @AllArgsConstructor
 @NoArgsConstructor

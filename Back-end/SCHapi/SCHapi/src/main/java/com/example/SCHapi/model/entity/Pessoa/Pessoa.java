@@ -1,4 +1,4 @@
-package com.example.SCHapi.model.entity;
+package com.example.SCHapi.model.entity.Pessoa;
 
 
 import javax.persistence.*;
@@ -18,7 +18,7 @@ import com.example.SCHapi.model.entity.Pessoa.Endereco;
 @AllArgsConstructor
 @MappedSuperclass
 
-public abstract class Usuario {
+public abstract class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,15 +1,18 @@
 package com.example.SCHapi.api.controller.Servico;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.SCHapi.api.dto.Estadia.Lista.TipoQuartoReservaDTOList;
 import com.example.SCHapi.api.dto.Servico.HorarioServicoDTO;
 import com.example.SCHapi.api.dto.Servico.ServicoDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
+import com.example.SCHapi.model.entity.Estadia.Lista.TipoQuartoReserva;
 import com.example.SCHapi.model.entity.Pessoa.Hotel;
 import com.example.SCHapi.model.entity.Servico.HorarioServico;
 import com.example.SCHapi.model.entity.Servico.Servico;
@@ -20,6 +23,11 @@ import com.example.SCHapi.service.Servico.HorarioServicoService;
 import com.example.SCHapi.service.Servico.ServicoService;
 import com.example.SCHapi.service.Servico.StatusServicoService;
 import com.example.SCHapi.service.Servico.TipoServicoService;
+
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,12 +46,25 @@ public class ServicoController {
 
     //tem q fazer igual lista e relacionar com horarioServico
     @GetMapping()
+    // @Operation(summary ="Obter a lista de serviço")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Serviço retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
+    // })
     public ResponseEntity get() {
         List<Servico> servicos = service.getServicos();
+        //System.out.println(servicos.stream().map(ServicoDTO::create).collect(Collectors.toList()));
         return ResponseEntity.ok(servicos.stream().map(ServicoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    // @Operation(summary ="Obter detalhes de um serviço")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Serviço encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Servico> servico = service.getServicoById(id);
         if (!servico.isPresent()) {
@@ -53,15 +74,26 @@ public class ServicoController {
     }
 
     @PostMapping
+    // @Operation(summary ="Salva um serviço")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Serviço salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Serviço"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody ServicoDTO dto) {
         try {
             Servico servico = converter(dto);
-            servico = service.salvar(servico);
-            // loop para cada elemento da lista salvar o horarioservico
+            // servico = service.salvar(servico);
+            // // loop para cada elemento da lista salvar o horarioservico
+            // for (HorarioServicoDTO horarioServicoDto : dto.getHorarioServicos()) {
+            //     HorarioServico horarioServico = converterHorarioServico(horarioServicoDto, servico.getId());
+            //     horarioServicoService.salvar(horarioServico);
+            // }
+            List<HorarioServico> horarioServicos = new ArrayList<HorarioServico>();
             for (HorarioServicoDTO horarioServicoDto : dto.getHorarioServicos()) {
-                HorarioServico horarioServico = converterHorarioServico(horarioServicoDto, servico.getId());
-                horarioServicoService.salvar(horarioServico);
+                horarioServicos.add(converterHorarioServico(horarioServicoDto, servico.getId()));
             }
+            servico = service.salvarFull(servico, horarioServicos);
             return new ResponseEntity(servico, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -69,22 +101,36 @@ public class ServicoController {
     }
 
     @PutMapping("{id}")
+    // @Operation(summary ="Atualiza um serviço")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Serviço alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ServicoDTO dto) {
+        System.out.println(dto);
         if (!service.getServicoById(id).isPresent()) {
             return new ResponseEntity("Servico não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             Servico servico = converter(dto);
             servico.setId(id);
-            //System.out.println(dto);
-            for (HorarioServico horarioServico : service.getServicoById(id).get().getHorarioServicos()){
-                horarioServicoService.excluir(horarioServico);
-            }
-            service.salvar(servico);
+            // //System.out.println(dto);
+            // for (HorarioServico horarioServico : service.getServicoById(id).get().getHorarioServicos()){
+            //     horarioServicoService.excluir(horarioServico);
+            // }
+            // service.salvar(servico);
+            // for (HorarioServicoDTO horarioServicoDto : dto.getHorarioServicos()) {
+            //     HorarioServico horarioServico = converterHorarioServico(horarioServicoDto, servico.getId());
+            //     horarioServicoService.salvar(horarioServico);
+            // }
+
+            //converter lista de tipoquartoresrva
+            List<HorarioServico> horarioServicos = new ArrayList<HorarioServico>();
             for (HorarioServicoDTO horarioServicoDto : dto.getHorarioServicos()) {
-                HorarioServico horarioServico = converterHorarioServico(horarioServicoDto, servico.getId());
-                horarioServicoService.salvar(horarioServico);
+                horarioServicos.add(converterHorarioServico(horarioServicoDto, servico.getId()));
             }
+            service.salvarFull(servico, horarioServicos);
             return ResponseEntity.ok(servico);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -92,6 +138,12 @@ public class ServicoController {
     }
 
     @DeleteMapping("{id}")
+    // @Operation(summary ="Exclui um serviço")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Serviço excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Servico> servico = service.getServicoById(id);
         if (!servico.isPresent()) {
@@ -125,8 +177,8 @@ public class ServicoController {
                 servico.setTipoServico(tiposervico.get());
             }
         }
-        if (dto.getIdStatusServico() != null) {
-            Optional<StatusServico> statusservico = statusServicoService.getStatusServicoById(dto.getIdStatusServico());
+        if (dto.getStatus() != null) {
+            Optional<StatusServico> statusservico = statusServicoService.getStatusServicoById(dto.getStatus());
             if (!statusservico.isPresent()) {
                 servico.setStatusServico(null);
             } else {

@@ -23,20 +23,25 @@ public class QuartoHospedagemDTOList {
         QuartoHospedagemDTOList dto = new QuartoHospedagemDTOList();
         dto.setId(quartoHospedagem.getId());
         dto.setTipoQuarto(quartoHospedagem.getQuarto().getTipoQuarto().getId());
-        dto.setQtd(0); // esse valor é ficticio e nao existe cuidado so pra nao daerro no dto d o front
+        dto.setQtd(0); // Esse valor é fictício e não existe, cuidado só para não dar erro no DTO do front
         dto.setNum(quartoHospedagem.getQuarto().getId());
         return dto;
     }
 
-    public static List<QuartoHospedagemDTOList> createList (List<QuartoHospedagem> list) {
-        List<QuartoHospedagemDTOList> listDto = new ArrayList<QuartoHospedagemDTOList>();
-        Long idRow = (long) 0; // esse ide é pra padronizar o id da tabla no front pois o id original nao importa
+    public static List<QuartoHospedagemDTOList> createList(List<QuartoHospedagem> list) {
+        List<QuartoHospedagemDTOList> listDto = new ArrayList<>();
+        Long idRow = 0L; // Esse ID é para padronizar o ID da tabela no front, pois o ID original não importa
+
         for (QuartoHospedagem quartoHospedagem : list) {
-            listDto.add(QuartoHospedagemDTOList.create(quartoHospedagem));
+            QuartoHospedagemDTOList dto = QuartoHospedagemDTOList.create(quartoHospedagem);
+            listDto.add(dto);
             idRow++;
-            //listDto.getLast().setIdRow(idRow);
+            // Atualiza o ID da linha no último elemento da lista
+            if (!listDto.isEmpty()) {
+                listDto.get(listDto.size() - 1).setIdRow(idRow);
+            }
         }
+
         return listDto;
     }
 }
-

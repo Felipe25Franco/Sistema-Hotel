@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ComodidadeTipoQuartoDTOList {
     private Long id;
+    private Long idRow;
     private Integer qtd;
     private Long idComodidade;
 
@@ -25,12 +26,20 @@ public class ComodidadeTipoQuartoDTOList {
         return dto;  
     }
 
-    public static List<ComodidadeTipoQuartoDTOList> createList (List<ComodidadeTipoQuarto> list) {
-        List<ComodidadeTipoQuartoDTOList> listDto = new ArrayList<ComodidadeTipoQuartoDTOList>();
+    public static List<ComodidadeTipoQuartoDTOList> createList(List<ComodidadeTipoQuarto> list) {
+        List<ComodidadeTipoQuartoDTOList> listDto = new ArrayList<>();
+        Long idRow = 0L; // Esse ID é para padronizar o ID da tabela no front, pois o ID original não importa
+
         for (ComodidadeTipoQuarto comodidadeTipoQuarto : list) {
-            listDto.add(ComodidadeTipoQuartoDTOList.create(comodidadeTipoQuarto));
+            ComodidadeTipoQuartoDTOList dto = ComodidadeTipoQuartoDTOList.create(comodidadeTipoQuarto);
+            listDto.add(dto);
+            idRow++;
+            // Atualiza o ID da linha no último elemento da lista
+            if (!listDto.isEmpty()) {
+                listDto.get(listDto.size() - 1).setIdRow(idRow);
+            }
         }
+
         return listDto;
     }
 }
-

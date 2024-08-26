@@ -52,6 +52,11 @@ public class UfService {
         if (uf.getPais() == null || uf.getPais().getId() == null || uf.getPais().getId() == 0) {
             throw new RegraNegocioException("Pais inválido!!!!");
         }
+
+        List<Uf> ufs = getUfs();
+        if(ufs.stream().anyMatch((x) -> {return !uf.getId().equals(x.getId())&&x.getTitulo().trim().equals(uf.getTitulo().trim());})) {
+            throw new RegraNegocioException("Título já cadastrado");
+        }
         
     }
 }

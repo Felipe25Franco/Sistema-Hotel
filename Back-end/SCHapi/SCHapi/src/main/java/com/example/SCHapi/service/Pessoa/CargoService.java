@@ -4,6 +4,7 @@ import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.*;
 import com.example.SCHapi.model.entity.Pessoa.Cargo;
 import com.example.SCHapi.model.entity.Pessoa.Cliente;
+import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.model.repository.Pessoa.CargoRepository;
 
 import org.springframework.stereotype.Service;
@@ -59,6 +60,11 @@ public class CargoService {
         }
         if (cargo.getHotel() == null || cargo.getHotel().getId() == null || cargo.getHotel().getId() == 0) {
             throw new RegraNegocioException("Hotel inválido!!!!");
+        }
+
+        List<Cargo> cargos = getCargos();
+        if(cargos.stream().anyMatch((x) -> {return !cargo.getId().equals(x.getId())&&x.getCargo().trim().equals(cargo.getCargo().trim())&&x.getHotel().getId()==cargo.getHotel().getId();})) {
+            throw new RegraNegocioException("Título já cadastrado para o hotel selecionado");
         }
     }
 

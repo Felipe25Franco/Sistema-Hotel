@@ -11,6 +11,10 @@ import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.service.Pessoa.EnderecoService;
 import com.example.SCHapi.service.Pessoa.UfService;
 
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
@@ -28,13 +32,25 @@ public class EnderecoController {
     private final UfService ufService;
 
     @GetMapping()
+    // @Operation(summary ="Obter a lista de endereço")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Endereço retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Endereço não encontrado")
+    // })
     public ResponseEntity get() {
        List<Endereco> enderecos = service.getEnderecos();
         return ResponseEntity.ok(enderecos.stream().map(EnderecoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    // @Operation(summary ="Obter detalhes de um endereço")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Endereço encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Endereço não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity get(@PathVariable("id")  Long id) {
         Optional<Endereco> endereco = service.getEnderecoById(id);
         if (!endereco.isPresent()) {
             return new ResponseEntity("Endereço não encontrado", HttpStatus.NOT_FOUND);
@@ -42,6 +58,12 @@ public class EnderecoController {
         return ResponseEntity.ok(endereco.map(EnderecoDTO::create));
     }
     @PostMapping
+    // @Operation(summary ="Salva um endereço")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Endereço salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Endereço"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody EnderecoDTO dto) {
         try {
             Endereco endereco = converter(dto);
@@ -53,6 +75,12 @@ public class EnderecoController {
     }
 
     @PutMapping("{id}")
+    // @Operation(summary ="Atualiza um endereço")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Endereço alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Endereço não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody EnderecoDTO dto) {
         if (!service.getEnderecoById(id).isPresent()) {
             return new ResponseEntity("Endereco não encontrado", HttpStatus.NOT_FOUND);
@@ -69,6 +97,12 @@ public class EnderecoController {
     }
 
     @DeleteMapping("{id}")
+    // @Operation(summary ="Exclui um endereço")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Endereço excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Endereço não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Endereco> endereco = service.getEnderecoById(id);
         if (!endereco.isPresent()) {

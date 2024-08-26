@@ -17,6 +17,11 @@ import com.example.SCHapi.service.Estadia.AvaliacaoQuartoService;
 import com.example.SCHapi.service.Estadia.HospedagemService;
 import com.example.SCHapi.service.Quarto.TipoQuartoService;
 
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,13 +37,25 @@ public class AvaliacaoQuartoController {
     private final HospedagemService hospedagemService;
     
     @GetMapping()
+    // @Operation(summary ="Obter a lista de avaliação de uma quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Avaliação de uma quarto retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Avaliação de uma quarto não encontrado")
+    // })
     public ResponseEntity get() {
        List<AvaliacaoQuarto> avaliacaoQuartos = service.getAvaliacaoQuartos();
         return ResponseEntity.ok(avaliacaoQuartos.stream().map(AvaliacaoQuartoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    // @Operation(summary ="Obter detalhes de um avaliação de uma quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Avaliação de uma quarto encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Avaliação de uma quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity get(@PathVariable("id")  Long id) {
         Optional<AvaliacaoQuarto> avaliacaoQuarto = service.getAvaliacaoQuartoById(id);
         if (!avaliacaoQuarto.isPresent()) {
             return new ResponseEntity("AvaliacaoQuarto não encontrada", HttpStatus.NOT_FOUND);
@@ -47,7 +64,13 @@ public class AvaliacaoQuartoController {
     }
 
     @GetMapping("/hospedagens/{id}")//retorna as avaliacoes da hospedagem do id
-    public ResponseEntity getByHospedagemId(@PathVariable("id") Long id) {
+    // @Operation(summary ="Obter detalhes de um avaliação de uma quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Avaliação de uma quarto encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Avaliação de uma quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity getByHospedagemId(@PathVariable("id")  Long id) {
         Optional<Hospedagem> hospedagem = hospedagemService.getHospedagemById(id);
         if (!hospedagem.isPresent()) {
             return new ResponseEntity("Hospedagem e AvaliacaoQuarto não encontrada", HttpStatus.NOT_FOUND);
@@ -57,6 +80,12 @@ public class AvaliacaoQuartoController {
     }
 
     @PostMapping
+    // @Operation(summary ="Salva um avaliação de uma quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Avaliação de uma quarto salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Avaliação de uma quarto"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody AvaliacaoQuartoDTO dto) {
         try {
             AvaliacaoQuarto avaliacaoQuarto = converter(dto);
@@ -68,6 +97,12 @@ public class AvaliacaoQuartoController {
     }
 
     @PutMapping("{id}")
+    // @Operation(summary ="Atualiza um avaliação de uma quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Avaliação de uma quarto alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Avaliação de uma quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody AvaliacaoQuartoDTO dto) {
         if (!service.getAvaliacaoQuartoById(id).isPresent()) {
             return new ResponseEntity("AvaliacaoQuarto não encontrado", HttpStatus.NOT_FOUND);
@@ -84,6 +119,12 @@ public class AvaliacaoQuartoController {
     }
 
     @DeleteMapping("{id}")
+    // @Operation(summary ="Exclui um avaliação de uma quarto")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Avaliação de uma quarto excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Avaliação de uma quarto não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<AvaliacaoQuarto> avaliacaoQuarto = service.getAvaliacaoQuartoById(id);
         if (!avaliacaoQuarto.isPresent()) {

@@ -21,7 +21,7 @@ public class HorarioServico {
     private String status;
     private int vagasTotal;
     private int vagasOcupadas;
-    private Date data;
+    private String data;
     private String horaInicio;
     private String horaFim;
 

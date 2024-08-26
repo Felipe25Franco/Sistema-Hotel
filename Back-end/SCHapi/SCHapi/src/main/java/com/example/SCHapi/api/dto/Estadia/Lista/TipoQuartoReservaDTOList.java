@@ -26,15 +26,20 @@ public class TipoQuartoReservaDTOList {
         return dto;
     }
 
-    public static List<TipoQuartoReservaDTOList> createList (List<TipoQuartoReserva> list) {
-        List<TipoQuartoReservaDTOList> listDto = new ArrayList<TipoQuartoReservaDTOList>();
-        Long idRow = (long) 0; // esse ide é pra padronizar o id da tabla no front pois o id original nao importa
+    public static List<TipoQuartoReservaDTOList> createList(List<TipoQuartoReserva> list) {
+        List<TipoQuartoReservaDTOList> listDto = new ArrayList<>();
+        Long idRow = 0L; // Esse ID é para padronizar o ID da tabela no front, pois o ID original não importa
+
         for (TipoQuartoReserva tipoQuartoReserva : list) {
-            listDto.add(TipoQuartoReservaDTOList.create(tipoQuartoReserva));
+            TipoQuartoReservaDTOList dto = TipoQuartoReservaDTOList.create(tipoQuartoReserva);
+            listDto.add(dto);
             idRow++;
-            //listDto.getLast().setIdRow(idRow);
+            // Atualiza o ID da linha no último elemento da lista
+            if (!listDto.isEmpty()) {
+                listDto.get(listDto.size() - 1).setIdRow(idRow);
+            }
         }
+
         return listDto;
     }
 }
-

@@ -44,6 +44,10 @@ import com.example.SCHapi.service.Produto.ProdutoService;
 import com.example.SCHapi.service.Quarto.QuartoService;
 import com.example.SCHapi.service.Quarto.TipoQuartoService;
 
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
@@ -66,18 +70,23 @@ public class HospedagemController {
     private final QuartoService quartoService;
     private final ProdutoService produtoService;
     private final AvaliacaoQuartoService avaliacaoQuartoService;
-        
     private final ReservaService reservaService;
     private final TipoQuartoReservaService tipoQuartoReservaService;
 
     @GetMapping()
+    // @Operation(summary ="Obter a lista de hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Hospedagem retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Hospedagem não encontrado")
+    // })
     public ResponseEntity get() {
        List<Hospedagem> hospedagens = service.getHospedagens();
         return ResponseEntity.ok(hospedagens.stream().map(HospedagemDTO::create).collect(Collectors.toList()));
     }
 
     // @GetMapping("/{id}")
-    // public ResponseEntity get(@PathVariable("id") Long id) {
+    // public ResponseEntity get(@PathVariable("id") @Parameter(description = "Id do Hospedagem") Long id) {
     //     Optional<Hospedagem> hospedagem = service.getHospedagemById(id);
     //     if (!hospedagem.isPresent()) {
     //         return new ResponseEntity("Hospedagem não encontrada", HttpStatus.NOT_FOUND);
@@ -86,7 +95,13 @@ public class HospedagemController {
     // }
     
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    // @Operation(summary ="Obter detalhes de um hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Hospedagem encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Hospedagem não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity get(@PathVariable("id")  Long id) {
         Optional<Hospedagem> hospedagem = service.getHospedagemById(id);
         //Optional<List<QuartoHospedagem>> = Optional.of(listaQuartos);
         if (!hospedagem.isPresent()) {
@@ -96,11 +111,19 @@ public class HospedagemController {
         List<ProdutoSolicitado> produtoSolicitado = produtoSolicitadoService.getProdutoSolicitadoByHospedagem(hospedagem);
         HospedagemDTO hospedagemDTO = new HospedagemDTO();
         hospedagemDTO = HospedagemDTO.create(hospedagem.get());
+        System.out.println("DTO enviado pelo get/id");
+        System.out.println(hospedagemDTO);
         return ResponseEntity.ok(hospedagemDTO);
         // return ResponseEntity.ok(hospedagem.map(HospedagemDTO::create));
     }
     
     @GetMapping("/reservas/{id}")
+    // @Operation(summary ="Obter detalhes de um hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Hospedagem encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Hospedagem não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity getR(@PathVariable("id") Long id) {
         Optional<Reserva> reserva = reservaService.getReservaById(id);
         if (!reserva.isPresent()) {
@@ -115,31 +138,52 @@ public class HospedagemController {
 
 
     @PostMapping
+    // @Operation(summary ="Salva um hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Hospedagem salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Hospedagem"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody HospedagemDTO dto) {
+        System.out.println("post");
+        System.out.println(dto);
         try {
             Hospedagem hospedagem = converter(dto);
-            hospedagem = service.salvar(hospedagem);
-            // loop para cada elemento da lista salvar o quartoHospedagem
-            List<Long>  idTipoQuartoAvaliado = new ArrayList<Long>(); //armazenar tipoquartos ja feito pra avaliacao
+            System.out.println("dto recebido do post");
+            System.out.println(dto);
+            //hospedagem = service.salvar(hospedagem);
+            // // loop para cada elemento da lista salvar o quartoHospedagem
+            // List<Long>  idTipoQuartoAvaliado = new ArrayList<Long>(); //armazenar tipoquartos ja feito pra avaliacao
+            // for (QuartoHospedagemDTOList quartoHospedagemDto : dto.getListaQuartos()) {
+            //     QuartoHospedagem quartoHospedagem = converterQuartoHospedagem(quartoHospedagemDto, hospedagem.getId());
+            //     quartoHospedagemService.salvar(quartoHospedagem);
+            //     //criar uma avaliacao pra cada tipo quarto
+            //     if(!idTipoQuartoAvaliado.contains(quartoHospedagem.getQuarto().getTipoQuarto().getId())){
+            //         idTipoQuartoAvaliado.add(quartoHospedagem.getQuarto().getTipoQuarto().getId());
+            //         AvaliacaoQuarto avaliacaoQuarto = new AvaliacaoQuarto();
+            //         avaliacaoQuarto.setTipoQuarto(quartoHospedagem.getQuarto().getTipoQuarto());
+            //         avaliacaoQuarto.setHospedagem(hospedagem);
+            //         avaliacaoQuarto.setNota((float) -1);
+            //         avaliacaoQuarto = avaliacaoQuartoService.salvarSemValidar(avaliacaoQuarto);
+            //         //System.out.println(quartoHospedagem.getId());
+            //     }
+            // }
+            // // loop para cada elemento da lista salvar o produtosolicitado
+            // for (ProdutoSolicitadoDTOList produtoSolicitadoDto : dto.getProdutoHospedagem()) {
+            //     ProdutoSolicitado produtoSolicitado = converterProdutoSolicitado(produtoSolicitadoDto, hospedagem.getId());
+            //     produtoSolicitadoService.salvar(produtoSolicitado);
+            // }
+            List<QuartoHospedagem> quartoHospedagems = new ArrayList<QuartoHospedagem>();
             for (QuartoHospedagemDTOList quartoHospedagemDto : dto.getListaQuartos()) {
-                QuartoHospedagem quartoHospedagem = converterQuartoHospedagem(quartoHospedagemDto, hospedagem.getId());
-                quartoHospedagemService.salvar(quartoHospedagem);
-                //criar uma avaliacao pra cada tipo quarto
-                if(!idTipoQuartoAvaliado.contains(quartoHospedagem.getQuarto().getTipoQuarto().getId())){
-                    idTipoQuartoAvaliado.add(quartoHospedagem.getQuarto().getTipoQuarto().getId());
-                    AvaliacaoQuarto avaliacaoQuarto = new AvaliacaoQuarto();
-                    avaliacaoQuarto.setTipoQuarto(quartoHospedagem.getQuarto().getTipoQuarto());
-                    avaliacaoQuarto.setHospedagem(hospedagem);
-                    avaliacaoQuarto.setNota((float) -1);
-                    avaliacaoQuarto = avaliacaoQuartoService.salvarSemValidar(avaliacaoQuarto);
-                    //System.out.println(quartoHospedagem.getId());
+                quartoHospedagems.add(converterQuartoHospedagem(quartoHospedagemDto, hospedagem.getId()));
+            }
+            List<ProdutoSolicitado> produtoSolicitados = new ArrayList<ProdutoSolicitado>();
+            if(dto.getProdutoHospedagem()!=null) {
+                for (ProdutoSolicitadoDTOList produtoSolicitadoDto : dto.getProdutoHospedagem()) {
+                    produtoSolicitados.add(converterProdutoSolicitado(produtoSolicitadoDto, hospedagem.getId()));
                 }
             }
-            // loop para cada elemento da lista salvar o produtosolicitado
-            for (ProdutoSolicitadoDTOList produtoSolicitadoDto : dto.getProdutoHospedagem()) {
-                ProdutoSolicitado produtoSolicitado = converterProdutoSolicitado(produtoSolicitadoDto, hospedagem.getId());
-                produtoSolicitadoService.salvar(produtoSolicitado);
-            }
+            hospedagem = service.salvarFull(hospedagem, quartoHospedagems, produtoSolicitados);
             return new ResponseEntity(hospedagem, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -147,88 +191,48 @@ public class HospedagemController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody HospedagemDTO dto) {
-        if (!service.getHospedagemById(id).isPresent()) {
-            return new ResponseEntity("Hospedagem não encontrado", HttpStatus.NOT_FOUND);
-        }
-        try {
-            Hospedagem hospedagem = converter(dto);
-            hospedagem.setId(id);
-            //avaliacao hospedagem
-            AvaliacaoHospedagem avaliacaoHospedagem = hospedagem.getAvaliacaoHospedagem();
-            avaliacaoHospedagem.setId(service.getHospedagemById(id).get().getAvaliacaoHospedagem().getId());
-            avaliacaoHospedagem = avaliacaoHospedagemService.salvar(avaliacaoHospedagem);
-            hospedagem.setAvaliacaoHospedagem(avaliacaoHospedagem);
-            // AvaliacaoHospedagem avaliacaoHospedagem = hospedagem.getAvaliacaoHospedagem();
-            // if(avaliacaoHospedagem != null) {
-            //     avaliacaoHospedagem.setId(service.getHospedagemById(id).get().getAvaliacaoHospedagem().getId());
-            //     avaliacaoHospedagem = avaliacaoHospedagemService.salvar(avaliacaoHospedagem);
-            //     hospedagem.setAvaliacaoHospedagem(avaliacaoHospedagem);
-            // }
-            // else {
-            //     avaliacaoHospedagem = avaliacaoHospedagemService.salvar(avaliacaoHospedagem);
-            //     hospedagem.setAvaliacaoHospedagem(avaliacaoHospedagem);
-            // }
-            // excluir a lista antiga de TipoQUarto
-            for (QuartoHospedagem quartoHospedagem : service.getHospedagemById(id).get().getQuartoHospedagem()){
-                quartoHospedagemService.excluir(quartoHospedagem);
-            }
-            for (ProdutoSolicitado produtoSolicitado : service.getHospedagemById(id).get().getProdutoSolicitado()){
-                produtoSolicitadoService.excluir(produtoSolicitado);
-            }
-            service.salvar(hospedagem);
-            // Salvar os novos TipoQUarto
-            for (QuartoHospedagemDTOList quartoHospedagemDto : dto.getListaQuartos()) {
-                QuartoHospedagem quartoHospedagem = converterQuartoHospedagem(quartoHospedagemDto, hospedagem.getId());
-                quartoHospedagemService.salvar(quartoHospedagem);
-            }
-            for (ProdutoSolicitadoDTOList produtoSolicitadoDto : dto.getProdutoHospedagem()) {
-                ProdutoSolicitado produtoSolicitado = converterProdutoSolicitado(produtoSolicitadoDto, hospedagem.getId());
-                produtoSolicitadoService.salvar(produtoSolicitado);
-            }
-
-            //remanejar avaliacoes
-            //System.out.println(hospedagem.getId());
-            //Hospedagem hospedagemS = service.getHospedagemById(id).get();
-            for (QuartoHospedagem quartoHospedagem : quartoHospedagemService.getQuartoHospedagemByHospedagem(service.getHospedagemById(id))){
-               Boolean flagBreak = false;
-               for (AvaliacaoQuarto avaliacaoQuarto : avaliacaoQuartoService.getAvaliacaoQuartoByHospedagem(service.getHospedagemById(id))){
-                    if(avaliacaoQuarto.getTipoQuarto().getId()==quartoHospedagem.getQuarto().getTipoQuarto().getId()){
-                        System.out.println("break "+avaliacaoQuarto.getTipoQuarto().getId());
-                        flagBreak = true;
-                        break;
-                    }
-                }
-                if(!flagBreak){
-                    //System.out.println("criei ava topquarto" + quartoHospedagem.getQuarto().getTipoQuarto().getId());
-                    AvaliacaoQuarto avaliacaoQuartoNew = new AvaliacaoQuarto();
-                    avaliacaoQuartoNew.setNota((float) -1);
-                    avaliacaoQuartoNew.setTipoQuarto(quartoHospedagem.getQuarto().getTipoQuarto());
-                    avaliacaoQuartoNew.setHospedagem(hospedagem);
-                    avaliacaoQuartoService.salvarSemValidar(avaliacaoQuartoNew);
-                }
-            }
-            for (AvaliacaoQuarto avaliacaoQuarto : avaliacaoQuartoService.getAvaliacaoQuartoByHospedagem(service.getHospedagemById(id))){
-                Boolean flagBreak = false;
-                for (QuartoHospedagem quartoHospedagem: quartoHospedagemService.getQuartoHospedagemByHospedagem(service.getHospedagemById(id))){
-                    if(avaliacaoQuarto.getTipoQuarto().getId()==quartoHospedagem.getQuarto().getTipoQuarto().getId()){
-                        System.out.println("break "+avaliacaoQuarto.getTipoQuarto().getId());
-                        flagBreak = true;
-                        break;
-                    }
-                }
-                if(!flagBreak){
-                    //System.out.println("deletei ava topquarto" + avaliacaoQuarto.getTipoQuarto().getId());
-                    avaliacaoQuartoService.excluir(avaliacaoQuarto);
-                }
-            }
-            return ResponseEntity.ok(hospedagem);
-        } catch (RegraNegocioException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody HospedagemDTO dto) {
+    if (!service.getHospedagemById(id).isPresent()) {
+        return new ResponseEntity("Hospedagem não encontrado", HttpStatus.NOT_FOUND);
     }
+    try {
+        Hospedagem hospedagem = converter(dto);
+        hospedagem.setId(id);
+
+        AvaliacaoHospedagem avaliacaoHospedagem = hospedagem.getAvaliacaoHospedagem();
+        avaliacaoHospedagem.setId(service.getHospedagemById(id).get().getAvaliacaoHospedagem().getId());
+        avaliacaoHospedagem = avaliacaoHospedagemService.salvar(avaliacaoHospedagem);
+        hospedagem.setAvaliacaoHospedagem(avaliacaoHospedagem);
+
+        List<QuartoHospedagem> quartoHospedagems = new ArrayList<QuartoHospedagem>();
+        for (QuartoHospedagemDTOList quartoHospedagemDto : dto.getListaQuartos()) {
+            quartoHospedagems.add(converterQuartoHospedagem(quartoHospedagemDto, hospedagem.getId()));
+            if (quartoHospedagems.size() > 0) {
+                QuartoHospedagem lastQuartoHospedagem = quartoHospedagems.get(quartoHospedagems.size() - 1);
+                if (quartoHospedagemDto.getTipoQuarto() != lastQuartoHospedagem.getQuarto().getTipoQuarto().getId()) {
+                    lastQuartoHospedagem.setQuarto(null);
+                }
+            }
+        }
+        List<ProdutoSolicitado> produtoSolicitados = new ArrayList<ProdutoSolicitado>();
+        for (ProdutoSolicitadoDTOList produtoSolicitadoDto : dto.getProdutoHospedagem()) {
+            produtoSolicitados.add(converterProdutoSolicitado(produtoSolicitadoDto, hospedagem.getId()));
+        }
+        hospedagem = service.salvarFull(hospedagem, quartoHospedagems, produtoSolicitados);
+
+        return ResponseEntity.ok(hospedagem);
+    } catch (RegraNegocioException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+}
 
     @DeleteMapping("{id}")
+    // @Operation(summary ="Exclui um hospedagem")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Hospedagem excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Hospedagem não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Hospedagem> hospedagem = service.getHospedagemById(id);
         if (!hospedagem.isPresent()) {
@@ -279,6 +283,14 @@ public class HospedagemController {
                 hospedagem.setStatusHospedagem(null);
             } else {
                 hospedagem.setStatusHospedagem(statushospedagem.get());
+            }
+        }
+        if (dto.getIdReserva() != null) {
+            Optional<Reserva> reserva = reservaService.getReservaById(dto.getIdReserva());
+            if (!reserva.isPresent()) {
+                hospedagem.setReserva(null);
+            } else {
+                hospedagem.setReserva(reserva.get());
             }
         }
         // if (dto.getIdAvaliacaoHospedagem() != null) {

@@ -2,8 +2,14 @@ package com.example.SCHapi.service.Servico;
 
 
 import com.example.SCHapi.exception.RegraNegocioException;
+import com.example.SCHapi.model.entity.Estadia.Reserva;
+import com.example.SCHapi.model.entity.Estadia.Lista.TipoQuartoReserva;
+import com.example.SCHapi.model.entity.Produto.Produto;
+import com.example.SCHapi.model.entity.Quarto.Comodidade;
+import com.example.SCHapi.model.entity.Quarto.TipoComodidade;
 import com.example.SCHapi.model.entity.Servico.HorarioServico;
 import com.example.SCHapi.model.entity.Servico.Servico;
+import com.example.SCHapi.model.entity.Servico.TipoServico;
 import com.example.SCHapi.model.repository.Servico.ServicoRepository;
 
 import org.springframework.stereotype.Service;
@@ -16,9 +22,11 @@ import java.util.Optional;
 @Service
 public class ServicoService {
     private ServicoRepository repository;
+    private HorarioServicoService horarioServicoService;
 
-    public ServicoService(ServicoRepository repository) {
+    public ServicoService(ServicoRepository repository, HorarioServicoService horarioServicoService) {
         this.repository = repository;
+        this.horarioServicoService = horarioServicoService;
     }
 
     public List<Servico> getServicos(){
@@ -29,20 +37,56 @@ public class ServicoService {
         return repository.findById(id);
     }
 
+    public List<Servico> getServicoByTipoServico(Optional<TipoServico> TipoServico) {
+        return repository.findByTipoServico(TipoServico);
+    }
+
+    // @Transactional
+    // public Servico salvar(Servico servico) {
+    //     validar(servico);
+    //     return repository.save(servico);
+    // }
+
     @Transactional
-    public Servico salvar(Servico servico) {
-        validar(servico);
-        return repository.save(servico);
+    public Servico salvarFull(Servico servico, List<HorarioServico> horarioServicos) {
+        validar(servico, horarioServicos);
+        servico = repository.save(servico);
+        // excluir a lista antiga de TipoQUarto
+        List<HorarioServico> horarioServicosDel = horarioServicoService.getHorarioServicoByServico(Optional.of(servico));
+        // loop para cada elemento da lista deletar o horarioservico
+        for (HorarioServico horarioServico : horarioServicosDel) {
+            //horarioServicoService.getHorarioServicos().stream().filter((o)->{horarioServicos.stream().map(HorarioServico::getId).findAny(Optional.of(o.getId())0});
+            if (!horarioServicos.stream().anyMatch((o)-> horarioServico.getId().equals(o.getId()))){
+                horarioServicoService.excluir(horarioServico);
+            }
+        }
+        // Salvar os novos TipoQUarto
+        for (HorarioServico horarioServico : horarioServicos) {
+            horarioServico.setServico(servico);
+            horarioServicoService.salvar(horarioServico);
+            // if (horarioServico.getId()!=null) {
+            //     if (horarioServicoService.getHorarioServicoById(horarioServico.getId()).isPresent()) {
+            //         horarioServicoService.salvar(horarioServico);
+            //     }
+            // }
+        }
+        return servico;
     }
 
     @Transactional
     public void excluir(Servico servico) {
         Objects.requireNonNull(servico.getId());
+        List<HorarioServico> horarioServicos = horarioServicoService.getHorarioServicoByServico(Optional.of(servico));
+        //horarioServicos.stream().map(x->{horarioServicoService.excluir(x);});
+        // loop para cada elemento da lista deletar o horarioservico
+        for (HorarioServico horarioServico : horarioServicos) {
+            horarioServicoService.excluir(horarioServico);
+        }
         repository.delete(servico);
     }
 
 
-    public void validar(Servico servico) {
+    public void validar(Servico servico, List<HorarioServico> horarioServicos) {
 
         Float valorPorHorario = servico.getValorPorHorario();
 
@@ -66,6 +110,11 @@ public class ServicoService {
         }
         if (servico.getStatusServico() == null || servico.getStatusServico().getId() == null || servico.getStatusServico().getId() == 0) {
             throw new RegraNegocioException("Status de serviço inválido!!!!");
+        }
+
+        List<Servico> servicos = getServicoByTipoServico(Optional.of(servico.getTipoServico()));
+        if(servicos.stream().anyMatch((x) -> x.getTitulo().trim().equals(servico.getTitulo().trim())&&x.getHotel().getId()==servico.getHotel().getId()&&!servico.getId().equals(x.getId()))) {
+            throw new RegraNegocioException("Título já cadastrado para a categoria e hotel selecionado");
         }
     }
 

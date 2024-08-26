@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 
-import com.example.SCHapi.api.dto.Servico.Lista.RelacaoHorarioServicoDTOList;
 import com.example.SCHapi.model.entity.Estadia.Lista.ServicoSolicitado;
+import com.example.SCHapi.api.dto.Servico.HorarioServicoDTO;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +21,7 @@ public class ServicoSolicitadoDTO {
     private Long idHospedagem;
     private float valorTotal;
 
-    private List<RelacaoHorarioServicoDTOList> relacaoHorarioServico;
+    private List<RelacaoHorarioServicoDTOList2> relacaoHorarioServico;
 
     public static ServicoSolicitadoDTO create(ServicoSolicitado servicoSolicitado) {
         // ModelMapper modelMapper = new ModelMapper();
@@ -31,7 +31,7 @@ public class ServicoSolicitadoDTO {
         dto.setIdServico(servicoSolicitado.getServico().getId());
         dto.setIdHospedagem(servicoSolicitado.getHospedagem().getId());
         dto.setValorTotal(servicoSolicitado.getValorTotal());
-        dto.relacaoHorarioServico = RelacaoHorarioServicoDTOList.createList(servicoSolicitado.getRelacaoHorarioServico());
+        dto.relacaoHorarioServico = RelacaoHorarioServicoDTOList2.createList(servicoSolicitado.getRelacaoHorarioServico(), servicoSolicitado.getServico().getHorarioServicos());
 
         return dto;
     }

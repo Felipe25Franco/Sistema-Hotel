@@ -2,7 +2,6 @@ package com.example.SCHapi.model.entity.Pessoa;
 
 
 
-import com.example.SCHapi.model.entity.Usuario;
 
 import javax.persistence.*;
 import javax.persistence.MappedSuperclass;
@@ -17,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Funcionario extends Usuario{
+public class Funcionario extends Pessoa {
     
     private Float salario;
     private String horaInicio;

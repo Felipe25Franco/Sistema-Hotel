@@ -27,6 +27,11 @@ import com.example.SCHapi.service.Pessoa.FuncionarioService;
 import com.example.SCHapi.service.Pessoa.HotelService;
 import com.example.SCHapi.service.Quarto.TipoQuartoService;
 
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,12 +58,24 @@ public class ReservaController {
     private final TipoQuartoService tipoQuartoService;
 
     @GetMapping()
+    // @Operation(summary ="Obter a lista de reserva")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Reserva retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Reserva não encontrado")
+    // })
     public ResponseEntity get() {
        List<Reserva> reservas = service.getReservas();
         return ResponseEntity.ok(reservas.stream().map(ReservaDTO::create).collect(Collectors.toList()));
     } // essa aqui ainda tem q adaptar, mas acho q nao vai influenciar por enquanto
 
     @GetMapping("/{id}")
+    // @Operation(summary ="Obter detalhes de um reserva")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Reserva encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Reserva não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Reserva> reserva = service.getReservaById(id);
         //Optional<List<TipoQuartoReserva>> = Optional.of(listaQuartos);
@@ -70,20 +87,32 @@ public class ReservaController {
         List<TipoQuartoReserva> listaQuartos = tipoQuartoReservaService.getTipoQuartoReservaByReserva(reserva);
         ReservaDTO reservaDTO = new ReservaDTO();
         reservaDTO = ReservaDTO.create(reserva.get());
+        System.out.println("get dto");
+        System.out.println(reservaDTO);
         return ResponseEntity.ok(reservaDTO);
         // return ResponseEntity.ok(reserva.map(ReservaDTO::create));
     }
 
     @PostMapping
+    // @Operation(summary ="Salva um reserva")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Reserva salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Reserva"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody ReservaDTO dto) {
         try {
             Reserva reserva = converter(dto);
-            reserva = service.salvar(reserva);
             // loop para cada elemento da lista salvar o tipoquartoreserva
+            // for (TipoQuartoReservaDTOList tipoQuartoReservaDto : dto.getListaQuartos()) {
+            //     TipoQuartoReserva tipoQuartoReserva = converterTipoQuartoReserva(tipoQuartoReservaDto, reserva.getId());
+            //     tipoQuartoReservaService.salvar(tipoQuartoReserva);
+            // }
+            List<TipoQuartoReserva> tipoQuartoReservas = new ArrayList<TipoQuartoReserva>();
             for (TipoQuartoReservaDTOList tipoQuartoReservaDto : dto.getListaQuartos()) {
-                TipoQuartoReserva tipoQuartoReserva = converterTipoQuartoReserva(tipoQuartoReservaDto, reserva.getId());
-                tipoQuartoReservaService.salvar(tipoQuartoReserva);
+                tipoQuartoReservas.add(converterTipoQuartoReserva(tipoQuartoReservaDto, reserva.getId()));
             }
+            reserva = service.salvarFull(reserva, tipoQuartoReservas);
             return new ResponseEntity(reserva, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -91,6 +120,12 @@ public class ReservaController {
     }
 
     @PutMapping("{id}")
+    // @Operation(summary ="Atualiza um reserva")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Reserva alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Reserva não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ReservaDTO dto) {
         if (!service.getReservaById(id).isPresent()) {
             return new ResponseEntity("Reserva não encontrado", HttpStatus.NOT_FOUND);
@@ -111,7 +146,13 @@ public class ReservaController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity excluir(@PathVariable("id") Long id) {
+    // @Operation(summary ="Exclui um reserva")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Reserva excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Reserva não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
+    public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<Reserva> reserva = service.getReservaById(id);
         if (!reserva.isPresent()) {
             return new ResponseEntity("Reserva não encontrada", HttpStatus.NOT_FOUND);

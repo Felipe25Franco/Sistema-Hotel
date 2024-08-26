@@ -18,14 +18,19 @@ import com.example.SCHapi.service.Pessoa.HotelService;
 import com.example.SCHapi.service.Pessoa.PaisService;
 import com.example.SCHapi.service.Pessoa.UfService;
 
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.Parameter;
+// import io.swagger.v3.oas.annotations.responses.ApiResponse;
+// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/hoteis")
-@CrossOrigin
 @RequiredArgsConstructor
+@CrossOrigin
 public class HotelController {
 
     private final HotelService service;
@@ -34,12 +39,24 @@ public class HotelController {
     private final PaisService paisService;
 
     @GetMapping()
+    // @Operation(summary ="Obter a lista de hotel")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Lista de Hotel retornada com sucesso"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
+    //         //@ApiResponse(responseCode  = "404", description  = "Hotel não encontrado")
+    // })
     public ResponseEntity get() {
        List<Hotel> hoteis = service.getHoteis();
         return ResponseEntity.ok(hoteis.stream().map(HotelDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    // @Operation(summary ="Obter detalhes de um hotel")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Hotel encontrado"),
+    //         @ApiResponse(responseCode  = "404", description  = "Hotel não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Hotel> hotel = service.getHotelById(id);
         if (!hotel.isPresent()) {
@@ -50,7 +67,14 @@ public class HotelController {
     }
 
     @PostMapping
+    // @Operation(summary ="Salva um hotel")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "201", description  = "Hotel salvo com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Hotel"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity post(@RequestBody HotelDTO dto) {
+        System.out.println("oi");
         try {
             Hotel hotel = converter(dto);
             hotel = service.salvar(hotel);
@@ -61,6 +85,12 @@ public class HotelController {
     }
 
     @PutMapping("{id}")
+    // @Operation(summary ="Atualiza um hotel")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "200", description  = "Hotel alterado com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Hotel não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody HotelDTO dto) {
         if (!service.getHotelById(id).isPresent()) {
             return new ResponseEntity("Hotel não encontrado", HttpStatus.NOT_FOUND);
@@ -81,6 +111,12 @@ public class HotelController {
     }
 
     @DeleteMapping("{id}")
+    // @Operation(summary ="Exclui um hotel")
+    // @ApiResponses({
+    //         @ApiResponse(responseCode  = "204", description  = "Hotel excluído com sucesso"),
+    //         @ApiResponse(responseCode  = "404", description  = "Hotel não encontrado"),
+    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+    // })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Hotel> hotel = service.getHotelById(id);
         if (!hotel.isPresent()) {
