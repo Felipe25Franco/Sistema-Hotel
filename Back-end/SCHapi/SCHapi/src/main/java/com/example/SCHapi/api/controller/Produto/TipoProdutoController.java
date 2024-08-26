@@ -35,9 +35,9 @@ public class TipoProdutoController {
     @GetMapping()
     @ApiOperation("Obter a lista de tipo de produto")
     @ApiResponses({
-            @ApiResponse(code  = "200", message  = "Lista de Tipo de Produto retornada com sucesso"),
-            @ApiResponse(code  = "404", message  = "Tipo de Produto não encontrado"),
-            @ApiResponse(code  = "500", message  = "Erro interno no servidor")
+            @ApiResponse(code  = 200, message  = "Lista de Tipo de Produto retornada com sucesso"),
+            @ApiResponse(code  = 404, message  = "Tipo de Produto não encontrado"),
+            @ApiResponse(code  = 500, message  = "Erro interno no servidor")
     })
     public ResponseEntity get() {
        List<TipoProduto> tipoProdutos = service.getTipoProdutos();
@@ -47,9 +47,9 @@ public class TipoProdutoController {
     @GetMapping("/{id}")
     @ApiOperation("Obter detalhes de um tipo de produto")
     @ApiResponses({
-            @ApiResponse(code  = "200", message  = "Tipo de Produto encontrado"),
-            @ApiResponse(code  = "404", message  = "Tipo de Produto não encontrado"),
-            @ApiResponse(code  = "500", message  = "Erro interno no servidor")
+            @ApiResponse(code  = 200, message  = "Tipo de Produto encontrado"),
+            @ApiResponse(code  = 404, message  = "Tipo de Produto não encontrado"),
+            @ApiResponse(code  = 500, message  = "Erro interno no servidor")
     })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<TipoProduto> tipoProduto = service.getTipoProdutoById(id);
@@ -62,9 +62,9 @@ public class TipoProdutoController {
     @PostMapping
     @ApiOperation("Salva um tipo de produto")
     @ApiResponses({
-            @ApiResponse(code  = "201", message  = "Tipo de Produto salvo com sucesso"),
-            @ApiResponse(code  = "404", message  = "Erro ao salvar o Tipo de Produto"),
-            @ApiResponse(code  = "500", message  = "Erro interno no servidor")
+            @ApiResponse(code  = 201, message  = "Tipo de Produto salvo com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao salvar o Tipo de Produto"),
+            @ApiResponse(code  = 500, message  = "Erro interno no servidor")
     })
     public ResponseEntity post(@RequestBody TipoProdutoDTO dto) {
         try {
@@ -80,9 +80,9 @@ public class TipoProdutoController {
     @PutMapping("{id}")
     @ApiOperation("Atualiza um tipo de produto")
     @ApiResponses({
-            @ApiResponse(code  = "200", message  = "Tipo de Produto alterado com sucesso"),
-            @ApiResponse(code  = "404", message  = "Tipo de Produto não encontrado"),
-            @ApiResponse(code  = "500", message  = "Erro interno no servidor")
+            @ApiResponse(code  = 200, message  = "Tipo de Produto alterado com sucesso"),
+            @ApiResponse(code  = 404, message  = "Tipo de Produto não encontrado"),
+            @ApiResponse(code  = 500, message  = "Erro interno no servidor")
     })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody TipoProdutoDTO dto) {
         if (!service.getTipoProdutoById(id).isPresent()) {
@@ -102,9 +102,9 @@ public class TipoProdutoController {
     @DeleteMapping("{id}")
     @ApiOperation("Exclui um tipo de produto")
     @ApiResponses({
-            @ApiResponse(code  = "204", message  = "Tipo de Produto excluído com sucesso"),
-            @ApiResponse(code  = "404", message  = "Tipo de Produto não encontrado"),
-            @ApiResponse(code  = "500", message  = "Erro interno no servidor")
+            @ApiResponse(code  = 200, message  = "Tipo de Produto excluído com sucesso"),
+            @ApiResponse(code  = 404, message  = "Tipo de Produto não encontrado"),
+            @ApiResponse(code  = 500, message  = "Erro interno no servidor")
     })
     public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<TipoProduto> tipoProduto = service.getTipoProdutoById(id);
