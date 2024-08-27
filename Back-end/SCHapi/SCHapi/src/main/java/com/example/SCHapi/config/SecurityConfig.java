@@ -1,7 +1,7 @@
 package com.example.SCHapi.config;
 
-import com.example.SCHapi.security.JwtAuthFilter;
-import com.example.SCHapi.security.JwtService;
+// import com.example.SCHapi.security.JwtAuthFilter;
+// import com.example.SCHapi.security.JwtService;
 import com.example.SCHapi.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,23 +19,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfiguration {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UsuarioService usuarioService;
 
-    @Autowired
-    private JwtService jwtService;
+    // @Autowired
+    // private JwtService jwtService;
 
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public OncePerRequestFilter jwtFilter(){
-        return new JwtAuthFilter(jwtService, usuarioService);
-    }
+    // @Bean
+    // public OncePerRequestFilter jwtFilter(){
+    //     return new JwtAuthFilter(jwtService, usuarioService);
+    // }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -99,7 +99,7 @@ public class SecurityConfig extends WebSecurityConfiguration {
                 .antMatchers("/api/v1/tipoCamaTipoQuartos/**")
                     .permitAll()
                 .antMatchers("/api/v1/comodidades/**")
-                    .permitAll()
+                    .hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/v1/quartos/**")
                     .permitAll()
                 .antMatchers("/api/v1/statusQuartos/**")
@@ -119,6 +119,8 @@ public class SecurityConfig extends WebSecurityConfiguration {
                     .permitAll()
                 .antMatchers("/api/v1/tipoServicos/**")
                     .permitAll()
+                .antMatchers("/api/v1/usuarios/**")
+                    .permitAll()
 
                     //.antMatchers("/api/v1/vagas/**")
                     //.hasAnyRole("USER", "ADMIN")
@@ -126,8 +128,8 @@ public class SecurityConfig extends WebSecurityConfiguration {
             .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+            // .and()
+            //     .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
         ;
     }
 

@@ -20,7 +20,7 @@ import com.example.SCHapi.api.dto.Produto.TipoProdutoDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.model.entity.Usuario;
 import com.example.SCHapi.model.entity.Produto.TipoProduto;
-import com.example.SCHapi.security.JwtService;
+// import com.example.SCHapi.security.JwtService;
 import com.example.SCHapi.service.UsuarioService;
 
 
@@ -34,7 +34,7 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    // private final JwtService jwtService;
 
     private final UsuarioService service;
 
@@ -82,6 +82,8 @@ public class UsuarioController {
                 return ResponseEntity.badRequest().body("Senhas não conferem");
             }
             Usuario usuario = converter(dto);
+            String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
+            usuario.setSenha(senhaCriptografada);
             System.err.println(dto);
             usuario = service.salvar(usuario);
             return new ResponseEntity(usuario, HttpStatus.CREATED);
@@ -113,6 +115,8 @@ public class UsuarioController {
             }
 
             Usuario usuario = converter(dto);
+            String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
+            usuario.setSenha(senhaCriptografada);
             usuario.setId(id);
             System.out.println(dto);
             service.salvar(usuario);
