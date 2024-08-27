@@ -74,9 +74,14 @@ public class UsuarioController {
     })
     public ResponseEntity post(@RequestBody UsuarioDTO dto) {
         try {
-            
+            if (dto.getSenha() == null || dto.getSenha().trim().equals("") ||
+                    dto.getSenhaRepeticao() == null || dto.getSenhaRepeticao().trim().equals("")) {
+                return ResponseEntity.badRequest().body("Senha inválida");
+            }
+            if (!dto.getSenha().equals(dto.getSenhaRepeticao())) {
+                return ResponseEntity.badRequest().body("Senhas não conferem");
+            }
             Usuario usuario = converter(dto);
-            usuario = service.salvar(usuario);
             String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
             usuario.setSenha(senhaCriptografada);
             System.err.println(dto);
@@ -101,9 +106,15 @@ public class UsuarioController {
             return new ResponseEntity("Usuario não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
-            
+            if (dto.getSenha() == null || dto.getSenha().trim().equals("") ||
+                    dto.getSenhaRepeticao() == null || dto.getSenhaRepeticao().trim().equals("")) {
+                return ResponseEntity.badRequest().body("Senha inválida");
+            }
+            if (!dto.getSenha().equals(dto.getSenhaRepeticao())) {
+                return ResponseEntity.badRequest().body("Senhas não conferem");
+            }
+
             Usuario usuario = converter(dto);
-            service.salvar(usuario);
             String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
             usuario.setSenha(senhaCriptografada);
             usuario.setId(id);
