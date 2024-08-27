@@ -5,6 +5,7 @@ import com.example.SCHapi.exception.SenhaInvalidaException;
 import com.example.SCHapi.model.entity.Usuario;
 import com.example.SCHapi.model.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -80,6 +81,13 @@ public class UsuarioService implements UserDetailsService {
         }
         if (usuario.getCpf() == null || usuario.getCpf().trim().equals("")) {
             throw new RegraNegocioException("CPF inválido");
+        }
+        if (usuario.getSenha() == null || usuario.getSenha().trim().equals("") ||
+            usuario.getSenhaRepeticao() == null || usuario.getSenhaRepeticao().trim().equals("")) {
+            throw new RegraNegocioException("Senha inválida");
+        }
+        if (!usuario.getSenha().equals(usuario.getSenhaRepeticao())) {
+            throw new RegraNegocioException("SenhaS não conferem.");
         }
     }
 }
