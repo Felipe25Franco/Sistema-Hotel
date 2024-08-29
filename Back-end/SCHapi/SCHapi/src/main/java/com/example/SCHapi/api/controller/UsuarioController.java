@@ -26,7 +26,7 @@ import com.example.SCHapi.exception.RegraNegocioException;
 import com.example.SCHapi.exception.SenhaInvalidaException;
 import com.example.SCHapi.model.entity.Usuario;
 import com.example.SCHapi.model.entity.Produto.TipoProduto;
-// import com.example.SCHapi.security.JwtService;
+import com.example.SCHapi.security.JwtService;
 import com.example.SCHapi.service.UsuarioService;
 
 
@@ -40,7 +40,7 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
     private final PasswordEncoder passwordEncoder;
-    // private final JwtService jwtService;
+    private final JwtService jwtService;
 
     private final UsuarioService service;
 
