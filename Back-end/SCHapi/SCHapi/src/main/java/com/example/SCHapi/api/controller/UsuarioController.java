@@ -12,12 +12,18 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.example.SCHapi.api.dto.CredenciaisDTO;
+import com.example.SCHapi.api.dto.TokenDTO;
 import com.example.SCHapi.api.dto.UsuarioDTO;
 import com.example.SCHapi.api.dto.Produto.TipoProdutoDTO;
 import com.example.SCHapi.exception.RegraNegocioException;
+import com.example.SCHapi.exception.SenhaInvalidaException;
 import com.example.SCHapi.model.entity.Usuario;
 import com.example.SCHapi.model.entity.Produto.TipoProduto;
 // import com.example.SCHapi.security.JwtService;
@@ -89,6 +95,20 @@ public class UsuarioController {
             return new ResponseEntity(usuario, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/auth")
+    public TokenDTO autenticar(@RequestBody CredenciaisDTO credenciais){
+        try{
+            Usuario usuario = Usuario.builder()
+                    .login(credenciais.getLogin())
+                    .senha(credenciais.getSenha()).build();
+            UserDetails usuarioAutenticado = usuarioService.autenticar(usuario);
+            String token = jwtService.gerarToken(usuario);
+            return new TokenDTO(usuario.getLogin(), token);
+        } catch (UsernameNotFoundException | SenhaInvalidaException e ){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
 
