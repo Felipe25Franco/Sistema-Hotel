@@ -116,13 +116,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/servicos/**")
                     .permitAll()
                 .antMatchers("/api/v1/statusServicos/**")
-                    .permitAll()
+                    .hasAnyRole("ADMIN")
                 .antMatchers("/api/v1/tipoServicos/**")
                     .permitAll()
                 .antMatchers("/api/v1/usuarios/**")
                     .permitAll()
-                .antMatchers("/api/v1/usuarios/auth/**")
-                    .permitAll()
+                
               
 
                     //.antMatchers("/api/v1/vagas/**")
