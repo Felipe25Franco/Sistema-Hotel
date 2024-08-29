@@ -22,7 +22,5 @@ public class Usuario {
     private String cpf;
     private String senha;
     private boolean admin;
-    private String senhaRepeticao;
-
-
+    
 }
