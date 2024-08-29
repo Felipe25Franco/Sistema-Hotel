@@ -1,7 +1,7 @@
 package com.example.SCHapi.config;
 
-// import com.example.SCHapi.security.JwtAuthFilter;
-// import com.example.SCHapi.security.JwtService;
+import com.example.SCHapi.security.JwtAuthFilter;
+import com.example.SCHapi.security.JwtService;
 import com.example.SCHapi.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,18 +24,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UsuarioService usuarioService;
 
-    // @Autowired
-    // private JwtService jwtService;
+    @Autowired
+    private JwtService jwtService;
 
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // @Bean
-    // public OncePerRequestFilter jwtFilter(){
-    //     return new JwtAuthFilter(jwtService, usuarioService);
-    // }
+    @Bean
+    public OncePerRequestFilter jwtFilter(){
+        return new JwtAuthFilter(jwtService, usuarioService);
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -128,8 +128,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            // .and()
-            //     .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+            .and()
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
         ;
     }
 
