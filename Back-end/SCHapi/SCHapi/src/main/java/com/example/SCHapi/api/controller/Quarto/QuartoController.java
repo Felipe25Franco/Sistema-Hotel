@@ -7,10 +7,7 @@ import com.example.SCHapi.service.Quarto.QuartoService;
 import com.example.SCHapi.service.Quarto.StatusQuartoService;
 import com.example.SCHapi.service.Quarto.TipoQuartoService;
 
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/quartos")
 @RequiredArgsConstructor
+@Api("Api de Quarto")
 @CrossOrigin
 public class QuartoController {
 
@@ -40,24 +38,24 @@ public class QuartoController {
     private final StatusQuartoService statusquartoService;
 
     @GetMapping()
-    // @Operation(summary ="Obter a lista de quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Lista de Quarto retornada com sucesso"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
-    //         //@ApiResponse(responseCode  = "404", description  = "Quarto não encontrado")
-    // })
+    @ApiOperation("Obter a lista de quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Lista de Quarto retornada com sucesso"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor"),
+            @ApiResponse(code  = 404, message  = "Quarto não encontrado")
+    })
     public ResponseEntity get() {
        List<Quarto> quartos = service.getQuartos();
         return ResponseEntity.ok(quartos.stream().map(QuartoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    // @Operation(summary ="Obter detalhes de um quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Quarto encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "Quarto não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Obter detalhes de um quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Quarto encontrado"),
+            @ApiResponse(code  = 404, message  = "Quarto não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Quarto> quarto = service.getQuartoById(id);
         if (!quarto.isPresent()) {
@@ -67,12 +65,12 @@ public class QuartoController {
     }
 
     @PostMapping
-    // @Operation(summary ="Salva um quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "201", description  = "Quarto salvo com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Quarto"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Salva um quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 201, message  = "Quarto salvo com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao salvar o Quarto"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity post(@RequestBody QuartoDTO dto) {
         try {
             Quarto quarto = converter(dto);
@@ -84,12 +82,12 @@ public class QuartoController {
     }
 
     @PutMapping("{id}")
-    // @Operation(summary ="Atualiza um quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Quarto alterado com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Quarto não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Atualiza um quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Quarto alterado com sucesso"),
+            @ApiResponse(code  = 404, message  = "Quarto não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity atualizar(@PathVariable("id")  Long id, @RequestBody QuartoDTO dto) {
         if (!service.getQuartoById(id).isPresent()) {
             return new ResponseEntity("Quarto não encontrado", HttpStatus.NOT_FOUND);
@@ -106,12 +104,12 @@ public class QuartoController {
     }
 
     @DeleteMapping("{id}")
-    // @Operation(summary ="Exclui um quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "204", description  = "Quarto excluído com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Quarto não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Exclui um quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 204, message  = "Quarto excluído com sucesso"),
+            @ApiResponse(code  = 404, message  = "Quarto não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<Quarto> quarto = service.getQuartoById(id);
         if (!quarto.isPresent()) {

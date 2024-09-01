@@ -32,10 +32,7 @@ import com.example.SCHapi.service.Quarto.TipoQuartoService;
 import com.example.SCHapi.service.Quarto.Lista.ComodidadeTipoQuartoService;
 import com.example.SCHapi.service.Quarto.Lista.TipoCamaTipoQuartoService;
 
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +41,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/tipoQuartos")
 @RequiredArgsConstructor
+@Api("API de Tipo Quarto")
 @CrossOrigin
 public class TipoQuartoController {
 
@@ -55,33 +53,26 @@ public class TipoQuartoController {
     private final HotelService hotelService;
 
     @GetMapping()
-    // @Operation(summary ="Obter a lista de tipo de quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Lista de Tipo de Quarto retornada com sucesso"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
-    //         //@ApiResponse(responseCode  = "404", description  = "Tipo de Quarto não encontrado")
-    // })
+    @ApiOperation("Obter a lista de tipo de quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Lista de Tipo de Quarto retornada com sucesso"),
+            @ApiResponse(code  = 500, message  = "Erro interno no servidor"),
+            @ApiResponse(code  = 404, message  = "Tipo de Quarto não encontrado")
+    })
     public ResponseEntity get() {
         List<TipoQuarto> tipoQuartos = service.getTipoQuartos();
         return ResponseEntity.ok(tipoQuartos.stream().map(TipoQuartoDTO::create).collect(Collectors.toList()));
     }
 
-    // @GetMapping("/{id}")
-    // public ResponseEntity get(@PathVariable("id") @Parameter(description = "Id do Tipo de Quarto") Long id) {
-    //     Optional<TipoQuarto> tipoQuarto = service.getTipoQuartoById(id);
-    //     if (!tipoQuarto.isPresent()) {
-    //         return new ResponseEntity("TipoQuarto não encontrada", HttpStatus.NOT_FOUND);
-    //     }
-    //     return ResponseEntity.ok(tipoQuarto.map(TipoQuartoDTO::create));
-    // }
+    
 
     @GetMapping("/{id}")
-    // @Operation(summary ="Obter detalhes de um tipo de quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Tipo de Quarto encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "Tipo de Quarto não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Obter detalhes de um tipo de quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Tipo de Quarto encontrado"),
+            @ApiResponse(code  = 404, message  = "Tipo de Quarto não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity get(@PathVariable("id")  Long id) {
         Optional<TipoQuarto> tipoQuarto = service.getTipoQuartoById(id);
         if (!tipoQuarto.isPresent()) {
@@ -89,20 +80,20 @@ public class TipoQuartoController {
         }
         List<TipoCamaTipoQuarto> camaTipoQuarto = tipoCamaTipoQuartoService.getTipoCamaTipoQuartoByTipoQuarto(tipoQuarto);
         List<ComodidadeTipoQuarto> comodidadeTipoQuarto = comodidadeTipoQuartoService.getComodidadeTipoQuartoByTipoQuarto(tipoQuarto);
-        //Optional<List<TipoCamaTipoQuarto>> = Optional.of(camaTipoQuarto);
+        
         TipoQuartoDTO tipoQuartoDTO = new TipoQuartoDTO();
         tipoQuartoDTO = TipoQuartoDTO.create(tipoQuarto.get());
         return ResponseEntity.ok(tipoQuartoDTO);
-        // return ResponseEntity.ok(tipoquarto.map(TipoQuartoDTO::create));
+        
     }
 
-    @GetMapping("hotel/{id}")//carregar tipos de quartos de um hotel
-    // @Operation(summary ="Obter detalhes de um tipo de quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Tipo de Quarto encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "Tipo de Quarto não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @GetMapping("hotel/{id}")
+    @ApiOperation("Obter detalhes de um tipo de quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Tipo de Quarto encontrado"),
+            @ApiResponse(code  = 404, message  = "Tipo de Quarto não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity getByHotel(@PathVariable("id")  Long id) {
         List<TipoQuarto> tipoQuartos = service.getTipoQuartosByHotel(hotelService.getHotelById(id));
         if (tipoQuartos.isEmpty()) {
@@ -112,25 +103,16 @@ public class TipoQuartoController {
     }
     
     @PostMapping
-    // @Operation(summary ="Salva um tipo de quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "201", description  = "Tipo de Quarto salvo com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Tipo de Quarto"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Salva um tipo de quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 201, message  = "Tipo de Quarto salvo com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao salvar o Tipo de Quarto"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity post(@RequestBody TipoQuartoDTO dto) {
         try {
             TipoQuarto tipoQuarto = converter(dto);
-            // // loop para cada elemento da lista salvar o tipoquartoreserva
-            // for (TipoCamaTipoQuartoDTOList tipoCamaTipoQuartoDto : dto.getCamaTipoQuarto()) {
-            //     TipoCamaTipoQuarto tipoCamaTipoQuarto = converterTipoCamaTipoQuarto(tipoCamaTipoQuartoDto, tipoQuarto.getId());
-            //     tipoCamaTipoQuartoService.salvar(tipoCamaTipoQuarto);
-            // }
-            // // loop para cada elemento da lista salvar o comodidadetipoquarto
-            // for (ComodidadeTipoQuartoDTOList comodidadeTipoQuartoDto : dto.getComodidadeTipoQuarto()) {
-            //     ComodidadeTipoQuarto comodidadeTipoQuarto = converterComodidadeTipoQuarto(comodidadeTipoQuartoDto, tipoQuarto.getId());
-            //     comodidadeTipoQuartoService.salvar(comodidadeTipoQuarto);
-            // }
+            
             List<TipoCamaTipoQuarto> tipoCamaTipoQuartos = new ArrayList<TipoCamaTipoQuarto>();
             for (TipoCamaTipoQuartoDTOList tipoCamaTipoQuartoDto : dto.getCamaTipoQuarto()) {
                 tipoCamaTipoQuartos.add(converterTipoCamaTipoQuarto(tipoCamaTipoQuartoDto, tipoQuarto.getId()));
@@ -147,12 +129,12 @@ public class TipoQuartoController {
     }
 
     @PutMapping("{id}")
-    // @Operation(summary ="Atualiza um tipo de quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Tipo de Quarto alterado com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Tipo de Quarto não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Atualiza um tipo de quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Tipo de Quarto alterado com sucesso"),
+            @ApiResponse(code  = 404, message  = "Tipo de Quarto não encontrado"),
+            @ApiResponse(code = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity atualizar(@PathVariable("id")  Long id, @RequestBody TipoQuartoDTO dto) {
         if (!service.getTipoQuartoById(id).isPresent()) {
             return new ResponseEntity("TipoQuarto não encontrado", HttpStatus.NOT_FOUND);
@@ -160,29 +142,12 @@ public class TipoQuartoController {
         try {
             TipoQuarto tipoQuarto = converter(dto);
             tipoQuarto.setId(id);
-            // // excluir a lista antiga de TipoQUarto
-            // for (TipoCamaTipoQuarto tipoCamaTipoQuarto : service.getTipoQuartoById(id).get().getTipoCamaTipoQuarto()){
-            //     tipoCamaTipoQuartoService.excluir(tipoCamaTipoQuarto);
-            // }
-            // for (ComodidadeTipoQuarto comodidadeTipoQuarto : service.getTipoQuartoById(id).get().getComodidadeTipoQuarto()){
-            //     comodidadeTipoQuartoService.excluir(comodidadeTipoQuarto);
-            // }
-            // // Salvar os novos TipoQUarto
-            // for (TipoCamaTipoQuartoDTOList tipoCamaTipoQuartoDto : dto.getCamaTipoQuarto()) {
-            //     TipoCamaTipoQuarto tipoCamaTipoQuarto = converterTipoCamaTipoQuarto(tipoCamaTipoQuartoDto, tipoQuarto.getId());
-            //     tipoCamaTipoQuartoService.salvar(tipoCamaTipoQuarto);
-            // }
-            // for (ComodidadeTipoQuartoDTOList comodidadeTipoQuartoDto : dto.getComodidadeTipoQuarto()) {
-            //     ComodidadeTipoQuarto comodidadeTipoQuarto = converterComodidadeTipoQuarto(comodidadeTipoQuartoDto, tipoQuarto.getId());
-            //     comodidadeTipoQuartoService.salvar(comodidadeTipoQuarto);
-            // }
-
-            //converter lista de tipoquartoresrva
+            
             List<TipoCamaTipoQuarto> tipoCamaTipoQuartos = new ArrayList<TipoCamaTipoQuarto>();
             for (TipoCamaTipoQuartoDTOList tipoCamaTipoQuartoDto : dto.getCamaTipoQuarto()) {
                 tipoCamaTipoQuartos.add(converterTipoCamaTipoQuarto(tipoCamaTipoQuartoDto, tipoQuarto.getId()));
             }
-            //converter lista de tipoquartoresrva
+            
             List<ComodidadeTipoQuarto> comodidadeTipoQuartos = new ArrayList<ComodidadeTipoQuarto>();
             for (ComodidadeTipoQuartoDTOList comodidadeTipoQuartoDto : dto.getComodidadeTipoQuarto()) {
                 comodidadeTipoQuartos.add(converterComodidadeTipoQuarto(comodidadeTipoQuartoDto, tipoQuarto.getId()));
@@ -195,12 +160,12 @@ public class TipoQuartoController {
     }
 
     @DeleteMapping("{id}")
-    // @Operation(summary ="Exclui um tipo de quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "204", description  = "Tipo de Quarto excluído com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Tipo de Quarto não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Exclui um tipo de quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 204, message  = "Tipo de Quarto excluído com sucesso"),
+            @ApiResponse(code  = 404, message  = "Tipo de Quarto não encontrado"),
+            @ApiResponse(code = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<TipoQuarto> tipoQuarto = service.getTipoQuartoById(id);
         if (!tipoQuarto.isPresent()) {
@@ -212,9 +177,7 @@ public class TipoQuartoController {
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } 
-        // catch (org.springframework.dao.DataIntegrityViolationException e) {
-        //     return ResponseEntity.badRequest().body(e.getMessage());
-        // }
+        
     }
 
     public TipoQuarto converter(TipoQuartoDTO dto) {

@@ -24,10 +24,7 @@ import com.example.SCHapi.service.Servico.ServicoService;
 import com.example.SCHapi.service.Servico.StatusServicoService;
 import com.example.SCHapi.service.Servico.TipoServicoService;
 
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/servicos")
 @RequiredArgsConstructor
+@Api("API de Serviço")
 @CrossOrigin
 public class ServicoController {
     private final ServicoService service;
@@ -44,27 +42,27 @@ public class ServicoController {
     private final StatusServicoService statusServicoService;
     private final HorarioServicoService horarioServicoService;
 
-    //tem q fazer igual lista e relacionar com horarioServico
+    
     @GetMapping()
-    // @Operation(summary ="Obter a lista de serviço")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Lista de Serviço retornada com sucesso"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
-    //         //@ApiResponse(responseCode  = "404", description  = "Serviço não encontrado")
-    // })
+    @ApiOperation("Obter a lista de serviço")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Lista de Serviço retornada com sucesso"),
+            @ApiResponse(code = 500, message = "Erro interno no servidor"),
+            @ApiResponse(code  = 404, message  = "Serviço não encontrado")
+    })
     public ResponseEntity get() {
         List<Servico> servicos = service.getServicos();
-        //System.out.println(servicos.stream().map(ServicoDTO::create).collect(Collectors.toList()));
+        
         return ResponseEntity.ok(servicos.stream().map(ServicoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    // @Operation(summary ="Obter detalhes de um serviço")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Serviço encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Obter detalhes de um serviço")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Serviço encontrado"),
+            @ApiResponse(code  = 404, message  = "Serviço não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Servico> servico = service.getServicoById(id);
         if (!servico.isPresent()) {
@@ -74,21 +72,16 @@ public class ServicoController {
     }
 
     @PostMapping
-    // @Operation(summary ="Salva um serviço")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "201", description  = "Serviço salvo com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Serviço"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Salva um serviço")
+    @ApiResponses({
+            @ApiResponse(code  = 201, message  = "Serviço salvo com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao salvar o Serviço"),
+            @ApiResponse(code = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity post(@RequestBody ServicoDTO dto) {
         try {
             Servico servico = converter(dto);
-            // servico = service.salvar(servico);
-            // // loop para cada elemento da lista salvar o horarioservico
-            // for (HorarioServicoDTO horarioServicoDto : dto.getHorarioServicos()) {
-            //     HorarioServico horarioServico = converterHorarioServico(horarioServicoDto, servico.getId());
-            //     horarioServicoService.salvar(horarioServico);
-            // }
+            
             List<HorarioServico> horarioServicos = new ArrayList<HorarioServico>();
             for (HorarioServicoDTO horarioServicoDto : dto.getHorarioServicos()) {
                 horarioServicos.add(converterHorarioServico(horarioServicoDto, servico.getId()));
@@ -101,12 +94,12 @@ public class ServicoController {
     }
 
     @PutMapping("{id}")
-    // @Operation(summary ="Atualiza um serviço")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Serviço alterado com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Atualiza um serviço")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Serviço alterado com sucesso"),
+            @ApiResponse(code  = 404, message  = "Serviço não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ServicoDTO dto) {
         System.out.println(dto);
         if (!service.getServicoById(id).isPresent()) {
@@ -115,17 +108,7 @@ public class ServicoController {
         try {
             Servico servico = converter(dto);
             servico.setId(id);
-            // //System.out.println(dto);
-            // for (HorarioServico horarioServico : service.getServicoById(id).get().getHorarioServicos()){
-            //     horarioServicoService.excluir(horarioServico);
-            // }
-            // service.salvar(servico);
-            // for (HorarioServicoDTO horarioServicoDto : dto.getHorarioServicos()) {
-            //     HorarioServico horarioServico = converterHorarioServico(horarioServicoDto, servico.getId());
-            //     horarioServicoService.salvar(horarioServico);
-            // }
-
-            //converter lista de tipoquartoresrva
+            
             List<HorarioServico> horarioServicos = new ArrayList<HorarioServico>();
             for (HorarioServicoDTO horarioServicoDto : dto.getHorarioServicos()) {
                 horarioServicos.add(converterHorarioServico(horarioServicoDto, servico.getId()));
@@ -138,12 +121,12 @@ public class ServicoController {
     }
 
     @DeleteMapping("{id}")
-    // @Operation(summary ="Exclui um serviço")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "204", description  = "Serviço excluído com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Serviço não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Exclui um serviço")
+    @ApiResponses({
+            @ApiResponse(code  = 204, message  = "Serviço excluído com sucesso"),
+            @ApiResponse(code  = 404, message  = "Serviço não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Servico> servico = service.getServicoById(id);
         if (!servico.isPresent()) {

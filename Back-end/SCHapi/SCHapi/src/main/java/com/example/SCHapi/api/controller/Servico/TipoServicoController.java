@@ -6,10 +6,8 @@ import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.model.entity.Servico.TipoServico;
 import com.example.SCHapi.service.Servico.TipoServicoService;
 
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.*;
+
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -24,30 +22,31 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/tipoServicos")
 @RequiredArgsConstructor
+@Api("API de Tipo Sreviço")
 @CrossOrigin
 public class TipoServicoController {
 
     private final TipoServicoService service;
 
     @GetMapping()
-    // @Operation(summary ="Obter a lista de tipo de serviço")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Lista de Tipo de Serviço retornada com sucesso"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
-    //         //@ApiResponse(responseCode  = "404", description  = "Tipo de Serviço não encontrado")
-    // })
+    @ApiOperation("Obter a lista de tipo de serviço")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Lista de Tipo de Serviço retornada com sucesso"),
+            @ApiResponse(code = 500, message = "Erro interno no servidor"),
+            @ApiResponse(code  = 404, message  = "Tipo de Serviço não encontrado")
+    })
     public ResponseEntity get() {
        List<TipoServico> tipoServicos = service.getTipoServicos();
         return ResponseEntity.ok(tipoServicos.stream().map(TipoServicoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    // @Operation(summary ="Obter detalhes de um tipo de serviço")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Tipo de Serviço encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "Tipo de Serviço não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Obter detalhes de um tipo de serviço")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Tipo de Serviço encontrado"),
+            @ApiResponse(code  = 404, message  = "Tipo de Serviço não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity get(@PathVariable("id")  Long id) {
         Optional<TipoServico> tipoServico = service.getTipoServicoById(id);
         if (!tipoServico.isPresent()) {
@@ -57,12 +56,12 @@ public class TipoServicoController {
     }
 
     @PostMapping
-    // @Operation(summary ="Salva um tipo de serviço")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "201", description  = "Tipo de Serviço salvo com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Tipo de Serviço"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Salva um tipo de serviço")
+    @ApiResponses({
+            @ApiResponse(code  = 201, message  = "Tipo de Serviço salvo com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao salvar o Tipo de Serviço"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity post(@RequestBody TipoServicoDTO dto) {
         try {
             TipoServico tipoServico = converter(dto);
@@ -74,12 +73,12 @@ public class TipoServicoController {
     }
 
     @PutMapping("{id}")
-    // @Operation(summary ="Atualiza um tipo de serviço")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Tipo de Serviço alterado com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Tipo de Serviço não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Atualiza um tipo de serviço")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Tipo de Serviço alterado com sucesso"),
+            @ApiResponse(code  = 404, message  = "Tipo de Serviço não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody TipoServicoDTO dto) {
         if (!service.getTipoServicoById(id).isPresent()) {
             return new ResponseEntity("TipoServico não encontrado", HttpStatus.NOT_FOUND);
@@ -96,12 +95,12 @@ public class TipoServicoController {
     }
 
     @DeleteMapping("{id}")
-    // @Operation(summary ="Exclui um tipo de serviço")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "204", description  = "Tipo de Serviço excluído com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Tipo de Serviço não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Exclui um tipo de serviço")
+    @ApiResponses({
+            @ApiResponse(code  = 204, message  = "Tipo de Serviço excluído com sucesso"),
+            @ApiResponse(code  = 404, message  = "Tipo de Serviço não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<TipoServico> tipoServico = service.getTipoServicoById(id);
         if (!tipoServico.isPresent()) {
