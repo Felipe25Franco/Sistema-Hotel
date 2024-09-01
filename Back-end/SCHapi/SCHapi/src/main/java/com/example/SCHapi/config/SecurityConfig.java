@@ -99,7 +99,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/tipoCamaTipoQuartos/**")
                     .permitAll()
                 .antMatchers("/api/v1/comodidades/**")
-                    .hasAnyRole("USER", "ADMIN")
+                    .permitAll()
                 .antMatchers("/api/v1/quartos/**")
                     .permitAll()
                 .antMatchers("/api/v1/statusQuartos/**")
