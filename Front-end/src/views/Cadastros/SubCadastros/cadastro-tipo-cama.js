@@ -22,7 +22,7 @@ function CadastroTipoCama() {
 
   const baseURL = `${URL_quarto}/tipoCamas`;
 
-  const [id, setId] = useState('');
+  const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');
   const [var1, setVar1] = useState('');
   const [var2, setVar2] = useState('');

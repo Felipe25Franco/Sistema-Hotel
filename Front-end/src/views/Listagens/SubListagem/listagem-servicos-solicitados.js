@@ -18,7 +18,7 @@ import { BASE_URL } from '../../../config/axios';
 import { URL_servico } from '../../../config/axios';
 import { URL_status } from '../../../config/axios';
 
-const baseURL = `${URL_servico}/servicosSolicitados`;
+const baseURL = `${URL_servico}/servicoSolicitados`;
 
 
 function ListagemServicosSolicitados() {
@@ -26,8 +26,8 @@ function ListagemServicosSolicitados() {
 
     const navigate = useNavigate();
 
-    const cadastrar = () => {
-        navigate(`/cadastro-servico-solicitado`);
+    const cadastrar = (id) => {
+        navigate(`/cadastro-servico-solicitado/${'hospedagem'}/${id}`);
     };
 
     const editar = (id) => {
@@ -63,7 +63,7 @@ function ListagemServicosSolicitados() {
     }
 
     React.useEffect(() => {
-        axios.get(`${URL_servico}/servicoSolicitados`).then((response) => {
+        axios.get(`${URL_servico}/servicoSolicitados/hospedagens/${idParam}`).then((response) => {
             setDados(response.data);
         });
     }, []);
@@ -82,7 +82,7 @@ function ListagemServicosSolicitados() {
     const [dados2, setDados2] = React.useState(null);
   
     React.useEffect(() => {
-      axios.get(`${URL_servico}/Servicos`).then((response) => {
+      axios.get(`${URL_servico}/servicos`).then((response) => {
         setDados2(response.data);
       });
     }, []);
@@ -99,7 +99,7 @@ function ListagemServicosSolicitados() {
                             <button
                                 type='button'
                                 className='btn btn-warning'
-                                onClick={() => cadastrar()}
+                                onClick={() => cadastrar(idParam)}
                             >
                                 Novo Serviço
                             </button>
@@ -107,7 +107,6 @@ function ListagemServicosSolicitados() {
                                 <thead>
                                     <tr>
                                         <th scope='col'>Serviço</th>
-                                        <th scope='col'>Para</th>
                                         <th scope='col'>Valor</th>
                                         <th scope='col'>Ações</th>
                                     </tr>
@@ -116,7 +115,6 @@ function ListagemServicosSolicitados() {
                                     {dados.map((dado) => (
                                         <tr key={dado.id}>
                                             <td>{dados2.find(obj => obj.id === dado.idServico).titulo}</td>
-                                            <td>{dado.quantidadeVagas}</td>
                                             <td>{dado.valorTotal}</td>
                                             <td>
                                                 <Stack spacing={1} padding={0} direction='row'>

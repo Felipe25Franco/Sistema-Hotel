@@ -90,8 +90,10 @@ function CadastroCliente() {
       setVar12(dados.senha);
       setVar13(dados.senha);
       //setVar14(`+${dados.ddi1} (${dados.ddd1}) ${dados.num1}`);
-      setVar14("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
-      setVar15(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
+      // setVar14("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
+      // setVar15(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
+      setVar14(""+dados.ddi1 + dados.ddd1 + dados.num1);
+      setVar15(`${dados.ddi2}${dados.ddd2}${dados.num2}`);
       //setVar16(dados.endereco_id);
       setVar5(dados.cidade);//cidade
       setVar6(dados.cep);//cep
@@ -135,9 +137,10 @@ function CadastroCliente() {
       //completar aqiiioaisaisaa
     };
     data = JSON.stringify(data);
+    console.log(data)
     if (idParam == null) {
       await axios
-        .post(baseURL_endereco, data, {
+        .post(baseURL, data, {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
@@ -149,7 +152,7 @@ function CadastroCliente() {
         });
     } else {
       await axios
-        .put(`${baseURL_endereco}/${idParam}`, data, {
+        .put(`${baseURL}/${idParam}`, data, {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
@@ -176,8 +179,10 @@ function CadastroCliente() {
       setVar12(dados.senha);
       setVar13(dados.senha);
       //setVar14(`+${dados.ddi1} (${dados.ddd1}) ${dados.num1}`);
-      setVar14("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
-      setVar15(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
+      // setVar14("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
+      // setVar15(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
+      setVar14(""+dados.ddi1 + dados.ddd1 + dados.num1);
+      setVar15(`${dados.ddi2}${dados.ddd2}${dados.num2}`);
       //setVar16(dados.endereco_id);
       setVar5(dados.cidade);//cidade
       setVar6(dados.cep);//cep

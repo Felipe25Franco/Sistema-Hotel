@@ -30,14 +30,18 @@ function CadastroServicos() {
   const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');//nome
   const [var1, setVar1] = useState('');//desc
-  const [var2, setVar2] = useState('');//valor h orario
+  const [var2, setVar2] = useState(0);//valor h orario
   const [var3, setVar3] = useState('');//status
   const [var4, setVar4] = useState(false);//tipo reserva
   const [var5, setVar5] = useState('');//id hotel
   const [var6, setVar6] = useState('');//id tipo serv
   const [horarios, setHorarios] = useState([]);//id tipo serv
 
-  const [date, setDate] = useState('');
+  const currentDate = new Date();
+  console.log(currentDate.getDate())
+  console.log(`${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`)
+  console.log(`${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDay()}`)
+  const [date, setDate] = useState(`${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`);
   const [tableData, setTableData] = useState([]);
    //ESSA é A PARTE DO BOTAO EDITAR
    const [dados, setDados] = React.useState([]);
@@ -52,16 +56,18 @@ function CadastroServicos() {
        setVar4(false);
        setVar5('');
        setHorarios([]);
+       setTableData([]);
      } else {
        setId(dados.id);
        setVar0(dados.titulo);
        setVar1(dados.descricao);
-       setVar2(dados.valorhorario);
+       setVar2(dados.valorPorHorario);
        setVar3(dados.status);
        setVar4(dados.tipoReserva);
        setVar5(dados.idHotel);
        setVar6(dados.idTipoServico);
-       setHorarios(dados.horarioServico);
+       setHorarios(dados.horarioServicos);
+       setTableData(dados.horarioServicos);
      }
    }
  
@@ -71,13 +77,15 @@ function CadastroServicos() {
        titulo:var0,
        descricao:var1,
        status:var3,
-       valorhorario:var2,
+       valorPorHorario:var2,
        tipoReserva:var4,
        idHotel:var5,
        idTipoServico:var6,
-       horarioServico:horarios
+       //horarioServicos:horarios
+       horarioServicos:tableData
      };
      data = JSON.stringify(data);
+     //console.log(data)
      if (idParam == null) {
        await axios
          .post(baseURL, data, {
@@ -113,13 +121,15 @@ function CadastroServicos() {
        setId(dados.id);
        setVar0(dados.titulo);
        setVar1(dados.descricao);
-       setVar2(dados.valorhorario);
+       setVar2(dados.valorPorHorario);
        setVar3(dados.status);
        setVar4(dados.tipoReserva);
-       setVar5(dados.hotel_id);
-       setVar6(dados.tipoServico_id);
-       setHorarios(dados.horarioServico);
+       setVar5(dados.idHotel);
+       setVar6(dados.idTipoServico);
+       setHorarios(dados.horarioServicos);
+       setTableData(dados.horarioServicos);
      }
+     console.log(dados)
    }
 
   const [dados2, setDados2] = React.useState(null); //tipo servcio
@@ -151,26 +161,29 @@ function CadastroServicos() {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
-  useEffect(() => {
-    // ativar tabela d acordo
-    setTableData([]);
-    setTableData(horarios.filter(row => row.data == date));
-  }, [date]);
+  // useEffect(() => {
+  //   // ativar tabela d acordo
+  //   setTableData([]);
+  //   // console.log(date)
+  //   // console.log(horarios)
+  //   setTableData(horarios.filter(row => row.data == date));
+  // }, [date]);
 
   //tabela interativa------------------------------------------------
   const InteractiveTable = () => {
     // const [tableData, setTableData] = useState([]);
     // setTableData = var16;
+    // console.log(tableData)
     const addRow = () => {
   
       const newRow = {
-        id: tableData.length + 1,
+        idRow: tableData.length + 1,
         status: "",
         vagasTotal: 0,
         vagasOcupadas: 0,
-        horarioInicio: "00:00",
-        horarioFim: "00:00",
-        data: {date}
+        horaInicio: "00:00",
+        horaFim: "00:00",
+        data: date //data: date 
       };
   
       setTableData([...tableData, newRow]);
@@ -178,14 +191,17 @@ function CadastroServicos() {
   
     const removeRow = (id) => {
   
-      const updatedTableData = tableData.filter(row => row.id !== id);
+      const updatedTableData = tableData.filter(row => row.idRow !== id);
+      for(let i =1;i<=updatedTableData.length;i++) {
+        updatedTableData[i-1].idRow = i;
+      }
   
       setTableData(updatedTableData);
     };
   
     const handleChange = (id, column, value) => {
       const updatedRows = tableData.map((row) =>
-        row.id === id ? { ...row, [column]: value } : row
+        row.idRow === id ? { ...row, [column]: value } : row
       );
       setTableData(updatedRows);
     };
@@ -205,54 +221,22 @@ function CadastroServicos() {
             </tr>
           </thead>
           <tbody>
-            {tableData.map(row => (
-              <tr key={row.id} className="table-light">
-                {/* <td>
-                  <select
-                    className='form-select'
-                    value={row.tipoQuarto}
-                    onChange={(e) => handleChange(row.id, 'tipoQuarto', e.target.value)}
-                  >
-                    <option key='0' value='0'>
-                      {' '}
-                    </option>
-                    {dados2.map((dado) => (
-                      <option key={dado.id} value={dado.id}>
-                        {dado.titulo}
-                      </option>
-                    ))}
-                  </select>
-                </td> */}
-                {/* <td>
-                  <select
-                    className='form-select'
-                    value={row.num}
-                    onChange={(e) => handleChange(row.id, 'num', e.target.value)}
-                  >
-                    <option key='0' value='0'>
-                      {' '}
-                    </option>
-                    {dados3.map((dado) => (
-                      <option key={dado.id} value={dado.id}>
-                        {dado.numero}
-                      </option>
-                    ))}
-                  </select>
-                </td> */}
+            {tableData.filter(row => row.data == date).map(row => (
+              <tr key={row.idRow} className="table-light">
                 <td>
                   <input 
                     type='time' 
                     className='form-control'
-                    value = {row.horarioInicio}
-                    onChange={(e) => handleChange(row.id, 'horarioInicio', e.target.value)}>
+                    value = {row.horaInicio}
+                    onChange={(e) => handleChange(row.idRow, 'horaInicio', e.target.value)}>
                   </input>
                 </td>
                 <td>
                   <input 
                     type='time' 
                     className='form-control'
-                    value = {row.horarioFim}
-                    onChange={(e) => handleChange(row.id, 'horarioFim', e.target.value)}>
+                    value = {row.horaFim}
+                    onChange={(e) => handleChange(row.idRow, 'horaFim', e.target.value)}>
                   </input>
                 </td>
                 <td>
@@ -260,7 +244,7 @@ function CadastroServicos() {
                     type='number' 
                     className='form-control'
                     value = {row.vagasTotal}
-                    onChange={(e) => handleChange(row.id, 'vagasTotal', e.target.value)}>
+                    onChange={(e) => handleChange(row.idRow, 'vagasTotal', e.target.value)}>
                   </input>
                 </td>
                 <td>
@@ -268,7 +252,7 @@ function CadastroServicos() {
                     type='number' 
                     className='form-control'
                     value = {row.vagasOcupadas}
-                    onChange={(e) => handleChange(row.id, 'vagasOcupadas', e.target.value)}>
+                    onChange={(e) => handleChange(row.idRow, 'vagasOcupadas', e.target.value)}>
                   </input>
                 </td>
                 <td>
@@ -276,13 +260,13 @@ function CadastroServicos() {
                     type='text' 
                     className='form-control'
                     value = {row.status}
-                    onChange={(e) => handleChange(row.id, 'status', e.target.value)}>
+                    onChange={(e) => handleChange(row.idRow, 'status', e.target.value)}>
                   </input>
                 </td>
                 <td>
                   <IconButton
                     aria-label='delete'
-                    onClick={() => removeRow(row.id)}
+                    onClick={() => removeRow(row.idRow)}
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -397,7 +381,7 @@ function CadastroServicos() {
               </FormGroup>
               <FormGroup label='Preço por horário: *' htmlFor='inputPreco'>
                 <input
-                  type='text'
+                  type='number'
                   id='inputPreco'
                   value={var2}
                   className='form-control'
@@ -435,7 +419,7 @@ function CadastroServicos() {
                   className='form-control'
                   id="selectDate"
                   value={date}
-                  onChange={(e) => setDate(e.target.value)}
+                  onChange={(e) => {setDate(e.target.value);}}
                 />
               </FormGroup>
               <FormGroup label='Horários: *' htmlFor='selectHorarios'>
@@ -564,7 +548,7 @@ function CadastroServicos() {
               </FormGroup>
               <FormGroup label='Preço por horário: *' htmlFor='inputPreco'>
                 <input
-                  type='text'
+                  type='number'
                   id='inputPreco'
                   value={var2}
                   className='form-control'

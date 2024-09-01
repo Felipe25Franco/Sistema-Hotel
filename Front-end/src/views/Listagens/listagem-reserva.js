@@ -33,6 +33,14 @@ function ListagemReserva() {
     navigate(`/cadastro-reserva/${id}`);
   };
 
+  const cadastrarHospedagem = (id) => {
+    navigate(`/cadastro-hospedagem/${'reserva'}/${id}`);
+  };
+  const editarHospedagem = (id) => {
+    navigate(`/cadastro-hospedagem/${id}`);
+  };
+
+
   const [dados, setDados] = React.useState(null);
 
   async function excluir(id) {
@@ -80,12 +88,12 @@ function ListagemReserva() {
     if (!dados) return null;
     //console.log(dados['status']);
     //console.log(dados.dados.status);
-    if (dados.dados.status > 4) return null;
+    // if (dados.dados.status > 4) return null;
     
     return (
       <IconButton
-          aria-label='delete'
-          onClick={() => excluir(dados.id)}
+          aria-label='cadastrarHospedagem'
+          onClick={() => (dados.dados.idHospedagem==null)?cadastrarHospedagem(dados.dados.id):editarHospedagem(dados.dados.idHospedagem)}
         >
           <HotelIcon />
       </IconButton>

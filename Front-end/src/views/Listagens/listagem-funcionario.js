@@ -93,7 +93,7 @@ function ListagemFuncionario() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
-                      <td>{dado.dataNacimento}</td>
+                      <td>{dado.dataNascimento}</td>
                       <td>{dado.email}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>

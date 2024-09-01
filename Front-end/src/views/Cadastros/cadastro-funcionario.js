@@ -29,7 +29,7 @@ function CadastroFuncionario() {
   const baseURL_pais = `${URL_endereco}/paises`;
   const baseURL_hotel = `${URL_hotel}/hoteis`;
 
-  const [id, setId] = useState('');
+  const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');//cpf
   const [var1, setVar1] = useState('');//nome
   const [var2, setVar2] = useState('');//dataN
@@ -96,12 +96,14 @@ function CadastroFuncionario() {
       setId(dados.id);
       setVar0(dados.cpf);
       setVar1(dados.nome);
-      setVar2(dados.dataNacimento);
+      setVar2(dados.dataNascimento);
       setVar11(dados.email);
       setVar12(dados.senha);
       setVar13(dados.senha);
-      setVar14("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
-      setVar15(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
+      // setVar14("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
+      // setVar15(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
+      setVar14(""+dados.ddi1 + dados.ddd1 + dados.num1);
+      setVar15(`${dados.ddi2}${dados.ddd2}${dados.num2}`);
       
       setVar16(dados.horaInicio);
       setVar17(dados.horaFim);
@@ -134,7 +136,7 @@ function CadastroFuncionario() {
       id,
       nome:var1,
       cpf:var0,
-      dataNacimento:var2,
+      dataNascimento:var2,
       email:var11,
       senha:var12,
       salario:var18,
@@ -195,12 +197,14 @@ function CadastroFuncionario() {
       setId(dados.id);
       setVar0(dados.cpf);
       setVar1(dados.nome);
-      setVar2(dados.dataNacimento);
+      setVar2(dados.dataNascimento);
       setVar11(dados.email);
       setVar12(dados.senha);
       setVar13(dados.senha);
-      setVar14("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
-      setVar15(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
+      // setVar14("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
+      // setVar15(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
+      setVar14(""+dados.ddi1 + dados.ddd1 + dados.num1);
+      setVar15(`${dados.ddi2}${dados.ddd2}${dados.num2}`);
       
       setVar16(dados.horaInicio);
       setVar17(dados.horaFim);
@@ -293,7 +297,7 @@ function CadastroFuncionario() {
               </FormGroup>
             <FormGroup label='CPF: *' htmlFor='inputCPF'>
               <input
-                type='number'
+                type='text'
                 id='inputCPF'
                 value={var0}
                 className='form-control'
@@ -442,7 +446,7 @@ function CadastroFuncionario() {
               </FormGroup>
               <FormGroup label='Complemento: ' htmlFor='inputComplemento'>
                 <input
-                  type='number'
+                  type='text'
                   id='inputComplemento'
                   value={var8}
                   className='form-control'

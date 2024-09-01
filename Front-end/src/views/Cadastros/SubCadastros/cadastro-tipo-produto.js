@@ -51,6 +51,8 @@ function CadastroTipoProduto() {
     };
     data = JSON.stringify(data);
     if (idParam == null) {
+      console.log("pos data")
+      console.log(data)
       await axios
         .post(baseURL, data, {
           headers: { 'Content-Type': 'application/json' },

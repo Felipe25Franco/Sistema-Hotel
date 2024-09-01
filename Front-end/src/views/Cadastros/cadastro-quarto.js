@@ -228,7 +228,7 @@ function CadastroQuarto() {
               </FormGroup>
               <FormGroup label='Bloco: *' htmlFor='inputBloco'>
                 <input
-                  type='number'
+                  type='text'
                   id='inputBloco'
                   value={var2}
                   className='form-control'

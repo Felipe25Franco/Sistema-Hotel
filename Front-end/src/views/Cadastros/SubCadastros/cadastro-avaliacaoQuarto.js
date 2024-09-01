@@ -24,7 +24,7 @@ function CadastroAvaliacaoQuarto() {
   const navigate = useNavigate();
 
 
-  const [id, setId] = useState('');
+  const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');//nota
   const [var1, setVar1] = useState('');//comentario
   const [var2, setVar2] = useState('');//tipoQuarto_id

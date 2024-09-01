@@ -166,8 +166,8 @@ function CadastroTipoQuarto() {
     const addRow = () => {
   
       const newRow = {
-        id: tableData.length + 1,
-        tipoCama_id: 0,
+        idRow: tableData.length + 1,
+        idTipoCama: 0,
         quantidade: 0
       };
   
@@ -176,14 +176,16 @@ function CadastroTipoQuarto() {
   
     const removeRow = (id) => {
   
-      const updatedTableData = tableData.filter(row => row.id !== id);
-  
+      const updatedTableData = tableData.filter(row => row.idRow !== id);
+      for(let i =1;i<=updatedTableData.length;i++) {
+        updatedTableData[i-1].idRow = i;
+      }
       setTableData(updatedTableData);
     };
   
     const handleChange = (id, column, value) => {
       const updatedRows = tableData.map((row) =>
-        row.id === id ? { ...row, [column]: value } : row
+        row.idRow === id ? { ...row, [column]: value } : row
       );
       setTableData(updatedRows);
     };
@@ -202,12 +204,12 @@ function CadastroTipoQuarto() {
           </thead>
           <tbody>
             {tableData.map(row => (
-              <tr key={row.id} className="table-light">
+              <tr key={row.idRow} className="table-light">
                 <td>
                   <select  disabled={vizualizar()}
                     className='form-select'
-                    value={row.tipoCama_id}
-                    onChange={(e) => handleChange(row.id, 'tipoCama_id', e.target.value)}
+                    value={row.idTipoCama}
+                    onChange={(e) => handleChange(row.idRow, 'idTipoCama', e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
@@ -223,7 +225,7 @@ function CadastroTipoQuarto() {
                   <select
                     className='form-select'
                     value={row.num}
-                    onChange={(e) => handleChange(row.id, 'num', e.target.value)}
+                    onChange={(e) => handleChange(row.idRow, 'num', e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
@@ -240,13 +242,13 @@ function CadastroTipoQuarto() {
                     type='number' 
                     className='form-control'
                     value = {row.quantidade}
-                    onChange={(e) => handleChange(row.id, 'quantidade', e.target.value)}>
+                    onChange={(e) => handleChange(row.idRow, 'quantidade', e.target.value)}>
                   </input>
                 </td>
                 <td>
                   <IconButton
                     aria-label='delete'
-                    onClick={() => removeRow(row.id)}
+                    onClick={() => removeRow(row.idRow)}
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -272,8 +274,8 @@ function CadastroTipoQuarto() {
     const addRow = () => {
   
       const newRow = {
-        id: tableData2.length + 1,
-        tipoCama_id: 0,
+        idRow: tableData2.length + 1,
+        idComodidade: 0,
         quantidade: 0
       };
   
@@ -282,14 +284,16 @@ function CadastroTipoQuarto() {
   
     const removeRow = (id) => {
   
-      const updatedTableData2 = tableData2.filter(row => row.id !== id);
-  
+      const updatedTableData2 = tableData2.filter(row => row.idRow !== id);
+      for(let i =1;i<=updatedTableData2.length;i++) {
+        updatedTableData2[i-1].idRow = i;
+      }
       setTableData2(updatedTableData2);
     };
   
     const handleChange = (id, column, value) => {
       const updatedRows = tableData2.map((row) =>
-        row.id === id ? { ...row, [column]: value } : row
+        row.idRow === id ? { ...row, [column]: value } : row
       );
       setTableData2(updatedRows);
     };
@@ -308,12 +312,12 @@ function CadastroTipoQuarto() {
           </thead>
           <tbody>
             {tableData2.map(row => (
-              <tr key={row.id} className="table-light">
+              <tr key={row.idRow} className="table-light">
                 <td>
                   <select  disabled={vizualizar()}
                     className='form-select'
-                    value={row.id_comodidade_id}
-                    onChange={(e) => handleChange(row.id, 'id_comodidade_id', e.target.value)}
+                    value={row.idComodidade}
+                    onChange={(e) => handleChange(row.idRow, 'idComodidade', e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
@@ -329,7 +333,7 @@ function CadastroTipoQuarto() {
                   <select
                     className='form-select'
                     value={row.num}
-                    onChange={(e) => handleChange(row.id, 'num', e.target.value)}
+                    onChange={(e) => handleChange(row.idRow, 'num', e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
@@ -346,13 +350,13 @@ function CadastroTipoQuarto() {
                     type='number' 
                     className='form-control'
                     value = {row.qtd}
-                    onChange={(e) => handleChange(row.id, 'qtd', e.target.value)}>
+                    onChange={(e) => handleChange(row.idRow, 'qtd', e.target.value)}>
                   </input>
                 </td>
                 <td>
                   <IconButton
                     aria-label='delete'
-                    onClick={() => removeRow(row.id)}
+                    onClick={() => removeRow(row.idRow)}
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -409,7 +413,7 @@ function CadastroTipoQuarto() {
               <FormGroup label='Limite de Adultos: *' htmlFor='inputLimiteAdulto'>
                 <input 
                   readOnly={vizualizar()}
-                  type='text'
+                  type='number'
                   id='inputLimiteAdulto'
                   value={var3}
                   className='form-control'
@@ -420,7 +424,7 @@ function CadastroTipoQuarto() {
               <FormGroup label='Limite de Crianças: *' htmlFor='inputLimiteCrianca'>
                 <input 
                   readOnly={vizualizar()}
-                  type='text'
+                  type='number'
                   id='inputLimiteCrianca'
                   value={var4}
                   className='form-control'
@@ -431,7 +435,7 @@ function CadastroTipoQuarto() {
               <FormGroup label='Preço base: *' htmlFor='inputPrecoBase'>
                 <input 
                   readOnly={vizualizar()}
-                  type='text'
+                  type='number'
                   id='inputPrecoBase'
                   value={var5}
                   className='form-control'
@@ -442,7 +446,7 @@ function CadastroTipoQuarto() {
               <FormGroup label='Limite de dias para cancelamento de reserva: *' htmlFor='inputDiasCancelarReserva'>
                 <input 
                   readOnly={vizualizar()}
-                  type='text'
+                  type='number'
                   id='inputDiasCancelarReserva'
                   value={var7}
                   className='form-control'
@@ -453,7 +457,7 @@ function CadastroTipoQuarto() {
               <FormGroup label='Área (m²): *' htmlFor='inputArea'>
                 <input 
                   readOnly={vizualizar()}
-                  type='text'
+                  type='number'
                   id='inputArea'
                   value={var8}
                   className='form-control'

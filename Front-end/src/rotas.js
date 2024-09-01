@@ -82,8 +82,9 @@ function Rotas(props) {
         <Route path='/cadastro-servicos/:idParam?' element={<CadastroServicos />} />      
         <Route path='/cadastro-quarto/:idParam?' element={<CadastroQuarto />} />      
         <Route path='/cadastro-comodidades/:idParam?' element={<CadastroComodidades />} />   
-        <Route path='/cadastro-reserva/:idParam?' element={<CadastroReserva />} />         
-        <Route path='/cadastro-hospedagem/:idParam?' element={<CadastroHospedagem />} />   
+        <Route path='/cadastro-reserva/:idParam?' element={<CadastroReserva />} /> 
+        <Route path='/cadastro-hospedagem/:idParam?' element={<CadastroHospedagem />} />         
+        <Route path='/cadastro-hospedagem/:idParam2?/:idParam?' element={<CadastroHospedagem />} /> 
         <Route path='/cadastro-horarioServico/:idParam?' element={<CadastroHorarioServico />} />   
         <Route path='/cadastro-avaliacaoQuarto/:idParam?' element={<CadastroAvaliacaoQuarto />} />   
         <Route path='/cadastro-avaliacaoHospedagem/:idParam?' element={<CadastroAvaliacaoHospedagem />} />   
@@ -94,8 +95,9 @@ function Rotas(props) {
         <Route path='/cadastro-tipo-quarto/:idParam?/:idParam2?' element={<CadastroTipoQuarto />} />     
         <Route path='/cadastro-tipo-cama/:idParam?' element={<CadastroTipoCama />} />   
         <Route path='/cadastro-tipo-comodidade/:idParam?' element={<CadastroTipoComodidade />} />   
-        <Route path='/cadastro-cargo/:idParam?' element={<CadastroCargo />} />         
+        <Route path='/cadastro-cargo/:idParam?' element={<CadastroCargo />} />
         <Route path='/cadastro-servico-solicitado/:idParam?' element={<CadastroServicoSolicitado />} />        
+        <Route path='/cadastro-servico-solicitado/:idParam2?/:idParam?' element={<CadastroServicoSolicitado />} />              
       </Routes>
     </BrowserRouter>
   );

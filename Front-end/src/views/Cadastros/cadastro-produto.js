@@ -25,7 +25,7 @@ function CadastroProduto() {
   //const baseURL = `${BASE_URL}/produto`;
   const baseURL = `${URL_produto}/produtos`;
 
-  const [id, setId] = useState('');
+  const [id, setId] = useState(0);
   const [var0, setVar0] = useState('');//nome
   const [var1, setVar1] = useState('');//descricao
   const [var2, setVar2] = useState('');//preco 

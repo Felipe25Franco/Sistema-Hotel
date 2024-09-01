@@ -97,6 +97,8 @@ function ListagemQuarto() {
                     <th scope='col'>Número</th>
                     <th scope='col'>Andar</th>
                     <th scope='col'>Bloco</th>
+                    {/* <th scope='col'>Tipo</th>
+                    <th scope='col'>Hotel</th> */}
                     <th scope='col'>Status</th>
                     <th scope='col'>Ações</th>
                   </tr>
@@ -107,6 +109,8 @@ function ListagemQuarto() {
                       <td>{dado.numero}</td>
                       <td>{dado.andar}</td>
                       <td>{dado.bloco}</td>
+                      {/* <td>{dado.idTipoQuarto}</td>
+                      <td>{dado.idHotel}</td> */}
                       <td>{dados2[dado.status-1].titulo}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>

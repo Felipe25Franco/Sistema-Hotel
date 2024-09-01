@@ -80,8 +80,10 @@ function CadastroHotel() {
       setVar0(dados.titulo);
       setVar1(dados.descricao);
       setVar2(dados.idEndereco);
-      setVar11("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
-      setVar12(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
+      // setVar11("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
+      // setVar12(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
+      setVar11(""+dados.ddi1 + dados.ddd1 + dados.num1);
+      setVar12(`${dados.ddi2}${dados.ddd2}${dados.num2}`);
       
       setVar5(dados.cidade);//cidade
       setVar6(dados.cep);//cep
@@ -123,6 +125,7 @@ function CadastroHotel() {
       idPais:var23,
     };
     data = JSON.stringify(data);
+    console.log(data)
     if (idParam == null) {
       await axios
         .post(baseURL, data, {
@@ -159,8 +162,10 @@ function CadastroHotel() {
       setVar0(dados.titulo);
       setVar1(dados.descricao);
       setVar2(dados.idEndereco);
-      setVar11("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
-      setVar12(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
+      // setVar11("+"+dados.ddi1 + " (" + dados.ddd1 + ") " + dados.num1);
+      // setVar12(`+${dados.ddi2} (${dados.ddd2}) ${dados.num2}`);
+      setVar11(""+dados.ddi1 + dados.ddd1 + dados.num1);
+      setVar12(`${dados.ddi2}${dados.ddd2}${dados.num2}`);
       
       setVar5(dados.cidade);//cidade
       setVar6(dados.cep);//cep
@@ -266,7 +271,7 @@ if (!dados3) return null;
               </FormGroup>
               <FormGroup label='Complemento: *' htmlFor='inputComplemento'>
                 <input
-                  type='number'
+                  type='text'
                   id='inputComplemento'
                   value={var8}
                   className='form-control'

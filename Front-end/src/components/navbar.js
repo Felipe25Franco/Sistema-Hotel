@@ -131,16 +131,11 @@ function Navbar(props) {
             <NavbarItem render='true' href='/login' label='Entrar' />
           </ul>
           
-
-          <ul className="nav-item-dropdown" onMouseEnter={handleMouseEnter4} onMouseLeave={handleMouseLeave4}>
-            <a className={`nav-link dropdown-toggle ${dropdown4Open ? 'show' : ''}`} onClick={toggleDropdown4}> Hotéis
-            </a>
-            <div className={`dropdown-menu ${dropdown4Open ? 'show' : ''}`}>
-              <a className="dropdown-item" href='/listagem-hoteis'>Hotéis</a>
-              <a className="dropdown-item" href='/listagem-avaliacao-hospedagem'>Avaliações de Hotéis</a>
-            </div>
+          <ul className='navbar-nav'>
+            <NavbarItem render='true' href='/listagem-hoteis' label='Hotéis' />
           </ul>
 
+          
 
           <ul className='navbar-nav'>
             <NavbarItem render='true' href='/listagem-cliente' label='Clientes' />
@@ -184,20 +179,13 @@ function Navbar(props) {
           <ul className="nav-item-dropdown" onMouseEnter={handleMouseEnter5} onMouseLeave={handleMouseLeave5}>
             <a className={`nav-link dropdown-toggle ${dropdown5Open ? 'show' : ''}`} onClick={toggleDropdown5}> Quartos
             </a>
-            <div className={`dropdown-menu ${dropdown5Open ? 'show' : ''}`}>
+            <div className={`dropdown-menu ${dropdown5Open ? 'show' : ''}`}>          
 
-
-
-
-              
-
-
-              <ul className="nav-item-dropdown" onMouseEnter={handleMouseEnter6} onMouseLeave={handleMouseLeave6}>
-                <a className={`nav-link-dropdown-toggle ${dropdown6Open ? 'show' : ''}`} onClick={toggleDropdown6}> Quartos </a>
-                <div className={`dropdown-menu ${dropdown6Open ? 'show' : ''}`} style={{ position: 'absolute', left: '100%', top: '0px' }}>
+              <ul className="nav-item-dropdown" onMouseEnter={handleMouseEnter6} onMouseLeave={handleMouseLeave6}>                
+                
                   <a className="dropdown-item" href='/listagem-quarto'>Quartos</a>
-                  <a className="dropdown-item" href='/listagem-avaliacao-quarto'>Avaliações de Quartos</a>
-                </div>
+                  
+                
               </ul>
 
 

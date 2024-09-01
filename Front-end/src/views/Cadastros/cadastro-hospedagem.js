@@ -28,6 +28,9 @@ let i = 1;
 function CadastroHospedagem() {
   
   const { idParam } = useParams();
+  const { idParam2 } = useParams();
+  // console.log(idParam);
+  // console.log(idParam2);
 
   const navigate = useNavigate();
 
@@ -44,12 +47,12 @@ function CadastroHospedagem() {
   const [var7, setVar7] = useState(0);
   const [var8, setVar8] = useState(0);
   const [var9, setVar9] = useState(0);
-  const [var10, setVar10] = useState(0);
-  const [var11, setVar11] = useState(0);
-  const [var12, setVar12] = useState(0);
-  const [var13, setVar13] = useState(0);
-  const [var14, setVar14] = useState(0);
-  const [var15, setVar15] = useState(0);
+  const [var10, setVar10] = useState('');
+  const [var11, setVar11] = useState('');
+  const [var12, setVar12] = useState('');
+  const [var13, setVar13] = useState('');
+  const [var14, setVar14] = useState('');
+  const [var15, setVar15] = useState('');
   const [var16, setVar16] = useState([]);
   const [varListaProd, setVarListaProd] = useState([]);
 
@@ -61,54 +64,60 @@ function CadastroHospedagem() {
   const [var21, setVar21] = useState('');
 
   function inicializar() {
-    if (idParam == null) {
-      setId('');
-      setVar0('');
-      setVar1('');
-      setVar2('');
-      setVar3('');
-      setVar4('');
-      setVar5('');
-      setVar6(0);
-      setVar7(0);
-      setVar8(0);
-      setVar9(0);
-      setVar10(0);
-      setVar11(0);
-      setVar12(0);
-      setVar13(0);
-      setVar14(0);
-      setVar15(0);
-      setVar16([]);
-      setTableData([]);
-      setVarListaProd([]);
-      setTableData2([]);
-      setVar21('');
-      setVar20(0);
-    } else {
-      setId(dados.id);
-      setVar0(dados.status);
-      setVar1(dados.dataInicio);
-      setVar2(dados.dataFim1);
-      setVar3(dados.dataFim2);
-      setVar4(dados.valorEstadia);
-      setVar5(dados.statusValorEstadia);
-      setVar6(dados.valorConsumo);
-      setVar7(dados.valorServicos);
-      setVar8(dados.valorEstadiaAdicional);
-      setVar9(dados.valorTotal);
-      setVar10(dados.idCliente);
-      setVar11(dados.idFuncionario);
-      setVar12(dados.idHotel);
-      setVar13(dados.idAvaliacoesHospedagem);
-      setVar14(dados.idQuartoHospedagem);
-      setVar15(dados.idReserva);
-      setVar16(dados.listaQuartos);
-      setTableData(dados.listaQuartos);
-      setVarListaProd(dados.produtoHospedagem);
-      setTableData2(dados.produtoHospedagem);
-      setVar20(dados.nota);
-      setVar21(dados.comentario);
+    if (true) {
+    //if (idParam2 == null) {
+      if ((idParam == null) && (idParam2 == null)) {
+        setId('');
+        setVar0('');
+        setVar1('');
+        setVar2('');
+        setVar3('');
+        setVar4('');
+        setVar5('');
+        setVar6(0);
+        setVar7(0);
+        setVar8(0);
+        setVar9(0);
+        setVar10('');
+        setVar11('');
+        setVar12('');
+        setVar13('');
+        setVar14('');
+        setVar15('');
+        setVar16([]);
+        setTableData([]);
+        setVarListaProd([]);
+        setTableData2([]);
+        setVar21('');
+        setVar20(0);
+      } else {
+        setId(dados.id);
+        setVar0(dados.status);
+        setVar1(dados.dataInicio);
+        setVar2(dados.dataFim1);
+        setVar3(dados.dataFim2);
+        setVar4(dados.valorEstadia);
+        setVar5(dados.statusValorEstadia);
+        setVar6(dados.valorConsumo);
+        setVar7(dados.valorServicos);
+        setVar8(dados.valorEstadiaAdicional);
+        setVar9(dados.valorTotal);
+        setVar10(dados.idCliente);
+        setVar11(dados.idFuncionario);
+        setVar12(dados.idHotel);
+        setVar13(dados.idAvaliacoesHospedagem);
+        setVar14(dados.idQuartoHospedagem);
+        setVar15(dados.idReserva);
+        setVar16(dados.listaQuartos);
+        setTableData(dados.listaQuartos);
+        setVarListaProd(dados.produtoHospedagem);
+        setTableData2(dados.produtoHospedagem);
+        setVar20(dados.nota);
+        setVar21(dados.comentario);
+      }
+    }
+    else {
+
     }
   }
 
@@ -136,7 +145,7 @@ function CadastroHospedagem() {
       comentario:var21
     };
     data = JSON.stringify(data);
-    if (idParam == null) {
+    if ((idParam == null) && (idParam2 == null)) {
       await axios
         .post(baseURL, data, {
           headers: { 'Content-Type': 'application/json' },
@@ -148,7 +157,19 @@ function CadastroHospedagem() {
         .catch(function (error) {
           mensagemErro(error.response.data);
         });
-    } else {
+    } else if ((idParam != null) && (idParam2 != null)) {
+      await axios
+        .post(`${baseURL}`, data, {
+          headers: { 'Content-Type': 'application/json' },
+        })
+        .then(function (response) {
+          mensagemSucesso(`Hospedagem ${id} da reservva ${idParam} cadastrado com sucesso!`);
+          navigate(`/listagem-hospedagem`);
+        })
+        .catch(function (error) {
+          mensagemErro(error.response.data);
+        });
+    } else if ((idParam != null) && (idParam2 == null))  {
       await axios
         .put(`${baseURL}/${idParam}`, data, {
           headers: { 'Content-Type': 'application/json' },
@@ -165,9 +186,16 @@ function CadastroHospedagem() {
 
   async function buscar() {
     if (idParam != null) {
-      await axios.get(`${baseURL}/${idParam}`).then((response) => {
-        setDados(response.data);
-      });
+      if (idParam2 == null) {
+        await axios.get(`${baseURL}/${idParam}`).then((response) => {
+          setDados(response.data);
+        });
+      } else {
+        await axios.get(`${baseURL}/reservas/${idParam}`).then((response) => {
+          setDados(response.data);
+        });
+      }
+      //console.log(dados);
       setId(dados.id);
       setVar0(dados.status);
       setVar1(dados.dataInicio);
@@ -271,6 +299,8 @@ function CadastroHospedagem() {
     };
   
     if (!tableData) return null;
+    console.log("dados3")
+    console.log(dados3)
     return (
       <div>
         <table className="table table-hover">
@@ -310,7 +340,7 @@ function CadastroHospedagem() {
                     <option key='0' value='0'>
                       {' '}
                     </option>
-                    {dados3.map((dado) => (
+                    {dados3.filter(x => {console.log(var12);return (x.idHotel == var12 && x.idTipoQuarto == row.tipoQuarto);}).map((dado) => (
                       <option key={dado.id} value={dado.id}>
                         {dado.numero}
                       </option>
@@ -402,14 +432,11 @@ function CadastroHospedagem() {
     };
 
     if (!tableData2) {
-      console.log("sadasds") 
       addRow0();
     }
-    if (!tableData2) {
-      console.log("sadasds") 
+    if (!tableData2) { 
       return;
     }
-    console.log("eeeeee") 
 
     //apenas para atualizar os valores total na tab
     /* let tempTable = tableData2.forEach(obj => {
@@ -525,7 +552,7 @@ function CadastroHospedagem() {
   if (!dados5) return null;
   if (!dados6) return null;
 
-  if (idParam>0) return (//////////////////////pro edit, la embaixo tem pro novo
+  if ((idParam>0) && (idParam2==null)) return (//////////////////////pro edit, la embaixo tem pro novo
     <div className='container'>
       <Card title='Cadastro de Hospedagem'>
         <div className='row'>
@@ -691,7 +718,7 @@ function CadastroHospedagem() {
               </FormGroup> */}
               <FormGroup label='Valor da Estadia: *' htmlFor='inputValorEstadia'>
                 <input
-                  type='num'
+                  type='number'
                   id='inputValorEstadia'
                   value={var4}
                   className='form-control'
@@ -989,7 +1016,7 @@ return (
             </FormGroup> */}
             <FormGroup label='Valor da Estadia: *' htmlFor='inputValorEstadia'>
               <input
-                type='num'
+                type='number'
                 id='inputValorEstadia'
                 value={var4}
                 className='form-control'
