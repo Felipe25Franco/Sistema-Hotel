@@ -15,10 +15,7 @@ import com.example.SCHapi.model.entity.Pessoa.Hotel;
 import com.example.SCHapi.service.Pessoa.CargoService;
 import com.example.SCHapi.service.Pessoa.HotelService;
 
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/cargos")
 @RequiredArgsConstructor
+@Api("API de Cargos")
 @CrossOrigin
 public class CargoController {
 
@@ -34,24 +32,24 @@ public class CargoController {
     private final HotelService hotelService;
 
     @GetMapping()
-    // @Operation(summary ="Obter a lista de cargo")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Lista de Cargo retornada com sucesso"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
-    //         //@ApiResponse(responseCode  = "404", description  = "Cargo não encontrado")
-    // })
+    @ApiOperation("Obter a lista de cargo")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Lista de Cargo retornada com sucesso"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor"),
+            @ApiResponse(code  = 404, message  = "Cargo não encontrado")
+    })
     public ResponseEntity get() {
        List<Cargo> cargos = service.getCargos();
         return ResponseEntity.ok(cargos.stream().map(CargoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    // @Operation(summary ="Obter detalhes de um cargo")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Cargo encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "Cargo não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Obter detalhes de um cargo")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Cargo encontrado"),
+            @ApiResponse(code  = 404, message  = "Cargo não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Cargo> cargo = service.getCargoById(id);
         if (!cargo.isPresent()) {
@@ -60,12 +58,12 @@ public class CargoController {
         return ResponseEntity.ok(cargo.map(CargoDTO::create));
     }
     @PostMapping
-    // @Operation(summary ="Salva um cargo")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "201", description  = "Cargo salvo com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Cargo"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Salva um cargo")
+    @ApiResponses({
+            @ApiResponse(code  = 201, message  = "Cargo salvo com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao salvar o Cargo"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity post(@RequestBody CargoDTO dto) {
         try {
             Cargo cargo = converter(dto);
@@ -77,12 +75,12 @@ public class CargoController {
     }
     
     @PutMapping("{id}")
-    // @Operation(summary ="Atualiza um cargo")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Cargo alterado com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Cargo não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Atualiza um cargo")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Cargo alterado com sucesso"),
+            @ApiResponse(code  = 404, message  = "Cargo não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody CargoDTO dto) {
         if (!service.getCargoById(id).isPresent()) {
             return new ResponseEntity("Cargo não encontrado", HttpStatus.NOT_FOUND);
@@ -99,12 +97,12 @@ public class CargoController {
     }
 
     @DeleteMapping("{id}")
-    // @Operation(summary ="Exclui um cargo")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "204", description  = "Cargo excluído com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Cargo não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Exclui um cargo")
+    @ApiResponses({
+            @ApiResponse(code  = 204, message  = "Cargo excluído com sucesso"),
+            @ApiResponse(code  = 404, message  = "Cargo não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Cargo> cargo = service.getCargoById(id);
         if (!cargo.isPresent()) {

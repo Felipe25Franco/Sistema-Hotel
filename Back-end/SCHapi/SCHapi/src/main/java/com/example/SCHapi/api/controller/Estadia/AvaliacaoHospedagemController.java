@@ -6,10 +6,8 @@ import com.example.SCHapi.model.entity.Estadia.AvaliacaoHospedagem;
 import com.example.SCHapi.model.entity.Estadia.Hospedagem;
 import com.example.SCHapi.service.Estadia.AvaliacaoHospedagemService;
 
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.*;
+
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -24,18 +22,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/avaliacaoHospedagens")
 @RequiredArgsConstructor
+@Api("API de Avaliação de Hospedagem")
 @CrossOrigin
 public class AvaliacaoHospedagemController {
 
     private final AvaliacaoHospedagemService service;
 
     @GetMapping()
-    // @Operation(summary ="Obter a lista de avaliação de uma hospedagem")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Lista de Avaliação de uma hospedagem retornada com sucesso"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
-    //         //@ApiResponse(responseCode  = "404", description  = "Avaliação de uma hospedagem não encontrado")
-    // })
+    @ApiOperation("Obter a lista de avaliação de uma hospedagem")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Lista de Avaliação de uma hospedagem retornada com sucesso"),
+            @ApiResponse(code = 500, message = "Erro interno no servidor"),
+            @ApiResponse(code  = 404, message  = "Avaliação de uma hospedagem não encontrado")
+    })
     public ResponseEntity get() {
         System.out.println(AvaliacaoHospedagem.getMedia((long)1));
         List<AvaliacaoHospedagem> avaliacaoHospedagens = service.getAvaliacaoHospedagens();
@@ -43,12 +42,12 @@ public class AvaliacaoHospedagemController {
     }
 
     @GetMapping("/{id}")
-    // @Operation(summary ="Obter detalhes de um avaliação de uma hospedagem")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Avaliação de uma hospedagem encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "Avaliação de uma hospedagem não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Obter detalhes de um avaliação de uma hospedagem")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Avaliação de uma hospedagem encontrado"),
+            @ApiResponse(code  = 404, message  = "Avaliação de uma hospedagem não encontrado"),
+            @ApiResponse(code = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<AvaliacaoHospedagem> avaliacaoHospedagem = service.getAvaliacaoHospedagemById(id);
         if (!avaliacaoHospedagem.isPresent()) {
@@ -58,12 +57,12 @@ public class AvaliacaoHospedagemController {
     }
 
     @PostMapping
-    // @Operation(summary ="Salva um avaliação de uma hospedagem")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "201", description  = "Avaliação de uma hospedagem salvo com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Avaliação de uma hospedagem"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Salva um avaliação de uma hospedagem")
+    @ApiResponses({
+            @ApiResponse(code  = 201, message  = "Avaliação de uma hospedagem salvo com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao salvar o Avaliação de uma hospedagem"),
+            @ApiResponse(code = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity post(@RequestBody AvaliacaoHospedagemDTO dto) {
         try {
             AvaliacaoHospedagem avaliacaoHospedagem = converter(dto);
@@ -75,12 +74,12 @@ public class AvaliacaoHospedagemController {
     }
 
     @PutMapping("{id}")
-    // @Operation(summary ="Atualiza um avaliação de uma hospedagem")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Avaliação de uma hospedagem alterado com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Avaliação de uma hospedagem não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Atualiza um avaliação de uma hospedagem")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Avaliação de uma hospedagem alterado com sucesso"),
+            @ApiResponse(code  = 404, message  = "Avaliação de uma hospedagem não encontrado"),
+            @ApiResponse(code = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity atualizar(@PathVariable("id")Long id, @RequestBody AvaliacaoHospedagemDTO dto) {
         if (!service.getAvaliacaoHospedagemById(id).isPresent()) {
             return new ResponseEntity("AvaliacaoHospedagem não encontrado", HttpStatus.NOT_FOUND);
@@ -97,12 +96,12 @@ public class AvaliacaoHospedagemController {
     }
 
     @DeleteMapping("{id}")
-    // @Operation(summary ="Exclui um avaliação de uma hospedagem")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "204", description  = "Avaliação de uma hospedagem excluído com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Avaliação de uma hospedagem não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Exclui um avaliação de uma hospedagem")
+    @ApiResponses({
+            @ApiResponse(code  = 204, message  = "Avaliação de uma hospedagem excluído com sucesso"),
+            @ApiResponse(code  = 404, message  = "Avaliação de uma hospedagem não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<AvaliacaoHospedagem> avaliacaoHospedagem = service.getAvaliacaoHospedagemById(id);
         if (!avaliacaoHospedagem.isPresent()) {

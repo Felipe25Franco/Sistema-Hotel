@@ -19,10 +19,8 @@ import com.example.SCHapi.service.Pessoa.EnderecoService;
 import com.example.SCHapi.service.Pessoa.PaisService;
 import com.example.SCHapi.service.Pessoa.UfService;
 
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+import io.swagger.annotations.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/clientes")
 @RequiredArgsConstructor
+@Api("API de Clientes")
 @CrossOrigin
 public class ClienteController {
 
@@ -40,24 +39,24 @@ public class ClienteController {
     private final PaisService paisService;
 
     @GetMapping()
-    // @Operation(summary ="Obter a lista de cliente")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Lista de Cliente retornada com sucesso"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
-    //         //@ApiResponse(responseCode  = "404", description  = "Cliente não encontrado")
-    // })
+    @ApiOperation("Obter a lista de cliente")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Lista de Cliente retornada com sucesso"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor"),
+            @ApiResponse(code  = 404, message  = "Cliente não encontrado")
+    })
     public ResponseEntity get() {
        List<Cliente> clientes = service.getClientes();
         return ResponseEntity.ok(clientes.stream().map(ClienteDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    // @Operation(summary ="Obter detalhes de um cliente")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Cliente encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "Cliente não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Obter detalhes de um cliente")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Cliente encontrado"),
+            @ApiResponse(code  = 404, message  = "Cliente não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Cliente> cliente = service.getClienteById(id);
         if (!cliente.isPresent()) {
@@ -67,12 +66,12 @@ public class ClienteController {
     }
 
     @PostMapping
-    // @Operation(summary ="Salva um cliente")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "201", description  = "Cliente salvo com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Cliente"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Salva um cliente")
+    @ApiResponses({
+            @ApiResponse(code  = 201, message  = "Cliente salvo com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao salvar o Cliente"),
+            @ApiResponse(code =  500, message = "Erro interno no servidor")
+    })
     public ResponseEntity post(@RequestBody ClienteDTO dto) {
         try {
             Cliente cliente = converter(dto);
@@ -84,12 +83,12 @@ public class ClienteController {
     }
 
     @PutMapping("{id}")
-    // @Operation(summary ="Atualiza um cliente")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Cliente alterado com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Cliente não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Atualiza um cliente")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Cliente alterado com sucesso"),
+            @ApiResponse(code  = 404, message  = "Cliente não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity atualizar(@PathVariable("id")  Long id, @RequestBody ClienteDTO dto) {
         if (!service.getClienteById(id).isPresent()) {
             return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
@@ -110,12 +109,12 @@ public class ClienteController {
     }
 
     @DeleteMapping("{id}")
-    // @Operation(summary ="Exclui um cliente")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "204", description  = "Cliente excluído com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Cliente não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Exclui um cliente")
+    @ApiResponses({
+            @ApiResponse(code  = 204, message  = "Cliente excluído com sucesso"),
+            @ApiResponse(code  = 404, message  = "Cliente não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<Cliente> cliente = service.getClienteById(id);
         if (!cliente.isPresent()) {

@@ -44,10 +44,7 @@ import com.example.SCHapi.service.Produto.ProdutoService;
 import com.example.SCHapi.service.Quarto.QuartoService;
 import com.example.SCHapi.service.Quarto.TipoQuartoService;
 
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.*;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
@@ -57,6 +54,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/hospedagens")
 @RequiredArgsConstructor
+@Api("API de Hospedagem")
 @CrossOrigin
 public class HospedagemController {
     private final HospedagemService service;
@@ -74,36 +72,29 @@ public class HospedagemController {
     private final TipoQuartoReservaService tipoQuartoReservaService;
 
     @GetMapping()
-    // @Operation(summary ="Obter a lista de hospedagem")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Lista de Hospedagem retornada com sucesso"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
-    //         //@ApiResponse(responseCode  = "404", description  = "Hospedagem não encontrado")
-    // })
+    @ApiOperation("Obter a lista de hospedagem")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Lista de Hospedagem retornada com sucesso"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor"),
+            @ApiResponse(code  = 404, message  = "Hospedagem não encontrado")
+    })
     public ResponseEntity get() {
        List<Hospedagem> hospedagens = service.getHospedagens();
         return ResponseEntity.ok(hospedagens.stream().map(HospedagemDTO::create).collect(Collectors.toList()));
     }
 
-    // @GetMapping("/{id}")
-    // public ResponseEntity get(@PathVariable("id") @Parameter(description = "Id do Hospedagem") Long id) {
-    //     Optional<Hospedagem> hospedagem = service.getHospedagemById(id);
-    //     if (!hospedagem.isPresent()) {
-    //         return new ResponseEntity("Hospedagem não encontrada", HttpStatus.NOT_FOUND);
-    //     }
-    //     return ResponseEntity.ok(hospedagem.map(HospedagemDTO::create));
-    // }
+
     
     @GetMapping("/{id}")
-    // @Operation(summary ="Obter detalhes de um hospedagem")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Hospedagem encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "Hospedagem não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Obter detalhes de um hospedagem")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Hospedagem encontrado"),
+            @ApiResponse(code  = 404, message  = "Hospedagem não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity get(@PathVariable("id")  Long id) {
         Optional<Hospedagem> hospedagem = service.getHospedagemById(id);
-        //Optional<List<QuartoHospedagem>> = Optional.of(listaQuartos);
+        
         if (!hospedagem.isPresent()) {
             return new ResponseEntity("Hospedagem não encontrada", HttpStatus.NOT_FOUND);
         }
@@ -114,16 +105,16 @@ public class HospedagemController {
         System.out.println("DTO enviado pelo get/id");
         System.out.println(hospedagemDTO);
         return ResponseEntity.ok(hospedagemDTO);
-        // return ResponseEntity.ok(hospedagem.map(HospedagemDTO::create));
+        
     }
     
     @GetMapping("/reservas/{id}")
-    // @Operation(summary ="Obter detalhes de um hospedagem")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Hospedagem encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "Hospedagem não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Obter detalhes de um hospedagem")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Hospedagem encontrado"),
+            @ApiResponse(code  = 404, message  = "Hospedagem não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity getR(@PathVariable("id") Long id) {
         Optional<Reserva> reserva = reservaService.getReservaById(id);
         if (!reserva.isPresent()) {
@@ -133,17 +124,17 @@ public class HospedagemController {
 
         HospedagemDTO hospedagemDTO = new HospedagemDTO(reserva.get(), listaQuartos);
         return ResponseEntity.ok(hospedagemDTO);
-        // return ResponseEntity.ok(hospedagem.map(HospedagemDTO::create));
+        
     }
 
 
     @PostMapping
-    // @Operation(summary ="Salva um hospedagem")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "201", description  = "Hospedagem salvo com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Hospedagem"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Salva um hospedagem")
+    @ApiResponses({
+            @ApiResponse(code  = 201, message  = "Hospedagem salvo com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao salvar o Hospedagem"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity post(@RequestBody HospedagemDTO dto) {
         System.out.println("post");
         System.out.println(dto);
@@ -151,28 +142,7 @@ public class HospedagemController {
             Hospedagem hospedagem = converter(dto);
             System.out.println("dto recebido do post");
             System.out.println(dto);
-            //hospedagem = service.salvar(hospedagem);
-            // // loop para cada elemento da lista salvar o quartoHospedagem
-            // List<Long>  idTipoQuartoAvaliado = new ArrayList<Long>(); //armazenar tipoquartos ja feito pra avaliacao
-            // for (QuartoHospedagemDTOList quartoHospedagemDto : dto.getListaQuartos()) {
-            //     QuartoHospedagem quartoHospedagem = converterQuartoHospedagem(quartoHospedagemDto, hospedagem.getId());
-            //     quartoHospedagemService.salvar(quartoHospedagem);
-            //     //criar uma avaliacao pra cada tipo quarto
-            //     if(!idTipoQuartoAvaliado.contains(quartoHospedagem.getQuarto().getTipoQuarto().getId())){
-            //         idTipoQuartoAvaliado.add(quartoHospedagem.getQuarto().getTipoQuarto().getId());
-            //         AvaliacaoQuarto avaliacaoQuarto = new AvaliacaoQuarto();
-            //         avaliacaoQuarto.setTipoQuarto(quartoHospedagem.getQuarto().getTipoQuarto());
-            //         avaliacaoQuarto.setHospedagem(hospedagem);
-            //         avaliacaoQuarto.setNota((float) -1);
-            //         avaliacaoQuarto = avaliacaoQuartoService.salvarSemValidar(avaliacaoQuarto);
-            //         //System.out.println(quartoHospedagem.getId());
-            //     }
-            // }
-            // // loop para cada elemento da lista salvar o produtosolicitado
-            // for (ProdutoSolicitadoDTOList produtoSolicitadoDto : dto.getProdutoHospedagem()) {
-            //     ProdutoSolicitado produtoSolicitado = converterProdutoSolicitado(produtoSolicitadoDto, hospedagem.getId());
-            //     produtoSolicitadoService.salvar(produtoSolicitado);
-            // }
+            
             List<QuartoHospedagem> quartoHospedagems = new ArrayList<QuartoHospedagem>();
             for (QuartoHospedagemDTOList quartoHospedagemDto : dto.getListaQuartos()) {
                 quartoHospedagems.add(converterQuartoHospedagem(quartoHospedagemDto, hospedagem.getId()));
@@ -227,12 +197,12 @@ public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody Hosped
 }
 
     @DeleteMapping("{id}")
-    // @Operation(summary ="Exclui um hospedagem")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "204", description  = "Hospedagem excluído com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Hospedagem não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Exclui um hospedagem")
+    @ApiResponses({
+            @ApiResponse(code  = 204, message  = "Hospedagem excluído com sucesso"),
+            @ApiResponse(code  = 404, message  = "Hospedagem não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Hospedagem> hospedagem = service.getHospedagemById(id);
         if (!hospedagem.isPresent()) {
@@ -293,14 +263,7 @@ public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody Hosped
                 hospedagem.setReserva(reserva.get());
             }
         }
-        // if (dto.getIdAvaliacaoHospedagem() != null) {
-        //     Optional<AvaliacaoHospedagem> avaliacaohospedagemO = avaliacaoHospedagemService.getAvaliacaoHospedagemById(dto.getIdAvaliacaoHospedagem());
-        //     if (!avaliacaohospedagemO.isPresent()) {
-        //         hospedagem.setAvaliacaoHospedagem(null);
-        //     } else {
-        //         hospedagem.setAvaliacaoHospedagem(avaliacaohospedagemO.get());
-        //     }
-        // }
+        
         return hospedagem;
     }
 

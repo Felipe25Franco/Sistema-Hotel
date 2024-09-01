@@ -19,10 +19,7 @@ import com.example.SCHapi.service.Quarto.ComodidadeService;
 import com.example.SCHapi.service.Quarto.TipoQuartoService;
 import com.example.SCHapi.service.Quarto.Lista.ComodidadeTipoQuartoService;
 
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/comodidadeTipoQuartos")
 @RequiredArgsConstructor
+@Api("API de Comodidade Tipo Quarto")
 @CrossOrigin
 public class ComodidadeTipoQuartoController {
 
@@ -39,24 +37,24 @@ public class ComodidadeTipoQuartoController {
     private final TipoQuartoService tipoQuartoService;
 
     @GetMapping()
-    // @Operation(summary ="Obter a lista de comodidade de um tipo de quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Lista de Comodidade de um Tipo de Quarto retornada com sucesso"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
-    //         //@ApiResponse(responseCode  = "404", description  = "Comodidade de um Tipo de Quarto não encontrado")
-    // })
+    @ApiOperation("Obter a lista de comodidade de um tipo de quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Lista de Comodidade de um Tipo de Quarto retornada com sucesso"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor"),
+            @ApiResponse(code  = 404, message  = "Comodidade de um Tipo de Quarto não encontrado")
+    })
     public ResponseEntity get() {
        List<ComodidadeTipoQuarto> comodidadeTipoQuartos = service.getComodidadeTipoQuartos();
         return ResponseEntity.ok(comodidadeTipoQuartos.stream().map(ComodidadeTipoQuartoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    // @Operation(summary ="Obter detalhes de um comodidade de um tipo de quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Comodidade de um Tipo de Quarto encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "Comodidade de um Tipo de Quarto não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Obter detalhes de um comodidade de um tipo de quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Comodidade de um Tipo de Quarto encontrado"),
+            @ApiResponse(code  = 404, message  = "Comodidade de um Tipo de Quarto não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<ComodidadeTipoQuarto> comodidadeTipoQuarto = service.getComodidadeTipoQuartoById(id);
         if (!comodidadeTipoQuarto.isPresent()) {
@@ -66,12 +64,12 @@ public class ComodidadeTipoQuartoController {
     }
 
     @PostMapping
-    // @Operation(summary ="Salva um comodidade de um tipo de quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "201", description  = "Comodidade de um Tipo de Quarto salvo com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Comodidade de um Tipo de Quarto"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Salva um comodidade de um tipo de quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 201, message  = "Comodidade de um Tipo de Quarto salvo com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao salvar o Comodidade de um Tipo de Quarto"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity post(@RequestBody ComodidadeTipoQuartoDTO dto) {
         try {
             ComodidadeTipoQuarto comodidadeTipoQuarto = converter(dto);
@@ -83,12 +81,12 @@ public class ComodidadeTipoQuartoController {
     }
 
     @PutMapping("{id}")
-    // @Operation(summary ="Atualiza um comodidade de um tipo de quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Comodidade de um Tipo de Quarto alterado com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Comodidade de um Tipo de Quarto não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Atualiza um comodidade de um tipo de quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Comodidade de um Tipo de Quarto alterado com sucesso"),
+            @ApiResponse(code  = 404, message  = "Comodidade de um Tipo de Quarto não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity atualizar(@PathVariable("id")  Long id, @RequestBody ComodidadeTipoQuartoDTO dto) {
         if (!service.getComodidadeTipoQuartoById(id).isPresent()) {
             return new ResponseEntity("ComodidadeTipoQuarto não encontrado", HttpStatus.NOT_FOUND);
@@ -105,12 +103,12 @@ public class ComodidadeTipoQuartoController {
     }
 
     @DeleteMapping("{id}")
-    // @Operation(summary ="Exclui um comodidade de um tipo de quarto")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "204", description  = "Comodidade de um Tipo de Quarto excluído com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Comodidade de um Tipo de Quarto não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Exclui um comodidade de um tipo de quarto")
+    @ApiResponses({
+            @ApiResponse(code  = 204, message  = "Comodidade de um Tipo de Quarto excluído com sucesso"),
+            @ApiResponse(code  = 404, message  = "Comodidade de um Tipo de Quarto não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<ComodidadeTipoQuarto> comodidadeTipoQuarto = service.getComodidadeTipoQuartoById(id);
         if (!comodidadeTipoQuarto.isPresent()) {
