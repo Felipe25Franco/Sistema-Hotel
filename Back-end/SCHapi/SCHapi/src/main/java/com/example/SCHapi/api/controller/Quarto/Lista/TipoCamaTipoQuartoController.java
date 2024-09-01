@@ -19,10 +19,7 @@ import com.example.SCHapi.service.Quarto.TipoCamaService;
 import com.example.SCHapi.service.Quarto.TipoQuartoService;
 import com.example.SCHapi.service.Quarto.Lista.TipoCamaTipoQuartoService;
 
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/tipoCamaTipoQuartos")
 @RequiredArgsConstructor
+@ApiOperation("API de Tipo Cama Tipo Quarto")
 @CrossOrigin
 public class TipoCamaTipoQuartoController {
 

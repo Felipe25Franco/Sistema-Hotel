@@ -12,10 +12,7 @@ import org.modelmapper.ModelMapper;
 import com.example.SCHapi.model.entity.Pessoa.Pais;
 import com.example.SCHapi.service.Pessoa.PaisService;
 
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,30 +23,31 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/paises")
 @RequiredArgsConstructor
+@Api("API de Pais")
 @CrossOrigin
 public class PaisController {
     
     private final PaisService service;
 
     @GetMapping()
-    // @Operation(summary ="Obter a lista de país")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Lista de País retornada com sucesso"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
-    //         //@ApiResponse(responseCode  = "404", description  = "País não encontrado")
-    // })
+    @ApiOperation("Obter a lista de país")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Lista de País retornada com sucesso"),
+            @ApiResponse(code  = 500,  message = "Erro interno no servidor"),
+            @ApiResponse(code  = 404, message  = "País não encontrado")
+    })
     public ResponseEntity get() {
         List<Pais> paises = service.getPaises(); 
         return ResponseEntity.ok(paises.stream().map(PaisDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    // @Operation(summary ="Obter detalhes de um país")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "País encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "País não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Obter detalhes de um país")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "País encontrado"),
+            @ApiResponse(code  = 404, message  = "País não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Pais> pais = service.getPaisById(id);
         if (!pais.isPresent()) {
@@ -59,12 +57,12 @@ public class PaisController {
     }
 
     @PostMapping
-    // @Operation(summary ="Salva um país")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "201", description  = "País salvo com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o País"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Salva um país")
+    @ApiResponses({
+            @ApiResponse(code  = 201, message  = "País salvo com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao salvar o País"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity post(@RequestBody PaisDTO dto) {
         try {
             Pais pais = converter(dto);
@@ -76,12 +74,12 @@ public class PaisController {
     }
 
     @PutMapping("{id}")
-    // @Operation(summary ="Atualiza um país")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "País alterado com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "País não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Atualiza um país")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "País alterado com sucesso"),
+            @ApiResponse(code  = 404, message  = "País não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity atualizar(@PathVariable("id")  Long id, @RequestBody PaisDTO dto) {
         if (!service.getPaisById(id).isPresent()) {
             return new ResponseEntity("Pais não encontrado", HttpStatus.NOT_FOUND);
@@ -98,12 +96,12 @@ public class PaisController {
     }
 
     @DeleteMapping("{id}")
-    // @Operation(summary ="Exclui um país")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "204", description  = "País excluído com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "País não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Exclui um país")
+    @ApiResponses({
+            @ApiResponse(code  = 204, message  = "País excluído com sucesso"),
+            @ApiResponse(code  = 404, message  = "País não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<Pais> pais = service.getPaisById(id);
         if (!pais.isPresent()) {

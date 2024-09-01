@@ -6,9 +6,8 @@ import com.example.SCHapi.model.entity.Pessoa.Uf;
 import com.example.SCHapi.model.entity.Produto.TipoProduto;
 import com.example.SCHapi.service.Produto.TipoProdutoService;
 
-// import io.swagger.v3.oas.annotations.*;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.*;
+
 import lombok.RequiredArgsConstructor;
 import io.swagger.annotations.*;
 

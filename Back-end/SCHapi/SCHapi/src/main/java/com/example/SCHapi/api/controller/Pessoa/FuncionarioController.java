@@ -25,10 +25,7 @@ import com.example.SCHapi.service.Pessoa.HotelService;
 import com.example.SCHapi.service.Pessoa.PaisService;
 import com.example.SCHapi.service.Pessoa.UfService;
 
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/funcionarios")
 @RequiredArgsConstructor
+@Api("API de Funcionario")
 @CrossOrigin
 public class FuncionarioController {
 
@@ -48,39 +46,39 @@ public class FuncionarioController {
     private final CargoService cargoService;
 
     @GetMapping()
-    // @Operation(summary ="Obter a lista de funcionário")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Lista de Funcionário retornada com sucesso"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")//,
-    //         //@ApiResponse(responseCode  = "404", description  = "Funcionário não encontrado")
-    // })
+    @ApiOperation("Obter a lista de funcionário")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Lista de Funcionário retornada com sucesso"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor"),
+            @ApiResponse(code  = 404, message  = "Funcionário não encontrado")
+    })
     public ResponseEntity get() {
        List<Funcionario> funcionarios = service.getFuncionarios();
         return ResponseEntity.ok(funcionarios.stream().map(FuncionarioDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    // @Operation(summary ="Obter detalhes de um funcionário")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Funcionário encontrado"),
-    //         @ApiResponse(responseCode  = "404", description  = "Funcionário não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Obter detalhes de um funcionário")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Funcionário encontrado"),
+            @ApiResponse(code  = 404, message  = "Funcionário não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Funcionario> funcionario = service.getFuncionarioById(id);
         if (!funcionario.isPresent()) {
-            return new ResponseEntity("Funcionario não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Funcionario não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(funcionario.map(FuncionarioDTO::create));
     }
 
     @PostMapping
-    // @Operation(summary ="Salva um funcionário")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "201", description  = "Funcionário salvo com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Erro ao salvar o Funcionário"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Salva um funcionário")
+    @ApiResponses({
+            @ApiResponse(code  = 201, message  = "Funcionário salvo com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao salvar o Funcionário"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity post(@RequestBody FuncionarioDTO dto) {
         try {
             Funcionario funcionario = converter(dto);
@@ -92,12 +90,12 @@ public class FuncionarioController {
     }
 
     @PutMapping("{id}")
-    // @Operation(summary ="Atualiza um funcionário")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "200", description  = "Funcionário alterado com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Funcionário não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Atualiza um funcionário")
+    @ApiResponses({
+            @ApiResponse(code  = 200, message  = "Funcionário alterado com sucesso"),
+            @ApiResponse(code  = 404, message  = "Funcionário não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody FuncionarioDTO dto) {
         if (!service.getFuncionarioById(id).isPresent()) {
             return new ResponseEntity("Funcionario não encontrado", HttpStatus.NOT_FOUND);
@@ -118,12 +116,12 @@ public class FuncionarioController {
     }
 
     @DeleteMapping("{id}")
-    // @Operation(summary ="Exclui um funcionário")
-    // @ApiResponses({
-    //         @ApiResponse(responseCode  = "204", description  = "Funcionário excluído com sucesso"),
-    //         @ApiResponse(responseCode  = "404", description  = "Funcionário não encontrado"),
-    //         @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    // })
+    @ApiOperation("Exclui um funcionário")
+    @ApiResponses({
+            @ApiResponse(code  = 204, message  = "Funcionário excluído com sucesso"),
+            @ApiResponse(code  = 404, message  = "Funcionário não encontrado"),
+            @ApiResponse(code  = 500, message = "Erro interno no servidor")
+    })
     public ResponseEntity excluir(@PathVariable("id")  Long id) {
         Optional<Funcionario> funcionario = service.getFuncionarioById(id);
         if (!funcionario.isPresent()) {
