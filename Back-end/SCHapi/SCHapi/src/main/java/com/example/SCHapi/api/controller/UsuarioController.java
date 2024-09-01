@@ -99,6 +99,12 @@ public class UsuarioController {
     }
 
     @PostMapping("/auth")
+    @ApiOperation("Autentica um usuario")
+    @ApiResponses({
+            @ApiResponse(code  = 201, message  = "Usuario autenticado com sucesso"),
+            @ApiResponse(code  = 404, message  = "Erro ao autenticar o usuario"),
+            @ApiResponse(code  = 500, message  = "Erro interno no servidor")
+    })
     public TokenDTO autenticar(@RequestBody CredenciaisDTO credenciais){
         try{
             Usuario usuario = Usuario.builder()
