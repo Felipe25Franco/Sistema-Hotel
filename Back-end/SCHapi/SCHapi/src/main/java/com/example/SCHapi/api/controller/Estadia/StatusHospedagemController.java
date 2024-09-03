@@ -47,7 +47,7 @@ public class StatusHospedagemController {
             @ApiResponse(code  = 404, message  = "Status de Hospedagem não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Status Hospedagem")  Long id) {
         Optional<StatusHospedagem> statusHospedagem = service.getStatusHospedagemById(id);
         if (!statusHospedagem.isPresent()) {
             return new ResponseEntity("Status de Hospedagem não encontrado", HttpStatus.NOT_FOUND);

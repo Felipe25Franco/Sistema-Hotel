@@ -48,7 +48,7 @@ public class PaisController {
             @ApiResponse(code  = 404, message  = "País não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Pais")  Long id) {
         Optional<Pais> pais = service.getPaisById(id);
         if (!pais.isPresent()) {
             return new ResponseEntity("Pais não encontrado", HttpStatus.NOT_FOUND);

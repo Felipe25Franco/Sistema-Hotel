@@ -48,7 +48,7 @@ public class AvaliacaoHospedagemController {
             @ApiResponse(code  = 404, message  = "Avaliação de uma hospedagem não encontrado"),
             @ApiResponse(code = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Avaliação de Hospedagem") Long id) {
         Optional<AvaliacaoHospedagem> avaliacaoHospedagem = service.getAvaliacaoHospedagemById(id);
         if (!avaliacaoHospedagem.isPresent()) {
             return new ResponseEntity("AvaliacaoHospedagem não encontrada", HttpStatus.NOT_FOUND);

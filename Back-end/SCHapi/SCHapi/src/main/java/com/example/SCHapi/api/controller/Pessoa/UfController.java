@@ -51,7 +51,7 @@ public class UfController {
             @ApiResponse(code  = 404, message  = "UF não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id")  Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Uf")  Long id) {
         Optional<Uf> uf = service.getUfById(id);
         if (!uf.isPresent()) {
             return new ResponseEntity("UF não encontrado", HttpStatus.NOT_FOUND);

@@ -61,7 +61,7 @@ public class TipoQuartoReservaController {
             @ApiResponse(code  = 404, message  = "Tipo de Quarto de uma reserva não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Tipo Quarto Reserva")  Long id) {
         Optional<TipoQuartoReserva> tipoQuartoReserva = service.getTipoQuartoReservaById(id);
         if (!tipoQuartoReserva.isPresent()) {
             return new ResponseEntity("TipoQuartoReserva não encontrada", HttpStatus.NOT_FOUND);

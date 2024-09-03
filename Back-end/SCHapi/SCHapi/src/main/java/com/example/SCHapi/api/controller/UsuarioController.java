@@ -63,7 +63,7 @@ public class UsuarioController {
             @ApiResponse(code  = 404, message  = "Usuario não encontrado"),
             @ApiResponse(code  = 500, message  = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Usuario") Long id) {
         Optional<Usuario> usuario = service.getUsuarioById(id);
         if (!usuario.isPresent()) {
             return new ResponseEntity("Usuario não encontrado", HttpStatus.NOT_FOUND);

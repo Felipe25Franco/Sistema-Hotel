@@ -47,7 +47,7 @@ public class StatusServicoController {
             @ApiResponse(code  = 404, message  = "Status de Serviço não encontrado"),
             @ApiResponse(code = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id")  Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Status Serviço") Long id) {
         Optional<StatusServico> statusServico = service.getStatusServicoById(id);
         if (!statusServico.isPresent()) {
             return new ResponseEntity("Status de Servico não encontrado", HttpStatus.NOT_FOUND);

@@ -53,7 +53,7 @@ public class AvaliacaoQuartoController {
             @ApiResponse(code  = 404, message  = "Avaliação de uma quarto não encontrado"),
             @ApiResponse(code =  500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id")  Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Avaliação de Quarto")  Long id) {
         Optional<AvaliacaoQuarto> avaliacaoQuarto = service.getAvaliacaoQuartoById(id);
         if (!avaliacaoQuarto.isPresent()) {
             return new ResponseEntity("AvaliacaoQuarto não encontrada", HttpStatus.NOT_FOUND);

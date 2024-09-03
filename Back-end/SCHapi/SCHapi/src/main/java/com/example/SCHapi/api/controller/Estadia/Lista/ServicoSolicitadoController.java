@@ -70,7 +70,7 @@ public class ServicoSolicitadoController {
             @ApiResponse(code  = 404, message  = "Serviço Solicitado não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Serviço Solicitado")  Long id) {
         Optional<ServicoSolicitado> servicoSolicitado = service.getServicoSolicitadoById(id);
         if (!servicoSolicitado.isPresent()) {
             return new ResponseEntity("ServicoSolicitado não encontrada", HttpStatus.NOT_FOUND);

@@ -57,7 +57,7 @@ public class ClienteController {
             @ApiResponse(code  = 404, message  = "Cliente não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Cliente")  Long id) {
         Optional<Cliente> cliente = service.getClienteById(id);
         if (!cliente.isPresent()) {
             return new ResponseEntity("Cliente não encontrada", HttpStatus.NOT_FOUND);

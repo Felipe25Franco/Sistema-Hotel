@@ -48,7 +48,7 @@ public class TipoCamaController {
             @ApiResponse(code  = 404, message  = "Tipo de Cama não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id")  Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Tipo Cama")  Long id) {
         Optional<TipoCama> tipoCama = service.getTipoCamaById(id);
         if (!tipoCama.isPresent()) {
             return new ResponseEntity("TipoCama não encontrada", HttpStatus.NOT_FOUND);

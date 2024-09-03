@@ -46,7 +46,7 @@ public class TipoComodidadeController {
             @ApiResponse(code  = 404, message  = "Tipo de Comodidade não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id")  Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Tipo Comodidade") Long id) {
         Optional<TipoComodidade> tipoComodidade = service.getTipoComodidadeById(id);
         if (!tipoComodidade.isPresent()) {
             return new ResponseEntity("TipoComodidade não encontrada", HttpStatus.NOT_FOUND);

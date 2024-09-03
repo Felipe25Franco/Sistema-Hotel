@@ -55,7 +55,7 @@ public class ProdutoSolicitadoController {
             @ApiResponse(code  = 404, message  = "Produto Solicitado da Hospedagem não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id")  Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Produto Solicitado")  Long id) {
         Optional<ProdutoSolicitado> produtoSolicitado = service.getProdutoSolicitadoById(id);
         if (!produtoSolicitado.isPresent()) {
             return new ResponseEntity("ProdutoSolicitado não encontrada", HttpStatus.NOT_FOUND);

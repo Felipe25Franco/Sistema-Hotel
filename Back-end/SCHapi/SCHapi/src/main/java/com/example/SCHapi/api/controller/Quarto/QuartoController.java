@@ -56,7 +56,7 @@ public class QuartoController {
             @ApiResponse(code  = 404, message  = "Quarto não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Quarto")  Long id) {
         Optional<Quarto> quarto = service.getQuartoById(id);
         if (!quarto.isPresent()) {
             return new ResponseEntity("Quarto não encontrada", HttpStatus.NOT_FOUND);

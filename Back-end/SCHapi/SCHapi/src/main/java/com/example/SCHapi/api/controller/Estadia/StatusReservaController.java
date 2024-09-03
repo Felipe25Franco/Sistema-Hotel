@@ -47,7 +47,7 @@ public class StatusReservaController {
             @ApiResponse(code  = 404, message  = "Status de Reserva não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Status Reserva")  Long id) {
         Optional<StatusReserva> statusReserva = service.getStatusReservaById(id);
         if (!statusReserva.isPresent()) {
             return new ResponseEntity("Status de Reserva não encontrado", HttpStatus.NOT_FOUND);

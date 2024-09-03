@@ -50,7 +50,7 @@ public class CargoController {
             @ApiResponse(code  = 404, message  = "Cargo não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Cargo")  Long id) {
         Optional<Cargo> cargo = service.getCargoById(id);
         if (!cargo.isPresent()) {
             return new ResponseEntity("Cargo não encontrada", HttpStatus.NOT_FOUND);

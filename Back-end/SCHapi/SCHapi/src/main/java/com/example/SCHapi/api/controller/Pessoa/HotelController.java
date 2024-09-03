@@ -55,7 +55,7 @@ public class HotelController {
             @ApiResponse(code  = 404, message  = "Hotel não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Hotel")  Long id) {
         Optional<Hotel> hotel = service.getHotelById(id);
         if (!hotel.isPresent()) {
             return new ResponseEntity("Hotel não encontrada", HttpStatus.NOT_FOUND);

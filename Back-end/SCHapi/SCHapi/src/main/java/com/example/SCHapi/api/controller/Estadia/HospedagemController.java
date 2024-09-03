@@ -92,7 +92,7 @@ public class HospedagemController {
             @ApiResponse(code  = 404, message  = "Hospedagem não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id")  Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Hospedagem")  Long id) {
         Optional<Hospedagem> hospedagem = service.getHospedagemById(id);
         
         if (!hospedagem.isPresent()) {

@@ -74,7 +74,7 @@ public class ReservaController {
             @ApiResponse(code  = 404, message  = "Reserva não encontrado"),
             @ApiResponse(code  = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Reserva")  Long id) {
         Optional<Reserva> reserva = service.getReservaById(id);
         
         if (!reserva.isPresent()) {

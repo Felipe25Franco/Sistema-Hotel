@@ -50,7 +50,7 @@ public class TipoProdutoController {
             @ApiResponse(code  = 404, message  = "Tipo de Produto não encontrado"),
             @ApiResponse(code  = 500, message  = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Tipo Produto")  Long id) {
         Optional<TipoProduto> tipoProduto = service.getTipoProdutoById(id);
         if (!tipoProduto.isPresent()) {
             return new ResponseEntity("TipoProduto não encontrada", HttpStatus.NOT_FOUND);

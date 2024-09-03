@@ -50,7 +50,7 @@ public class HorarioServicoController {
             @ApiResponse(code  = 404, message  = "Horário de um Serviço não encontrado"),
             @ApiResponse(code = 500, message = "Erro interno no servidor")
     })
-    public ResponseEntity get(@PathVariable("id")  Long id) {
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id de Horario Serviço") Long id) {
         Optional<HorarioServico> horarioServico = service.getHorarioServicoById(id);
         if (!horarioServico.isPresent()) {
             return new ResponseEntity("Horario de Servico não encontrado", HttpStatus.NOT_FOUND);
