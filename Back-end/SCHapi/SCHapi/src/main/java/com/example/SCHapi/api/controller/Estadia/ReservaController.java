@@ -10,7 +10,9 @@ import org.modelmapper.ModelMapper;
 
 import com.example.SCHapi.api.dto.Estadia.ReservaDTO;
 import com.example.SCHapi.api.dto.Estadia.Lista.TipoQuartoReservaDTOList;
+
 import com.example.SCHapi.exception.RegraNegocioException;
+import com.example.SCHapi.model.entity.Estadia.Hospedagem;
 import com.example.SCHapi.model.entity.Estadia.Reserva;
 import com.example.SCHapi.model.entity.Estadia.StatusHospedagem;
 import com.example.SCHapi.model.entity.Estadia.StatusReserva;
@@ -25,6 +27,7 @@ import com.example.SCHapi.service.Estadia.Lista.TipoQuartoReservaService;
 import com.example.SCHapi.service.Pessoa.ClienteService;
 import com.example.SCHapi.service.Pessoa.FuncionarioService;
 import com.example.SCHapi.service.Pessoa.HotelService;
+import com.example.SCHapi.service.Estadia.HospedagemService;
 import com.example.SCHapi.service.Quarto.TipoQuartoService;
 
 import io.swagger.annotations.*;
@@ -54,6 +57,7 @@ public class ReservaController {
     private final StatusReservaService statusreservaService;
     private final TipoQuartoReservaService tipoQuartoReservaService;
     private final TipoQuartoService tipoQuartoService;
+    private final HospedagemService hospedagemService;
 
     @GetMapping()
     @ApiOperation("Obter a lista de reserva")
@@ -161,6 +165,14 @@ public class ReservaController {
         System.out.println(dto);
         ModelMapper modelMapper = new ModelMapper();
         Reserva reserva = modelMapper.map(dto, Reserva.class);
+        if (dto.getIdHospedagem() != null) {
+            Optional<Hospedagem> hospedagem = hospedagemService.getHospedagemById(dto.getIdHospedagem());
+            if (!hospedagem.isPresent()) {
+                reserva.setHospedagem(null);
+            } else {
+                reserva.setHospedagem(hospedagem.get());
+            }
+        }
         if (dto.getIdCliente() != null) {
             Optional<Cliente> cliente = clienteService.getClienteById(dto.getIdCliente());
             if (!cliente.isPresent()) {
